@@ -6,3 +6,5 @@ Helps to improve your vocabulary.
 Developed an LeaderBoard interface which could be used by any game.
 
 Download Anaglinks.7z for executable.
+
+Download Anaglink Demo.mp4 for game demo.
