@@ -4,7 +4,6 @@ import sys
 count = None
 con = None
 cur = None
-count = 1
 
 def establishConnection(nm):
     global con, count, cur
@@ -38,7 +37,7 @@ def getData(n):
 def toDatabase(nm, sc, bn):
     global count, cur, con
     count = count + 1
-    cur.execute("INSERT INTO Players VALUES(" + str(count) + "," + str(count) + "," + "'" + str(nm.lower().capitalize()) + "'" + "," + str(sc) + "," + str(bn) + ")")
+    cur.execute("INSERT INTO Players VALUES(" + str(count) + "," + str(count) + "," + "'" + str(nm.lower().title()) + "'" + "," + str(sc) + "," + str(bn) + ")")
     con.commit()
     sortData()
 

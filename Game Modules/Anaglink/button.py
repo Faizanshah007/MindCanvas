@@ -9,23 +9,20 @@ clicksound = pygame.mixer.Sound(os.path.join(root_dir, "click.wav"))
 
 def clicked():
 
-    for event in pygame.event.get(MOUSEBUTTONUP):
-        if( event.type == pygame.MOUSEBUTTONUP):
+    for self in Data.buttonlist:
+        if(Button.pointing == self):
 
-            for self in Data.buttonlist:
-                if(Button.pointing == self):
-
-                    clicksound.play()
+            clicksound.play()
 
 
-                    if( not self.active ):
-                        self.active = True
-                        Data.lnkdlist.add(self)
+            if( not self.active ):
+                self.active = True
+                Data.lnkdlist.add(self)
 
-                    else:
-                        self.active = False
-                        Data.lnkdlist.remove(self)
-                        played = False
+            else:
+                self.active = False
+                Data.lnkdlist.remove(self)
+                played = False
 
 def check_lnk():
     

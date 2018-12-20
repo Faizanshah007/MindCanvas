@@ -8,15 +8,17 @@ root = None
 class LeaderBoard(Frame):
 
     def update(self):
-
-        # Ensuring submission of valid data
         
+        # Disfunction submit button until valid data entered
+
         if(self.ent.get() != "" and self.ent.get() != "ENTER YOUR NAME"):
 
             self.flag = 1
             toDatabase(self.ent.get(), self.Score, self.TimeBonus)
-            
-        # Disfunction submit button until valid data entered
+
+        # Updating scroll region
+
+        self.cv.config(scrollregion = (0, 0, 600, 30 + 37 * (backend.count - 1)))
         
         if(self.flag == 1):
 
@@ -61,16 +63,18 @@ class LeaderBoard(Frame):
 
                     self.ent.delete(0, len(self.ent.get()) + 1)
                     self.ent.config(state = DISABLED)
-                    self.cv.create_polygon(0, 0 + 37 * i + 2, 600, 0 + 37 * i + 2, 600, 30 + 37 * i - 2, 0, 30 + 37 * i - 2, outlinestipple = "gray50", outline = "#cc0044", fill = "", width = 5)
+                    self.cv.create_polygon(0, 0 + 37 * i + 2, 600, 0 + 37 * i + 2, 600, 30 + 37 * i - 2, 0, 30 + 37 * i - 2, outlinestipple = "gray50", outline = "white", fill = "", width = 7)
 
-                    if(info[0] > 7):
-                        self.cv.yview_moveto((info[1] - 3) / backend.count)
+                    if(info[1] > 7 and info[1] < (backend.count - 2)):
+                        self.cv.yview_moveto((37 * (info[1] - 5)) / ((37 * backend.count) - 7))
+
+                    elif(info[1] >= (backend.count - 2)):
+                        self.cv.yview_moveto(1.0)
+
+                    else:
+                        self.cv.yview_moveto(0.0)
 
                 i = i + 1
-
-            i = i - 1
-
-            self.cv.config(scrollregion = (0, 0, 600, 30 + 37 * i))
 
     # Creating Leaderboard GUI
         
@@ -106,7 +110,7 @@ class LeaderBoard(Frame):
             self.name.trace_add('w', limit)
             
             
-        bt = Button(self.frame, activebackground = "#006600", text = "Submit", bg = "#808080", command = self.update, relief = GROOVE, font = ("Jokerman", 12), width = 10)
+        bt = Button(self.frame, activebackground = "#4D4D4D", text = "Submit", bg = "#808080", command = self.update, relief = GROOVE, font = ("Jokerman", 12), width = 10)
         bt.grid(column = 3, sticky = "NE", pady = 9)
 
         self.ent.bind("<Return>", lambda event: self.update())
@@ -134,14 +138,14 @@ class LeaderBoard(Frame):
         self.frame.bind("<Prior>", lambda event: self.cv.yview_scroll(-1, "pages"))
         self.frame.bind("<Next>", lambda event: self.cv.yview_scroll(1, "pages"))
         
-        vsb = Scrollbar(self.subframe)
-        vsb.grid(column = 8, row = 1, rowspan = 6, ipady = 127, sticky = "SE")
+        self.vsb = Scrollbar(self.subframe)
+        self.vsb.grid(column = 8, row = 1, rowspan = 6, ipady = 127, sticky = "SE")
 
         self.hyplnk = Button(self.subframe, bg = "#808080", fg = "white", font = ("Jokerman", 12, "underline"), activebackground = "#87cefa", relief = FLAT, text = "Generate Summary", command = self.gensum)
         self.hyplnk.grid(row = 7, columnspan = 20)
 
-        vsb.config( command = self.cv.yview)
-        self.cv.config(yscrollcommand = vsb.set)
+        self.vsb.config( command = self.cv.yview)
+        self.cv.config(yscrollcommand = self.vsb.set)
 
         self.flag = 1
         self.update()
@@ -169,10 +173,12 @@ class LeaderBoard(Frame):
         self.hyplnk.config(text = "Generate Summary")
         self.frame.update()
 
-    def reset(self, *args):
+    def initial_reset(self, *args):
 
-        self.ent.delete(0, len(self.ent.get()) + 1)
-        self.ent.config(fg = "black")
+        if(self.ent.get() == "ENTER YOUR NAME"):
+
+            self.ent.delete(0, len(self.ent.get()) + 1)
+            self.ent.config(fg = "black")
 
 
     # Recieving data from user
@@ -190,7 +196,7 @@ class LeaderBoard(Frame):
         elif(self.player_status == 'Won'):
 
             self.ent.config(self.name.set("ENTER YOUR NAME"), fg = "#a6a6a6")
-            self.ent.bind("<1>", self.reset)
+            self.ent.bind("<1>", self.initial_reset)
 
         self.Score = sc
         self.TimeBonus = tb

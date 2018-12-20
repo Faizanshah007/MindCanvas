@@ -73,9 +73,9 @@ def update_timer():
 
     Data.timer = time.time() - clock
 
-    pygame.draw.rect( subsurface, cyan, ( int(window_width * (1 / 20)), int(window_height * (15 / 100)), int(window_width * (0.9)), int(window_width * (1 / 50))), 2)
+    pygame.draw.rect(subsurface, cyan, (int(window_width * (1 / 20)), int(window_height * (15 / 100)), int(window_width * (0.9)), int(window_width * (1 / 50))), 2)
 
-    return( pygame.draw.rect( subsurface, red, ( int(window_width * (1 / 20)), int(window_height * (15 / 100)), int(window_width * (0.9) - (Data.timer * ratio * window_width)), int(window_width * (1 / 50))), 0))
+    return(pygame.draw.rect(subsurface, red, (int(window_width * (1 / 20)), int(window_height * (15 / 100)), int(window_width * (0.9) - (Data.timer * ratio * window_width)), int(window_width * (1 / 50))), 0))
     
 
 Canvas.fill(white)
@@ -83,7 +83,10 @@ Canvas.blit(startimage, startimagerect)
 
 pygame.display.flip()
 
-waitforkey()
+if(pygame.event.poll() != pygame.NOEVENT):
+
+    pygame.event.clear()
+
 waitforkey()
 
 clock = time.time()
@@ -97,6 +100,9 @@ pygame.mixer.music.play(-1, 0.0)
 
 # Game loop
 
+pygame.event.set_allowed(None)
+pygame.event.set_allowed([MOUSEBUTTONUP, KEYDOWN, QUIT])
+    
 while True:
 
     Canvas.fill(black)
@@ -107,14 +113,14 @@ while True:
 
     a = update_timer().width
 
-    if( a == 1 ):
+    if(a == 1):
         Data.stat = 'Lost'
         break
     
-    if( a == 100 and Data.stat == 'None'):
+    if(a == 100 and Data.stat == 'None'):
         fewsecsound.play(-1)
         
-    if( ans == [] ):
+    if(ans == []):
         Data.stat = 'Won'
         break
 
@@ -127,7 +133,17 @@ while True:
 
     Button.inout.clear()
 
-    clicked()
+    for event in pygame.event.get():
+
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                terminate()
+
+        if event.type == QUIT :
+            terminate()
+
+        if(event.type == pygame.MOUSEBUTTONUP):
+            clicked()
 
     if(check_lnk()):
 
@@ -147,14 +163,6 @@ while True:
             Data.lnkdlist.empty()
 
 
-    for event in pygame.event.get():
-
-        if event.type == KEYDOWN:
-            if event.key == K_ESCAPE:
-                terminate()
-
-        if event.type == QUIT :
-            terminate()
             
     pygame.display.flip()
 
@@ -163,10 +171,12 @@ pygame.mixer.music.stop()
 fewsecsound.stop()
 
 if( Data.stat == 'Lost' ):
+
     loosemusic.play()
     Canvas.blit(lostimage, lostimagerect)
 
 if( Data.stat == 'Won' ):
+
     winmusic.play()
     Data.Score = update_score(Data.Score, Data.timer, Data.stat) 
     Canvas.blit(wonimage, wonimagerect)
