@@ -37,7 +37,7 @@ while True:
 
     # Show the image
     cv2.imshow('Capture',   im)
-    key = cv2.waitKey(10)
+    key = cv2.waitKey(10)#10
     # if Esc key is press then break out of the loop 
     if key == 27: #The Esc key
         break
