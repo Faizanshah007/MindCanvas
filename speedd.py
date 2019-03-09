@@ -25,7 +25,7 @@ for c in range(1,12):
     speed.append(sample_distance/5)
 for i in range(len(speed)):
     speed[i]=speed[i]-default_speed
-    print("Speed_Differnece",i,"=",speed[i])
+    print("Speed_Differnece",i+1,"=",speed[i])
 
 
 
