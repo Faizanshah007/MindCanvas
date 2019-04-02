@@ -12,7 +12,7 @@ def clicked():
     for self in Data.buttonlist:
         if(Button.pointing == self):
 
-            clicksound.play()
+            pygame.mixer.Channel(0).play(clicksound)
 
 
             if( not self.active ):
@@ -102,7 +102,7 @@ class Button(pygame.sprite.Sprite):
 def Check_playhover():
     
     if(1 in Button.inout and Button.sound == False):
-        hoversound.play()
+        pygame.mixer.Channel(0).play(hoversound)
         Button.sound = True
 
     elif(1 not in Button.inout):
