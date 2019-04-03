@@ -31,12 +31,12 @@ subsurface = Canvas.subsurface((0, 0, window_width, (1 / 5) * window_height))
 #Ensure volume is atleast 72%
 #https://github.com/AndreMiras/pycaw
 
+devices = AudioUtilities.GetSpeakers()
+interface = devices.Activate(
+    IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+volume = cast(interface, POINTER(IAudioEndpointVolume))
+
 def chkvolume():
-    
-    devices = AudioUtilities.GetSpeakers()
-    interface = devices.Activate(
-       IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-    volume = cast(interface, POINTER(IAudioEndpointVolume))
 
     volume.SetMute(0,None)
     
@@ -120,7 +120,7 @@ pygame.mixer.music.play(-1, 0.0)
 
 # Game Task 1 - Time Reduction
 
-def gameTask1(x): #"In Dev"
+def gameTask1(x):
 
     global clock, bgcolor, fewsecsound
 
@@ -131,6 +131,12 @@ def gameTask1(x): #"In Dev"
     else:
         bgcolor = black
         fewsecsound.stop()
+
+
+# Game Task 2 - Anagram with a specific alphabet 
+
+def gameTask2(x): #"In Dev"
+    pass
     
 # Task Handler
 
@@ -158,6 +164,7 @@ pygame.event.set_allowed(None)
 pygame.event.set_allowed([MOUSEBUTTONUP, KEYDOWN, QUIT])
 
 instruction = None   
+instruction_no = 0
 Next_Task_Activation_time   = (1/3) * totalTime
 Task_Deactivation_time = None
 
@@ -165,26 +172,27 @@ while True:
 
     chkvolume()
 
-    #Playing the instruction for the task
+    # Playing the instruction for the task
     if(int(Data.timer) + 8 == Next_Task_Activation_time and not instruction):
         pygame.mixer.music.set_volume(0.05)
-        instruction = pygame.mixer.Sound(os.path.join(root_dir, "instruction.wav"))
+        instruction_no += 1
+        instruction = pygame.mixer.Sound(os.path.join(root_dir, "instruction" + str(instruction_no) + ".wav"))
         pygame.mixer.Channel(1).play(instruction)
 
-    #Muting Channel(0) music while instruction is being played
+    # Muting Channel(0) music while instruction is being played
     if(instruction):
         pygame.mixer.Channel(0).stop()
 
-    #Task Activation
+    # Task Activation
     if(Task_Deactivation_time == None and int(Data.timer) == Next_Task_Activation_time):  
         instruction = None
         pygame.mixer.music.set_volume(1.0)
         Task_Handler(True)
 
-    #Task Deactivation  
+    # Task Deactivation  
     elif(Task_Deactivation_time and time.time() >= Task_Deactivation_time):
         Task_Handler(False)
-
+    
     Canvas.fill(bgcolor)
 
     drawtext("ANAGLINK", txtfont1, subsurface, (0.4) * window_width, window_height / 25, purple)
@@ -212,7 +220,7 @@ while True:
     Check_playhover()
 
     Button.inout.clear()
-
+    
     for event in pygame.event.get():
 
         if event.type == KEYDOWN:
@@ -232,7 +240,7 @@ while True:
         Data.Score = update_score(Data.Score, len(Data.lnkdlist), Data.stat)
         Data.buttonlist.remove(Data.lnkdlist)
         Data.lnkdlist.empty()
-
+    
     elif(check_lnk() == False):
 
         pygame.mixer.Channel(0).play(incorrectmusic)
@@ -242,8 +250,7 @@ while True:
             l.wrong = True
             Data.lnkdlist.empty()
 
-
-            
+      
     pygame.display.flip()
 
 pygame.mixer.music.stop()

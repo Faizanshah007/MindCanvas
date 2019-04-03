@@ -85,5 +85,4 @@ f.close()
 import webbrowser
 
 def runweb():
-    ie = webbrowser.get(webbrowser.iexplore)
-    ie.open(os.path.join(os.path.dirname(sys.argv[0]), "Summary.html"))
+    webbrowser.open_new(os.path.join(os.path.dirname(sys.argv[0]), "Summary.html"))
