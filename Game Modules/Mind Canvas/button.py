@@ -46,6 +46,8 @@ def check_lnk():
         elif(lst != [] and lst[0] in a):
             if(not set(lst) < set(a)):
                 return False
+            elif(set(lst) == set(a[:-1]) and a[-1] == -1):  #Task 2 special condition
+                return False
 
 
 class Button(pygame.sprite.Sprite):
