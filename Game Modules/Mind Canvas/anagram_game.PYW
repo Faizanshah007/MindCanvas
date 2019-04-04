@@ -6,6 +6,7 @@ import freq_alpha
 import Data
 import time
 import os
+from threading import Timer
 from shutil import copyfile
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
@@ -131,8 +132,9 @@ def instructions(x):
             selected_alpha = freq_alpha.anag_freq_alpha_selector(Data.ans, Data.ignorelist)
             copyfile("media/instruction2/" + selected_alpha + ".wav", "media/instruction2.wav")
 
-        return pygame.mixer.Sound(os.path.join(root_dir, "instruction" + str(x) +".wav"))
-            
+        instruction = pygame.mixer.Sound(os.path.join(root_dir, "instruction" + str(x) +".wav"))
+
+        return (instruction, instruction.get_length())            
 
 # Game Task 1 - Time Reduction
 
@@ -151,12 +153,12 @@ def gameTask1(x):
 
 # Game Task 2 - Anagram with a specific alphabet 
 
-def gameTask2(x): #"In Dev"
+def gameTask2(x):
+
     if(x):
         freq_alpha.run(Data.ans)
 
     else:
-        print(0)
         for link in Data.ans:
             if(link[-1] == -1):
                 link.remove(-1)
@@ -168,12 +170,14 @@ holdClock = clock
 
 def Task_Handler(x):
 
-    global Task_Deactivation_time, Next_Task_Activation_time, totalTime, clock, task_no
+    global Task_Deactivation_time, Next_Task_Activation_time, totalTime, clock, task_no, instruction
 
     if(x):
         Task_Deactivation_time = time.time() + 8#6
         Next_Task_Activation_time = (2/3) * totalTime
-
+        instruction = None
+        pygame.mixer.music.set_volume(1.0)
+        
     else:
         Task_Deactivation_time = None
         clock = holdClock
@@ -199,25 +203,21 @@ while True:
 
     chkvolume()
 
-    # Playing the instruction for the task
-    if(int(Data.timer) + 8 == Next_Task_Activation_time and not instruction):
+    # Giving Instructions & Activating Task
+    if(int(Data.timer) == Next_Task_Activation_time and not instruction):
         pygame.mixer.music.set_volume(0.05)
         task_no += 1
-        instruction = instructions(task_no)
+        (instruction, waitTime) = instructions(task_no)
         pygame.mixer.Channel(1).play(instruction)
+        t = Timer(waitTime, Task_Handler, [True])
+        t.start()
 
     # Muting Channel(0) music while instruction is being played
     if(instruction):
         pygame.mixer.Channel(0).stop()
 
-    # Task Activation
-    if(Task_Deactivation_time == None and int(Data.timer) == Next_Task_Activation_time):  
-        instruction = None
-        pygame.mixer.music.set_volume(1.0)
-        Task_Handler(True)
-
-    # Task Deactivation  
-    elif(Task_Deactivation_time and time.time() >= Task_Deactivation_time):
+    # Deactivating Task
+    if(Task_Deactivation_time and time.time() >= Task_Deactivation_time):
         Task_Handler(False)
     
     Canvas.fill(bgcolor)
