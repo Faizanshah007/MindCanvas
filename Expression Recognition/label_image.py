@@ -132,9 +132,7 @@ def run():
       input_width=input_width,
       input_mean=input_mean,
       input_std=input_std)
-  
 
-  tm = time.time() ##
 
   results = sess.run(output_operation.outputs[0], {
       input_operation.outputs[0]: t
@@ -142,14 +140,22 @@ def run():
 
   
   results = np.squeeze(results)
-  top_k = results.argsort()[-5:][::-1]
+  top = results.argsort()[-1]
+  ##top_k = results.argsort()[-5:][::-1]
   labels = load_labels(label_file)
+  ''' ##
   for i in top_k:
     print(labels[i], results[i])
   print("----------------------------------------")
-  
-  print(time.time() - tm) ##
-  return (labels[top_k[0]])
+  '''
+  if(results[top] > 0.75):
+    print(labels[top])
+    return(labels[top])
+  else:
+    print("-")
+    return("-")
+
+  ##return (labels[top_k[0]])
 
 def end():
 
