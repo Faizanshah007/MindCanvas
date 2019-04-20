@@ -7,12 +7,15 @@ import Data
 import time
 import subprocess
 import os, sys
+import mousemodule
 from threading import Timer, Thread
 from shutil import copyfile
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
+mouse_speed = Thread(target = mousemodule.dpi, args=(10,)) ## set dpi
+mouse_speed.start()
 
 # Starting Expression Recognition Module
 
@@ -24,7 +27,7 @@ proc.start()
 
 fl = open(".\\..\\expression_output.txt", "r+")
 fl.truncate()
-print(fl.read())
+#print(fl.read())
 while(fl.read() == None):
     pass
 

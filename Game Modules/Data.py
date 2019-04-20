@@ -35,7 +35,8 @@ pygame.init()
 #~Path
 
 root_dir = os.path.join(os.path.dirname(sys.argv[0]), 'Media') 
-
+sys.path.insert(0, os.path.abspath('.\\..\\Mouse Motion Mapping'))
+sys.path.insert(0, os.path.abspath('.\\..\\Expression Recognition'))
 
 #~Anagram Data
 
