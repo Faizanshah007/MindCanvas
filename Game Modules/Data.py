@@ -6,7 +6,7 @@ from pygame.locals import *
 if "anagram_generator" not in sys.modules :
     from anagram_generator import *
 
-
+			
 # Game Status
 
 stat = 'None'

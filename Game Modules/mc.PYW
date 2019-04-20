@@ -1,39 +1,41 @@
-import loading
-from Data import *
-from button import *
-from Scoring_Algo import *
-import freq_alpha
-import Data
-import time
+import threading
 import subprocess
-import os, sys
-import mousemodule
-from threading import Timer, Thread
-from shutil import copyfile
-from ctypes import cast, POINTER
-from comtypes import CLSCTX_ALL
-from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+import loading, Data
+from Data import *
 
-mouse_speed = Thread(target = mousemodule.dpi, args=(10,)) ## set dpi
-mouse_speed.start()
 
 # Starting Expression Recognition Module
 
 def exp_rec():
     subprocess.call("python label.py", shell=True, cwd = "D:\\faiza\\Documents\\GitHub\\Mind Canvas\\Expression Recognition")
 
-proc = Thread(target = exp_rec)
+proc = threading.Thread(target = exp_rec)
+proc.daemon = True
 proc.start()
 
-fl = open(".\\..\\expression_output.txt", "r+")
-fl.truncate()
-#print(fl.read())
-while(fl.read() == None):
-    pass
+
+# Loading Game
+
+from button import *
+from Scoring_Algo import *
+import freq_alpha
+import time
+import os, sys
+import mousemodule
+from shutil import copyfile
+from ctypes import cast, POINTER
+from comtypes import CLSCTX_ALL
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+
+
+# Set Mouse DPI
+
+mousemodule.dpi(1) ##
 
 
 # Close loading window
 
+time.sleep(5)
 loading.root.destroy()
 
 
@@ -207,7 +209,7 @@ def Task_Handler(x):
     if(task_no == 2):
         gameTask2(x)
 
-    
+
 # Game loop
 
 pygame.event.set_allowed(None)
@@ -218,6 +220,8 @@ task_no = 0
 Next_Task_Activation_time   = (1/3) * totalTime
 Task_Deactivation_time = None
 
+fl = open(".\\..\\expression_output.txt", "r+")
+fl.truncate()
 
 while True:
 
@@ -226,7 +230,7 @@ while True:
     ln = fl.readline()
 
     if(ln != ''):
-        print(ln)
+        pass#print(ln)
     
     chkvolume()
 
@@ -236,7 +240,7 @@ while True:
         task_no += 1
         (instruction, waitTime) = instructions(task_no)
         pygame.mixer.Channel(1).play(instruction)
-        t = Timer(waitTime, Task_Handler, [True])
+        t = threading.Timer(waitTime, Task_Handler, [True])
         t.start()
 
     # Muting Channel(0) music while instruction is being played
@@ -282,6 +286,7 @@ while True:
                 terminate()
 
         if event.type == QUIT :
+            fl.close()
             terminate()
 
         if(event.type == pygame.MOUSEBUTTONUP):
@@ -338,4 +343,3 @@ import LeaderBoard as lb
 leaderboard = lb.NewLeaderBoard("leaderboard")
 leaderboard.sendData(Data.stat, Data.Score, Data.TimeBonus)
 
-f1.close()
