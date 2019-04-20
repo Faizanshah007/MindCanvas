@@ -5,12 +5,28 @@ from Scoring_Algo import *
 import freq_alpha
 import Data
 import time
-import os
-from threading import Timer
+import subprocess
+import os, sys
+from threading import Timer, Thread
 from shutil import copyfile
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+
+
+# Starting Expression Recognition Module
+
+def exp_rec():
+    subprocess.call("python label.py", shell=True, cwd = "D:\\faiza\\Documents\\GitHub\\Mind Canvas\\Expression Recognition")
+
+proc = Thread(target = exp_rec)
+proc.start()
+
+fl = open(".\\..\\expression_output.txt", "r+")
+fl.truncate()
+print(fl.read())
+while(fl.read() == None):
+    pass
 
 
 # Close loading window
@@ -31,8 +47,8 @@ Data.foregroundWindow("Anaglink")
 subsurface = Canvas.subsurface((0, 0, window_width, (1 / 5) * window_height))
 
 
-#Ensure volume is atleast 72%
-#https://github.com/AndreMiras/pycaw
+# Ensure volume is atleast 72%
+# https://github.com/AndreMiras/pycaw
 
 devices = AudioUtilities.GetSpeakers()
 interface = devices.Activate(
@@ -199,8 +215,16 @@ task_no = 0
 Next_Task_Activation_time   = (1/3) * totalTime
 Task_Deactivation_time = None
 
+
 while True:
 
+    fl.seek(0,0)
+
+    ln = fl.readline()
+
+    if(ln != ''):
+        print(ln)
+    
     chkvolume()
 
     # Giving Instructions & Activating Task
@@ -310,3 +334,5 @@ import LeaderBoard as lb
 
 leaderboard = lb.NewLeaderBoard("leaderboard")
 leaderboard.sendData(Data.stat, Data.Score, Data.TimeBonus)
+
+f1.close()

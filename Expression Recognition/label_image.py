@@ -20,7 +20,7 @@ import argparse
 
 import numpy as np
 import tensorflow as tf
-import time
+
 
 def load_graph(model_file):
   graph = tf.Graph()
@@ -149,10 +149,8 @@ def run():
   print("----------------------------------------")
   '''
   if(results[top] > 0.75):
-    print(labels[top])
     return(labels[top])
   else:
-    print("-")
     return("-")
 
   ##return (labels[top_k[0]])

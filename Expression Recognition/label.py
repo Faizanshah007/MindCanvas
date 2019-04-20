@@ -1,10 +1,9 @@
-import cv2, time, atexit
+import cv2, time, atexit,time
 import label_image
 
 atexit.register(label_image.end)
 
 size = 4
-
 
 # We load the xml file
 classifier = cv2.CascadeClassifier('haarcascade_frontalface_alt.xml')
@@ -14,7 +13,11 @@ webcam = cv2.VideoCapture(0) #Using default WebCam connected to the PC.
 webcam.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 webcam.set(cv2.CAP_PROP_FRAME_HEIGHT, 360)
 webcam.set(cv2.CAP_PROP_FPS, 15)
+
+expfile = open(".\\..\\expression_output.txt", "w")
+
 while True:
+    
     (rval, im) = webcam.read()
     ##im=cv2.flip(im,1,0) #Flip to act as a mirror
 
@@ -26,24 +29,30 @@ while True:
 
     # Draw rectangles around each face
     for f in faces:
+        
         (x, y, w, h) = [v * size for v in f] #Scale the shapesize backup
         cv2.rectangle(im, (x,y), (x+w,y+h), (0,255,0), 4)
         
         #Save just the rectangle faces in SubRecFaces
         sub_face = im[y:y+h, x:x+w]
-
+        
         FaceFileName = "test.jpg" #Saving the current image from the webcam for testing.
         cv2.imwrite(FaceFileName, sub_face)
         
         text = label_image.run()# Getting the Result from the label_image file, i.e., Classification Result.
+
+        expfile.truncate()
         
-        text = text.title()# Title Case looks Stunning.
+        expfile.write(text)
+
+        '''text = text.title()# Title Case looks Stunning.
         font = cv2.FONT_HERSHEY_TRIPLEX
-        cv2.putText(im, text,(x+w,y), font, 1, (0,0,255), 2)
+        cv2.putText(im, text,(x+w,y), font, 1, (0,0,255), 2)'''
 
     # Show the image
-    cv2.imshow('Capture',   im)
+    ##cv2.imshow('Capture',   im)
     key = cv2.waitKey(1)#10
     # if Esc key is press then break out of the loop 
     if key == 27: #The Esc key
+        expfile.close()
         exit()
