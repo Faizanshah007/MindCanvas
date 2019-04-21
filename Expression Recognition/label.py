@@ -2,7 +2,6 @@ import cv2, time, atexit,time
 import label_image
 
 atexit.register(label_image.end)
-
 size = 4
 
 # We load the xml file
@@ -18,6 +17,7 @@ expfile = open(".\\..\\expression_output.txt", "w")
 
 while True:
 
+    expfile.seek(0,0)
     expfile.truncate()
     
     (rval, im) = webcam.read()
@@ -42,17 +42,19 @@ while True:
         cv2.imwrite(FaceFileName, sub_face)
         
         text = label_image.run()# Getting the Result from the label_image file, i.e., Classification Result.
-        
+
         expfile.write(text)
 
-        '''text = text.title()# Title Case looks Stunning.
-        font = cv2.FONT_HERSHEY_TRIPLEX
-        cv2.putText(im, text,(x+w,y), font, 1, (0,0,255), 2)'''
+        break
 
-    # Show the image
-    ##cv2.imshow('Capture',   im)
-    key = cv2.waitKey(1)#10
-    # if Esc key is press then break out of the loop 
-    if key == 27: #The Esc key
-        expfile.close()
-        exit()
+'''text = text.title()# Title Case looks Stunning.
+font = cv2.FONT_HERSHEY_TRIPLEX
+cv2.putText(im, text,(x+w,y), font, 1, (0,0,255), 2)
+
+# Show the image
+##cv2.imshow('Capture',   im)
+key = cv2.waitKey(1)#10
+# if Esc key is press then break out of the loop 
+if key == 27: #The Esc key
+expfile.close()
+exit()'''

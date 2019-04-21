@@ -6,12 +6,7 @@ from Data import *
 
 # Starting Expression Recognition Module
 
-def exp_rec():
-    subprocess.call("python label.py", shell=True, cwd = "D:\\faiza\\Documents\\GitHub\\Mind Canvas\\Expression Recognition")
-
-proc = threading.Thread(target = exp_rec)
-proc.daemon = True
-proc.start()
+Data.subproc_list.append(subprocess.Popen("python label.py", shell=True, cwd = "D:\\faiza\\Documents\\GitHub\\Mind Canvas\\Expression Recognition"))
 
 
 # Loading Game
@@ -30,7 +25,7 @@ from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 # Set Mouse DPI
 
-mousemodule.dpi(1) ##
+mousemodule.dpi(10) ##
 
 
 # Close loading window
@@ -229,8 +224,8 @@ while True:
 
     ln = fl.readline()
 
-    if(ln != ''):
-        pass#print(ln)
+    if(ln == ''):
+        print("No")
     
     chkvolume()
 

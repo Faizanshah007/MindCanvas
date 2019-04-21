@@ -6,7 +6,11 @@ from pygame.locals import *
 if "anagram_generator" not in sys.modules :
     from anagram_generator import *
 
-			
+# Subprocess List
+
+subproc_list = list()
+
+
 # Game Status
 
 stat = 'None'
@@ -89,8 +93,12 @@ def waitforkey():
 
 # Terminate
 
+import signal
+
 def terminate():
     pygame.quit()
+    for proc in subproc_list:
+        os.kill(proc.pid, signal.CTRL_C_EVENT)
     sys.exit()
 
 
