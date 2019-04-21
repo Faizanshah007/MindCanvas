@@ -26,7 +26,8 @@ from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 # Set Mouse DPI
 
-mousemodule.dpi(10) ##
+dpi_speed = 1 ##
+check_speed = mousemodule.dpi(dpi_speed)
 
 
 # Close loading window
@@ -41,7 +42,7 @@ os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % loading.get_coord(window_width, 
 
 pygame.init()
 pygame.display.set_caption("Anaglink")
-Canvas = pygame.display.set_mode((window_width, window_height), pygame.HWSURFACE)
+Canvas = pygame.display.set_mode((window_width, window_height), pygame.HWSURFACE, pygame.FULLSCREEN)
 
 Data.foregroundWindow("Anaglink")
 
@@ -226,15 +227,19 @@ while True:
         exp = pickle.load(inn)
         if(exp!=''):
             Data.cur_exp = exp
+            print(Data.cur_exp)
     except:
         pass
     inn.close()
 
+    # Speed Check
+
+    check_speed(dpi_speed)    
+    
     # Volume Check
     
     chkvolume()
 
-    print(Data.cur_exp)
     # Giving Instructions & Activating Task
     if(int(Data.timer) == Next_Task_Activation_time and not instruction):
         pygame.mixer.music.set_volume(0.05)

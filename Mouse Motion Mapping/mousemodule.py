@@ -22,10 +22,11 @@ def dpi(x=10) :
     def setspeed(x):
         set_mouse_speed = 113   # 0x0071 for SPI_SETMOUSESPEED
         ctypes.windll.user32.SystemParametersInfoA(set_mouse_speed, 0, x, 0)
-        print("seting...")
 
     setspeed(x)
     atexit.register(setspeed,initial_mouse_speed.value)
+
+    return setspeed
 
 '''
 expression='neutral'
