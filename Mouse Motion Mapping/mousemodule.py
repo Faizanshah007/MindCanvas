@@ -68,41 +68,37 @@ def default():
     
     return speed 
 
-
+'''
 def average_speed():
-
+    dis = 0
+    global condition
+    start = time.time()
+    
     while condition=='on':
-    
+        
+        x, y = win32gui.GetCursorPos()
+        #    time.sleep(0.05)
+        c, d = win32gui.GetCursorPos()
+        dis = dis + math.sqrt(((x - c) ** 2) + ((y - d) ** 2))
+            
 
-        ts = time.time()
-    
-
-        try:
-            x, y = win32gui.GetCursorPos()
-            #    time.sleep(0.05)
-            c, d = win32gui.GetCursorPos()
-            dis = dis + math.sqrt(((x - c) ** 2) + ((y - d) ** 2))
-
-        except KeyboardInterrupt:
-            time_diff = time.time() - ts
-    time_diff = time.time() - ts
-    print(dis / time_diff, " : Speed")
-    return dis 
+    end = time.time()
+    time_diff=end-start
+    speed=dis/time_diff
+    print("average speed is " ,speed)
+    return speed    
 
 def onn():
-    condition = 'on'
-    dpi(10)
+    global condition
+    condition="on"
+    average_speed()
+    
+  
 
 def off():
+    global condition
     condition="off"
-
-atexit.register(off)
-
-
-
-onn()
-    
-'''    
+ 
     
 
 

@@ -203,9 +203,13 @@ def Task_Handler(x):
         exp_t1.start()
         exp_t2.start()
         exp_t3.start()
-        
-        
+
+        t = threading.Thread(target=mousemodule.onn)##
+        t.start()
+          
     else:
+        tend = threading.Thread(target=mousemodule.off)
+        tend.start()
         Task_Deactivation_time = None
         clock = holdClock
 
@@ -328,7 +332,7 @@ while True:
             l.wrong = True
             Data.lnkdlist.empty()
 
-    print(Data.click_count, Data.right_clicks, Data.wrong_clicks)
+    #print(Data.click_count, Data.right_clicks, Data.wrong_clicks)##
     pygame.display.flip()
 
 pygame.mixer.music.stop()
