@@ -16,6 +16,7 @@ from Scoring_Algo import *
 import freq_alpha
 import time
 import os, sys
+import pickle
 import mousemodule
 from shutil import copyfile
 from ctypes import cast, POINTER
@@ -215,20 +216,25 @@ task_no = 0
 Next_Task_Activation_time   = (1/3) * totalTime
 Task_Deactivation_time = None
 
-fl = open(".\\..\\expression_output.txt", "r+")
-fl.truncate()
 
 while True:
 
-    fl.seek(0,0)
+    # Extracting Expression Data
 
-    ln = fl.readline()
+    inn = open("D:\\faiza\Documents\\GitHub\\Mind Canvas\\expression_output","rb")
+    try:
+        exp = pickle.load(inn)
+        if(exp!=''):
+            Data.cur_exp = exp
+    except:
+        pass
+    inn.close()
 
-    if(ln == ''):
-        print("No")
+    # Volume Check
     
     chkvolume()
 
+    print(Data.cur_exp)
     # Giving Instructions & Activating Task
     if(int(Data.timer) == Next_Task_Activation_time and not instruction):
         pygame.mixer.music.set_volume(0.05)
@@ -281,7 +287,6 @@ while True:
                 terminate()
 
         if event.type == QUIT :
-            fl.close()
             terminate()
 
         if(event.type == pygame.MOUSEBUTTONUP):

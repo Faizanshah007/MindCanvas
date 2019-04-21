@@ -6,6 +6,11 @@ from pygame.locals import *
 if "anagram_generator" not in sys.modules :
     from anagram_generator import *
 
+# Current Expresssion
+
+cur_exp = None
+
+
 # Subprocess List
 
 subproc_list = list()

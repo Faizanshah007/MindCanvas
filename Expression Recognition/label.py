@@ -13,12 +13,13 @@ webcam.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 webcam.set(cv2.CAP_PROP_FRAME_HEIGHT, 360)
 webcam.set(cv2.CAP_PROP_FPS, 15)
 
-expfile = open(".\\..\\expression_output.txt", "w")
+
 
 while True:
 
-    expfile.seek(0,0)
+    expfile = open(".\\..\\expression_output", "wb")
     expfile.truncate()
+    expfile.close()
     
     (rval, im) = webcam.read()
     ##im=cv2.flip(im,1,0) #Flip to act as a mirror
@@ -42,8 +43,6 @@ while True:
         cv2.imwrite(FaceFileName, sub_face)
         
         text = label_image.run()# Getting the Result from the label_image file, i.e., Classification Result.
-
-        expfile.write(text)
 
         break
 

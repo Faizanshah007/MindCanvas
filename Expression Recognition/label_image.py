@@ -148,11 +148,15 @@ def run():
     print(labels[i], results[i])
   print("----------------------------------------")
   '''
+  import pickle
+  out = open("D:\\faiza\Documents\\GitHub\\Mind Canvas\\expression_output","wb")
   if(results[top] > 0.75):
+    pickle.dump(labels[top], out)
     return(labels[top])
   else:
+    pickle.dump("-", out)
     return("-")
-
+  out.close()
   ##return (labels[top_k[0]])
 
 def end():
