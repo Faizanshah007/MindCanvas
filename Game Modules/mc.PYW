@@ -26,7 +26,7 @@ from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 # Set Mouse DPI
 
-dpi_speed = 1 ##
+dpi_speed = 8 ##
 check_speed = mousemodule.dpi(dpi_speed)
 
 
@@ -42,7 +42,8 @@ os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % loading.get_coord(window_width, 
 
 pygame.init()
 pygame.display.set_caption("Anaglink")
-Canvas = pygame.display.set_mode((window_width, window_height), pygame.HWSURFACE, pygame.FULLSCREEN)
+Canvas = pygame.display.set_mode((window_width, window_height), pygame.NOFRAME)
+pygame.event.set_grab(True)
 
 Data.foregroundWindow("Anaglink")
 
@@ -161,8 +162,8 @@ def gameTask1(x):
     global clock, bgcolor, fewsecsound
 
     if(x):
-        bgcolor = orange
-        clock = time.time() - ((0.9) / timerRatio) * 0.85
+        ##bgcolor = orange
+        clock = time.time() - ((0.9) / timerRatio) * 0.80
 
     else:
         bgcolor = black
@@ -181,7 +182,8 @@ def gameTask2(x):
             if(link[-1] == -1):
                 link.remove(-1)
         os.remove("media/instruction2.wav")
-    
+
+        
 # Task Handler
 
 holdClock = clock
@@ -191,10 +193,17 @@ def Task_Handler(x):
     global Task_Deactivation_time, Next_Task_Activation_time, totalTime, clock, task_no, instruction
 
     if(x):
-        Task_Deactivation_time = time.time() + 8#6
+        Task_Deactivation_time = time.time() + 10#6
         Next_Task_Activation_time = (2/3) * totalTime
         instruction = None
         pygame.mixer.music.set_volume(1.0)
+        exp_t1 = threading.Timer(3, Data.net_exp)
+        exp_t2 = threading.Timer(6, Data.net_exp)
+        exp_t3 = threading.Timer(9, Data.net_exp)
+        exp_t1.start()
+        exp_t2.start()
+        exp_t3.start()
+        
         
     else:
         Task_Deactivation_time = None
@@ -227,7 +236,10 @@ while True:
         exp = pickle.load(inn)
         if(exp!=''):
             Data.cur_exp = exp
-            print(Data.cur_exp)
+            Data.exp_list.append(exp)
+            if( Task_Deactivation_time != None):
+                Data.temp_exp_list.append(exp)
+            #print(Data.cur_exp)
     except:
         pass
     inn.close()
@@ -262,7 +274,6 @@ while True:
     drawtext("ANAGLINK", txtfont1, subsurface, (0.4) * window_width, window_height / 25, purple)
     drawtext("Score : " + str(Data.Score), txtfont2, subsurface, (0.8) * window_width, window_height / 25, yellow) 
 
-
     a = update_timer().width
 
     if(a == 1):
@@ -295,10 +306,11 @@ while True:
             terminate()
 
         if(event.type == pygame.MOUSEBUTTONUP):
+            Data.click_count += 1
             clicked()
 
     if(check_lnk()):
-
+        
         pygame.mixer.Channel(0).play(linkedmusic)
 
         Data.Score = update_score(Data.Score, len(Data.lnkdlist), Data.stat)
@@ -307,6 +319,8 @@ while True:
     
     elif(check_lnk() == False):
 
+        Data.wrong_clicks += 1
+        
         pygame.mixer.Channel(0).play(incorrectmusic)
 
         for l in Data.lnkdlist:
@@ -314,7 +328,7 @@ while True:
             l.wrong = True
             Data.lnkdlist.empty()
 
-      
+    print(Data.click_count, Data.right_clicks, Data.wrong_clicks)
     pygame.display.flip()
 
 pygame.mixer.music.stop()
@@ -340,6 +354,7 @@ time.sleep(1)
 
 pygame.quit()
 
+check_speed(10)
 
 # Leaderboard
 
@@ -348,3 +363,4 @@ import LeaderBoard as lb
 leaderboard = lb.NewLeaderBoard("leaderboard")
 leaderboard.sendData(Data.stat, Data.Score, Data.TimeBonus)
 
+Data.release_proc()

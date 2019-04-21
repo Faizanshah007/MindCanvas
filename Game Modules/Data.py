@@ -6,11 +6,35 @@ from pygame.locals import *
 if "anagram_generator" not in sys.modules :
     from anagram_generator import *
 
-# Current Expresssion
+# Expresssion
 
 cur_exp = None
+exp_list = list()
+temp_exp_list = list()
+
+def net_exp():
+    print("hi")
+    global temp_exp_list
+    temp_dict = dict()
+    for exp_data in temp_exp_list:
+        if(exp_data[0] in temp_dict):
+            temp_dict[exp_data[0]] += exp_data[1]
+        else:
+            temp_dict[exp_data[0]] = exp_data[1]
+    try: ##
+        print(sorted(temp_dict.items(), reverse = True, key = lambda tup : tup[1])[0][0])
+    except:
+        pass
+    temp_exp_list.clear()
 
 
+# Monitoring Clicks
+
+click_count = 0
+right_clicks = 0
+wrong_clicks = 0
+
+    
 # Subprocess List
 
 subproc_list = list()
@@ -96,14 +120,20 @@ def waitforkey():
                 return
 
 
-# Terminate
+# End Subrocesses
 
 import signal
 
-def terminate():
-    pygame.quit()
+def release_proc():
     for proc in subproc_list:
         os.kill(proc.pid, signal.CTRL_C_EVENT)
+
+
+# Terminate
+
+def terminate():
+    pygame.quit()
+    release_proc()
     sys.exit()
 
 

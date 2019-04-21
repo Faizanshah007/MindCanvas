@@ -24,6 +24,8 @@ def clicked():
                 Data.lnkdlist.remove(self)
                 played = False
 
+            Data.right_clicks += 1
+
 def check_lnk():
     
     lst = list()

@@ -5,26 +5,33 @@ import math
 import atexit 
 
 
-initial_mouse_speed = ctypes.c_int()
+initial_mouse_speed = int()
 
 
 def dpi(x=10) :
+
+    global initial_mouse_speed
     
     #   1 - slow
     #   10 - standard
     #   20 - fast
 
-    global initial_mouse_speed
-
-    get_mouse_speed = 112   # 0x0070 for SPI_SETMOUSESPEED
-    ctypes.windll.user32.SystemParametersInfoA(get_mouse_speed, 0, ctypes.byref(initial_mouse_speed), 0)
+    def getspeed():
+        x = ctypes.c_int()
+        get_mouse_speed = 112   # 0x0070 for SPI_SETMOUSESPEED
+        ctypes.windll.user32.SystemParametersInfoA(get_mouse_speed, 0, ctypes.byref(x), 0)
+        return x.value
 
     def setspeed(x):
-        set_mouse_speed = 113   # 0x0071 for SPI_SETMOUSESPEED
-        ctypes.windll.user32.SystemParametersInfoA(set_mouse_speed, 0, x, 0)
+        temp_speed = getspeed()
+        x = ctypes.c_int(x)
+        if(temp_speed != x.value):
+            set_mouse_speed = 113   # 0x0071 for SPI_SETMOUSESPEED
+            ctypes.windll.user32.SystemParametersInfoA(set_mouse_speed, 0, x, 0)
 
+    initial_mouse_speed = getspeed()
     setspeed(x)
-    atexit.register(setspeed,initial_mouse_speed.value)
+    atexit.register(setspeed,initial_mouse_speed)
 
     return setspeed
 
