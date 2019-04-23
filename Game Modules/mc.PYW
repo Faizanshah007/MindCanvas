@@ -206,12 +206,17 @@ def Task_Handler(x):
 
         t = threading.Thread(target=mousemodule.onn)##
         t.start()
+
+        Data.click_count = 0
+        Data.right_clicks = 0
+        Data.wrong_clicks = 0
           
     else:
         tend = threading.Thread(target=mousemodule.off)
         tend.start()
         Task_Deactivation_time = None
         clock = holdClock
+        print("clicks-",Data.click_count,Data.right_clicks,Data.wrong_clicks)
 
     if(task_no == 1):
         gameTask1(x)
