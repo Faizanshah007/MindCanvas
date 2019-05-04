@@ -1,2 +1,2 @@
-# MindCanvas
+# Mind Canvas
 
