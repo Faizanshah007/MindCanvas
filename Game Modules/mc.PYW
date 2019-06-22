@@ -1,11 +1,11 @@
 import threading, subprocess
 import loading, Data
 from Data import *
-
+from pygame.locals import *
 
 # Starting Expression Recognition Module
 
-Data.subproc_list.append(subprocess.Popen("python label.py", shell=True, cwd = "D:\\faiza\\Documents\\GitHub\\Mind Canvas\\Expression Recognition"))
+##Data.subproc_list.append(subprocess.Popen("python label.py", shell=True, cwd = "D:\\faiza\\Documents\\GitHub\\Mind Canvas\\Expression Recognition"))
 
 
 # Loading Game

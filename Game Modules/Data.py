@@ -1,7 +1,8 @@
 # "#~" - Variable's value not to be changed
+import pygame
+import sys, os
+import time
 
-import sys, os, time, pygame
-from pygame.locals import *
 
 if "anagram_generator" not in sys.modules :
     from anagram_generator import *
@@ -113,8 +114,8 @@ def waitforkey():
                 terminate()
             if event.type ==  pygame.MOUSEBUTTONUP:
                 return
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
                     terminate()
                 return
 
