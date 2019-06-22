@@ -1,4 +1,4 @@
-import threading, subprocess
+anagschosenimport threading, subprocess
 import loading, Data
 from Data import *
 from pygame.locals import *
@@ -132,7 +132,7 @@ waitforkey()
 
 clock = time.time()
 
-plotter(anagselec)
+plotter(anagschosen)
 
 Data.lnkdlist.empty()
 
