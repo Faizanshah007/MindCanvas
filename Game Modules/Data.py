@@ -1,11 +1,8 @@
 # "#~" - Variable's value not to be changed
+from anagram_generator import *
 import pygame
 import sys, os
 import time
-
-# Conditional import for anagram_generator module
-if "anagram_generator" not in sys.modules :
-    from anagram_generator import *
 
 
 # Facial Expresssion Data & Function

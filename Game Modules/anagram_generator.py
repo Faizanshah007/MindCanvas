@@ -2,18 +2,17 @@ import Pre_setup
 import random
 import csv
 
-#Selecting 25 words from our anagram pool
+# Selecting 25 words from our anaglist (List of anagrams)
 
 def produce():
-    
+
     size = 0
     anag = Pre_setup.get()
     selec_list = []
-    
+
     # Getting back anaglist from set
-    
-    anaglist = random.sample(anag,len(anag))
-    
+    anaglist = list(anag)
+
     while( size < 25 ):
         rnd = random.choice(anaglist)
         anaglist.remove(rnd)
@@ -23,5 +22,5 @@ def produce():
             selec_list.append(r)
             size = size + 1
     random.shuffle(selec_list)
-    
+
     return selec_list
