@@ -133,41 +133,39 @@ def drawtext(text,font,surface,x,y,colour = black):
 
 # Answer Generation Data & Function
 
-ignorelist = list() #Stores words which have 0 possible anaglink
+ignorelist = list() #Stores words which have 0 possible anaglink ##INSPECTING
 
 def ansGen():
     ans = list()
-    sub = list()
-    a = list()
+    wrdTemp = list()
+    linkTemp = list()
     for tup in anagpool:
-        sub.clear()
+        wrdTemp.clear()
         for wrd in anagschosen:
             if(wrd in tup):
-                sub.append(wrd)
-        a = sub[:]
+                wrdTemp.append(wrd)
+        linkTemp = wrdTemp[:]
 
-        if(len(a)==1):
-            ignorelist.append(a)
+        if(len(linkTemp)==1):
+            ignorelist.append(linkTemp)
 
-        if(len(a)>1):
-            ans.append(a)
+        if(len(linkTemp)>1):
+            ans.append(linkTemp)
 
     return(ans)
 
 ans = ansGen() #Contains all the anaglinks
-ans_copy = ans[:] #~
 
 
 # Result
-
 Score = 0
 TimeBonus = 0
 
 
 # Bringing window to foreground
 
-#CODE IMPORTED FROM:
-#httups://www.blog.pythonlibrary.org/2014/10/20/pywin32-how-to-bring-a-window-to-front/'''
+# CODE IMPORTED FROM:
+# https://www.blog.pythonlibrary.org/2014/10/20/pywin32-how-to-bring-a-window-to-front/
 
 import win32gui, win32com.client
 
