@@ -1,7 +1,7 @@
 import threading, subprocess
 import loading, Data
 from Data import *
-from pygame.locals import *
+#from pygame.locals import *
 
 # Starting Expression Recognition Module
 
@@ -227,7 +227,7 @@ def Task_Handler(x):
 # Game loop
 
 pygame.event.set_allowed(None)
-pygame.event.set_allowed([MOUSEBUTTONUP, KEYDOWN, QUIT])
+pygame.event.set_allowed([pygame.MOUSEBUTTONUP, pygame.KEYDOWN, pygame.QUIT])
 
 instruction = None
 task_no = 0
@@ -306,11 +306,11 @@ while True:
 
     for event in pygame.event.get():
 
-        if event.type == KEYDOWN:
-            if event.key == K_ESCAPE:
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
                 terminate()
 
-        if event.type == QUIT :
+        if event.type == pygame.QUIT :
             terminate()
 
         if(event.type == pygame.MOUSEBUTTONUP):

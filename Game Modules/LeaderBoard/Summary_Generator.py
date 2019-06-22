@@ -36,7 +36,7 @@ html2 = str()
 for i in range(5):
     html2 = html2 + """<tr>"""
     for j in range(5):
-        html2 = html2 + """<td height = "30"><a href = "https://en.wiktionary.org/wiki/""" + str(anagselec[(i * 5 + j)]) + """" target="_blank"">""" + str(anagselec[(i * 5 + j)]) + """</a></td>"""
+        html2 = html2 + """<td height = "30"><a href = "https://en.wiktionary.org/wiki/""" + str(anagschosen[(i * 5 + j)]) + """" target="_blank"">""" + str(anagschosen[(i * 5 + j)]) + """</a></td>"""
     html2 = html2 + """</tr>"""
 
 html3 = """
@@ -59,7 +59,7 @@ html5 = """
 </p>
 
 <p style="font-size:20px">
-<b>Your current status : 
+<b>Your current status :
 """
 html5 = html5 + stat + """. <br></b> \n</p> \n\n """
 
@@ -75,7 +75,7 @@ html5 = html5 + """
 </html>
 
 """
-    
+
 f.write(html1+html2+html3+html4+html5)
 f.close()
 
