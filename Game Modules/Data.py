@@ -155,6 +155,7 @@ def ansGen():
     return(ans)
 
 ans = ansGen() #Contains all the anaglinks
+ans_copy = ans[:] #~
 
 
 # Result
