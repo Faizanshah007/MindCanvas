@@ -8,7 +8,7 @@ def produce():
 
     size = 0
     anag = Pre_setup.get()
-    selec_list = []
+    chosen_list = []
 
     # Getting back anaglist from set
     anaglist = list(anag)
@@ -19,8 +19,8 @@ def produce():
         for r in rnd:
             if( size >= 25 ):
                 break
-            selec_list.append(r)
+            chosen_list.append(r)
             size = size + 1
-    random.shuffle(selec_list)
+    random.shuffle(chosen_list)
 
-    return selec_list
+    return chosen_list
