@@ -1,4 +1,4 @@
-anagschosenimport threading, subprocess
+import threading, subprocess
 import loading, Data
 from Data import *
 from pygame.locals import *
