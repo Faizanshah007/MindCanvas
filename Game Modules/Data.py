@@ -13,7 +13,6 @@ exp_list = list()
 temp_exp_list = list()
 
 def net_exp():
-    print("hi")
     global temp_exp_list
     temp_dict = dict()
     for exp_data in temp_exp_list:
@@ -34,7 +33,7 @@ click_count = 0
 right_clicks = 0
 wrong_clicks = 0
 
-    
+
 # Subprocess List
 
 subproc_list = list()
@@ -67,7 +66,7 @@ pygame.init()
 
 #~Path
 
-root_dir = os.path.join(os.path.dirname(sys.argv[0]), 'Media') 
+root_dir = os.path.join(os.path.dirname(sys.argv[0]), 'Media')
 sys.path.insert(0, os.path.abspath('.\\..\\Mouse Motion Mapping'))
 sys.path.insert(0, os.path.abspath('.\\..\\Expression Recognition'))
 
@@ -190,10 +189,10 @@ def foregroundWindow(name):
 
     shell = win32com.client.Dispatch("WScript.Shell")
     shell.SendKeys('%')
- 
+
     def windowEnumerationHandler(hwnd, top_windows):
         top_windows.append((hwnd, win32gui.GetWindowText(hwnd)))
-     
+
     top_windows = []
     win32gui.EnumWindows(windowEnumerationHandler, top_windows)
     for i in top_windows:

@@ -1,5 +1,4 @@
-import threading
-import subprocess
+import threading, subprocess
 import loading, Data
 from Data import *
 
@@ -61,7 +60,7 @@ volume = cast(interface, POINTER(IAudioEndpointVolume))
 def chkvolume():
 
     volume.SetMute(0,None)
-    
+
     if(volume.GetMasterVolumeLevel() < -5):
         volume.SetMasterVolumeLevel(-5.0, None) #72%
 
@@ -118,7 +117,7 @@ def update_timer():
     pygame.draw.rect(subsurface, cyan, (int(window_width * (1 / 20)), int(window_height * (15 / 100)), int(window_width * (0.9)), int(window_width * (1 / 50))), 2)
 
     return(pygame.draw.rect(subsurface, red, (int(window_width * (1 / 20)), int(window_height * (15 / 100)), int(window_width * (0.9) - (Data.timer * timerRatio * window_width)), int(window_width * (1 / 50))), 0))
-    
+
 
 Canvas.fill(white)
 Canvas.blit(startimage, startimagerect)
@@ -153,7 +152,7 @@ def instructions(x):
 
         instruction = pygame.mixer.Sound(os.path.join(root_dir, "instruction" + str(x) +".wav"))
 
-        return (instruction, instruction.get_length())            
+        return (instruction, instruction.get_length())
 
 # Game Task 1 - Time Reduction
 
@@ -170,7 +169,7 @@ def gameTask1(x):
         fewsecsound.stop()
 
 
-# Game Task 2 - Anagram with a specific alphabet 
+# Game Task 2 - Anagram with a specific alphabet
 
 def gameTask2(x):
 
@@ -183,7 +182,7 @@ def gameTask2(x):
                 link.remove(-1)
         os.remove("media/instruction2.wav")
 
-        
+
 # Task Handler
 
 holdClock = clock
@@ -210,7 +209,7 @@ def Task_Handler(x):
         Data.click_count = 0
         Data.right_clicks = 0
         Data.wrong_clicks = 0
-          
+
     else:
         tend = threading.Thread(target=mousemodule.off)
         tend.start()
@@ -230,7 +229,7 @@ def Task_Handler(x):
 pygame.event.set_allowed(None)
 pygame.event.set_allowed([MOUSEBUTTONUP, KEYDOWN, QUIT])
 
-instruction = None   
+instruction = None
 task_no = 0
 Next_Task_Activation_time   = (1/3) * totalTime
 Task_Deactivation_time = None
@@ -255,10 +254,10 @@ while True:
 
     # Speed Check
 
-    check_speed(dpi_speed)    
-    
+    check_speed(dpi_speed)
+
     # Volume Check
-    
+
     chkvolume()
 
     # Giving Instructions & Activating Task
@@ -277,21 +276,21 @@ while True:
     # Deactivating Task
     if(Task_Deactivation_time and time.time() >= Task_Deactivation_time):
         Task_Handler(False)
-    
+
     Canvas.fill(bgcolor)
 
     drawtext("ANAGLINK", txtfont1, subsurface, (0.4) * window_width, window_height / 25, purple)
-    drawtext("Score : " + str(Data.Score), txtfont2, subsurface, (0.8) * window_width, window_height / 25, yellow) 
+    drawtext("Score : " + str(Data.Score), txtfont2, subsurface, (0.8) * window_width, window_height / 25, yellow)
 
     a = update_timer().width
 
     if(a == 1):
         Data.stat = 'Lost'
         break
-    
+
     if(a == 100 and Data.stat == 'None'):
         fewsecsound.play(-1)
-        
+
     if(ans == []):
         Data.stat = 'Won'
         break
@@ -304,7 +303,7 @@ while True:
     Check_playhover()
 
     Button.inout.clear()
-    
+
     for event in pygame.event.get():
 
         if event.type == KEYDOWN:
@@ -319,17 +318,17 @@ while True:
             clicked()
 
     if(check_lnk()):
-        
+
         pygame.mixer.Channel(0).play(linkedmusic)
 
         Data.Score = update_score(Data.Score, len(Data.lnkdlist), Data.stat)
         Data.buttonlist.remove(Data.lnkdlist)
         Data.lnkdlist.empty()
-    
+
     elif(check_lnk() == False):
 
         Data.wrong_clicks += 1
-        
+
         pygame.mixer.Channel(0).play(incorrectmusic)
 
         for l in Data.lnkdlist:
@@ -352,7 +351,7 @@ if( Data.stat == 'Lost' ):
 if( Data.stat == 'Won' ):
 
     winmusic.play()
-    Data.Score = update_score(Data.Score, Data.timer, Data.stat) 
+    Data.Score = update_score(Data.Score, Data.timer, Data.stat)
     Canvas.blit(wonimage, wonimagerect)
 
 pygame.display.flip()
