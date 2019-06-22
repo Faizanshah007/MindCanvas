@@ -37,7 +37,7 @@ loading_image = list()
 
 for i in range(7):
     image = Image.open(os.path.join(os.path.dirname(sys.argv[0]), 'Media', str(i) + '.png'))
-    image = image.resize((741, 410), Image.ANTIALIAS)  
+    image = image.resize((741, 410), Image.ANTIALIAS)
     loading_image.append(ImageTk.PhotoImage(image))
 
 
@@ -56,8 +56,6 @@ def update_stat(ld, st):
 # Quit loading
 
 def quit(ld):
-
-    global root
 
     ld.config(image = loading_image[6])
     root.update()
