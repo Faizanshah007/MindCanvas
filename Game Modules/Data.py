@@ -3,29 +3,30 @@ import pygame
 import sys, os
 import time
 
-
+# Conditional import for anagram_generator module
 if "anagram_generator" not in sys.modules :
     from anagram_generator import *
 
-# Expresssion
 
-cur_exp = None
-exp_list = list()
-temp_exp_list = list()
+# Facial Expresssion Data & Function
 
-def net_exp():
-    global temp_exp_list
+cur_expr = None
+expr_list = list()
+temp_expr_list = list()
+
+def net_expr():
+    global temp_expr_list
     temp_dict = dict()
-    for exp_data in temp_exp_list:
-        if(exp_data[0] in temp_dict):
-            temp_dict[exp_data[0]] += exp_data[1]
+    for expr_data in temp_expr_list:
+        if(expr_data[0] in temp_dict):
+            temp_dict[expr_data[0]] += expr_data[1]
         else:
-            temp_dict[exp_data[0]] = exp_data[1]
+            temp_dict[expr_data[0]] = expr_data[1]
     try: ##
         print(sorted(temp_dict.items(), reverse = True, key = lambda tup : tup[1])[0][0])
     except:
         pass
-    temp_exp_list.clear()
+    temp_expr_list.clear()
 
 
 # Monitoring Clicks

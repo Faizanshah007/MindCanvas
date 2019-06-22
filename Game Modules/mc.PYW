@@ -196,12 +196,12 @@ def Task_Handler(x):
         Next_Task_Activation_time = (2/3) * totalTime
         instruction = None
         pygame.mixer.music.set_volume(1.0)
-        exp_t1 = threading.Timer(3, Data.net_exp)
-        exp_t2 = threading.Timer(6, Data.net_exp)
-        exp_t3 = threading.Timer(9, Data.net_exp)
-        exp_t1.start()
-        exp_t2.start()
-        exp_t3.start()
+        expr_t1 = threading.Timer(3, Data.net_expr)
+        expr_t2 = threading.Timer(6, Data.net_expr)
+        expr_t3 = threading.Timer(9, Data.net_expr)
+        expr_t1.start()
+        expr_t2.start()
+        expr_t3.start()
 
         t = threading.Thread(target=mousemodule.onn)##
         t.start()
@@ -241,13 +241,13 @@ while True:
 
     inn = open("D:\\faiza\Documents\\GitHub\\Mind Canvas\\expression_output","rb")
     try:
-        exp = pickle.load(inn)
-        if(exp!=''):
-            Data.cur_exp = exp
-            Data.exp_list.append(exp)
+        expr = pickle.load(inn)
+        if(expr!=''):
+            Data.cur_expr = expr
+            Data.expr_list.append(expr)
             if( Task_Deactivation_time != None):
-                Data.temp_exp_list.append(exp)
-            #print(Data.cur_exp)
+                Data.temp_expr_list.append(expr)
+            #print(Data.cur_expr)
     except:
         pass
     inn.close()
