@@ -3,21 +3,23 @@ import enchant
 import csv
 import os, sys
 
-loaded = 0
 
-anaglist = list()
+loaded = 0 # Loading Status Variable
+
+anaglist = list() # List of all anagrams
 
 def prepare():
 
-    # Preparing Data
+    # Prepare dictionary and a function to check meaningfulness of words
 
     d = enchant.Dict("en_US")
 
     def meaningful(string):
         return d.check(string)
 
+    # Function to apply permutation to find all the possible anagrams out of given alphabets
+
     def jumbleword(wrd):
-            
         testset = set([''.join(p) for p in permutations(wrd)])
         anag = []
         for case in testset:
@@ -49,33 +51,26 @@ def prepare():
             list3.append(row[0])
     csvfile.close()
 
-
-    # Generating and storing all possible anagrams into anaglist
+    # Generating and storing all possible anagrams into anaglist; incx is the biased incremental value of loading wrt listx
 
     global loaded, anaglist
 
     inc3 = 108/len(list3)
 
     for w in list3:
-
         loaded = loaded + inc3
-        
         anaglist.append(jumbleword(w))
 
     inc2 = 9.6/len(list2)
 
     for w in list2:
-
         loaded = loaded + inc2
-        
         anaglist.append(jumbleword(w))
 
     inc1 = 2.4/len(list1)
 
     for w in list1:
-
         loaded = loaded + inc1
-        
         anaglist.append(jumbleword(w))
 
 
@@ -86,6 +81,3 @@ def get():
     for anag in anaglist:
         st.add(tuple(anag))
     return st
-
-
-
