@@ -6,3 +6,4 @@ MindCanvas/Expression Recognition/images/*
 MindCanvas/Expression Recognition/tf_files/*
 MindCanvas/Expression Recognition/Logfile.txt
 MindCanvas/Game Modules/__pycache__/*
+*.pyc
