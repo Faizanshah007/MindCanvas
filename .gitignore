@@ -1,11 +1,11 @@
-MindCanvas/Expression Recognition/Bin/*
-MindCanvas/Expression Recognition/Other images/*
-MindCanvas/Expression Recognition/PENDING_TO_PROCESS/*
-MindCanvas/Expression Recognition/_pycache_/*
-MindCanvas/Expression Recognition/images/*
-MindCanvas/Expression Recognition/tf_files/*
+MindCanvas/Expression Recognition/Bin
+MindCanvas/Expression Recognition/Other images
+MindCanvas/Expression Recognition/PENDING_TO_PROCESS
+MindCanvas/Expression Recognition/_pycache_
+MindCanvas/Expression Recognition/images
+MindCanvas/Expression Recognition/tf_files
 MindCanvas/Expression Recognition/Logfile.txt
-MindCanvas/Game Modules/__pycache__/*
+MindCanvas/Game Modules/__pycache__
 *.pyc
 Expression Recognition/test.jpg
 Game Modules/Media/instruction2.wav
