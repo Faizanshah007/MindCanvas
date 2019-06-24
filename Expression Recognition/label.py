@@ -29,7 +29,7 @@ while True:
         Cond_f = open(".\\..\\switch","rb")
         if(pickle.load(Cond_f) == "off"):
             Cond_f.close()
-            os.remove(".\\..\\switch")
+            os.unlink(".\\..\\switch")
             break
     except:
         pass
