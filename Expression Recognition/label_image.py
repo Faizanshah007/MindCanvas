@@ -21,6 +21,9 @@ import argparse
 import numpy as np
 import tensorflow as tf
 
+import sys, os
+import pickle
+
 
 def load_graph(model_file):
   graph = tf.Graph()
@@ -125,7 +128,7 @@ sess = tf.Session(graph=graph)
 def run():
 
   global sess, input_operation, output_operation, file_name, input_height, input_width, input_mean, input_std, graph, input_layer, output_layer
-  
+
   t = read_tensor_from_image_file(
       file_name,
       input_height=input_height,
@@ -133,23 +136,17 @@ def run():
       input_mean=input_mean,
       input_std=input_std)
 
-
   results = sess.run(output_operation.outputs[0], {
       input_operation.outputs[0]: t
   })
 
-  
   results = np.squeeze(results)
-  top = results.argsort()[-1]
   ##top_k = results.argsort()[-5:][::-1]
+  top = results.argsort()[-1]
   labels = load_labels(label_file)
-  ''' ##
-  for i in top_k:
-    print(labels[i], results[i])
-  print("----------------------------------------")
-  '''
-  import pickle
-  out = open("D:\\faiza\Documents\\GitHub\\Mind Canvas\\expression_output","wb")
+
+  # Using pickle to dump the data for the game module to pick
+  out = open(os.path.abspath('.\\..\\expression_output'),"wb")
   if(results[top] > 0.75):
     pickle.dump((labels[top],results[top]), out)
     return(labels[top])
@@ -159,8 +156,9 @@ def run():
   out.close()
   ##return (labels[top_k[0]])
 
+
 def end():
 
   global sess
-  print("goodbye")
   sess.close()
+  print("goodbye")
