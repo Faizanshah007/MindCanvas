@@ -1,32 +1,30 @@
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+from ctypes import cast, POINTER
+from comtypes import CLSCTX_ALL
+from shutil import copyfile
 import threading, subprocess
+import sys, os
 import loading
+import pickle
+import time
 
 from Data import *
 import Data
 ##INSPECTING
 
 # Starting Expression Recognition Module
-
-##Data.subproc_list.append(subprocess.Popen("python label.py", shell=True, cwd = "D:\\faiza\\Documents\\GitHub\\Mind Canvas\\Expression Recognition"))
+subprocess.Popen("python label.py", shell = True, cwd = os.path.abspath('.\\..\\Expression Recognition'))
 
 
 # Loading Game
-
 from button import *
 from Scoring_Algo import *
 import freq_alpha
-import time
-import os, sys
-import pickle
 import mousemodule
-from shutil import copyfile
-from ctypes import cast, POINTER
-from comtypes import CLSCTX_ALL
-from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+
 
 
 # Set Mouse DPI
-
 dpi_speed = 8 ##
 check_speed = mousemodule.dpi(dpi_speed)
 
@@ -373,4 +371,4 @@ import LeaderBoard as lb
 leaderboard = lb.NewLeaderBoard("leaderboard")
 leaderboard.sendData(Data.stat, Data.Score, Data.TimeBonus)
 
-Data.release_proc()
+Data.terminate()
