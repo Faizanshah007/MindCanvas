@@ -1,8 +1,14 @@
 # "#~" - Variable's value not to be changed
 import anagram_generator
 import pygame
+
 import sys, os
 import time
+
+# For Window Manipulations & Keystroke Generation
+import win32gui, win32com.client
+import pyautogui
+import pickle
 
 
 # Facial Expresssion Data & Function ##INSPECTING
@@ -27,7 +33,7 @@ def net_expr():
 
 
 # Monitoring Clicks
-click_count = 0
+click_count  = 0
 right_clicks = 0
 wrong_clicks = 0
 
@@ -61,12 +67,12 @@ sys.path.insert(0, os.path.abspath('.\\..\\Mouse Motion Mapping'))
 sys.path.insert(0, os.path.abspath('.\\..\\Expression Recognition'))
 
 #~Anagram Data
-anagpool   = anagram_generator.Pre_setup.get()
+anagpool     = anagram_generator.Pre_setup.get()
 anagschosen  = anagram_generator.produce()
 
 
 #~Window Dimension
-window_width = 1000 # max - 1366
+window_width  = 1000 # max - 1366
 window_height = int(window_width*0.5) # max - 768
 
 
@@ -105,39 +111,31 @@ def waitforkey():
                 return
 
 
-# End Subrocesses ##INSPECTING
-
-import signal
-
-def release_proc():
-    for proc in subproc_list:
-        os.kill(proc.pid, signal.CTRL_C_EVENT)
-
-
 # Terminate
 
 def terminate():
     pygame.quit()
-    release_proc()
+    out = open(os.path.abspath('.\\..\\switch'),"wb")
+    pickle.dump("off",out)
     sys.exit()
 
 
 # Render Text
 
 def drawtext(text,font,surface,x,y,colour = black):
-    textobj = font.render(text,1,colour)
-    textrect = textobj.get_rect()
+    textobj          = font.render(text,1,colour)
+    textrect         = textobj.get_rect()
     textrect.topleft = (x,y)
     surface.blit(textobj, textrect)
 
 
 # Answer Generation Data & Function
 
-ignorelist = list() #Stores words which have 0 possible anaglink ##INSPECTING
+ignorelist   = list() #Stores words which have 0 possible anaglink ##INSPECTING
 
 def ansGen():
-    ans = list()
-    wrdTemp = list()
+    ans      = list()
+    wrdTemp  = list()
     linkTemp = list()
     for tup in anagpool:
         wrdTemp.clear()
@@ -154,12 +152,12 @@ def ansGen():
 
     return(ans)
 
-ans = ansGen() #Contains all the anaglinks
-ans_copy = ans[:] #~
+ans       = ansGen() #Contains all the anaglinks
+ans_copy  = ans[:] #~
 
 
 # Result
-Score = 0
+Score     = 0
 TimeBonus = 0
 
 
@@ -168,10 +166,7 @@ TimeBonus = 0
 # CODE IMPORTED FROM:
 # https://www.blog.pythonlibrary.org/2014/10/20/pywin32-how-to-bring-a-window-to-front/
 
-import win32gui, win32com.client
-
 def foregroundWindow(name):
-
     shell = win32com.client.Dispatch("WScript.Shell")
     shell.SendKeys('%')
 
