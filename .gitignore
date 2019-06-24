@@ -5,6 +5,4 @@
 'MindCanvas/Expression Recognition/images/'
 'MindCanvas/Expression Recognition/tf_files/'
 'MindCanvas/Expression Recognition/Logfile.txt'
-'MindCanvas/Game Modules/lib/'
-'MindCanvas/Game Modules/tcl/'
-'MindCanvas/Game Modules/tk/'
+'MindCanvas/Game Modules/__pycache__/'
