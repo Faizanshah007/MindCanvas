@@ -1,12 +1,13 @@
 from Data import *
 import Data
 
+# Button Dimensions
 bwidth  = 136
 bheight = int(bwidth * 19 / 68)
 
 hoversound = pygame.mixer.Sound(os.path.join(root_dir, "hover.wav"))
 clicksound = pygame.mixer.Sound(os.path.join(root_dir, "click.wav"))
-
+##INSPECTING
 def clicked():
 
     for self in Data.buttonlist:
@@ -27,7 +28,7 @@ def clicked():
             Data.right_clicks += 1
 
 def check_lnk():
-    
+
     lst = list()
 
     for obj in Data.lnkdlist:
@@ -69,19 +70,19 @@ class Button(pygame.sprite.Sprite):
         self.value = wrd
         self.wrong = False
         self.wait = 0
-        
+
 
     def checkmouseloc(self, loc):
-        
+
         if(loc[0] >= self.rect.left and loc[0] <= self.rect.right and loc[1] >= self.rect.top and loc[1] <= self.rect.bottom):
             Button.inout.append(1)
             Button.pointing = self
             return True
         else:
             Button.inout.append(0)
-            
-                
-    
+
+
+
     def update(self):
 
         global wait
@@ -104,7 +105,7 @@ class Button(pygame.sprite.Sprite):
         drawtext( self.value, txtfont2, Button.surface, int(self.rect.left + window_width*1/200), self.rect.top, green )
 
 def Check_playhover():
-    
+
     if(1 in Button.inout and Button.sound == False):
         pygame.mixer.Channel(0).play(hoversound)
         Button.sound = True
