@@ -1,11 +1,9 @@
 Expression Recognition/Bin
 Expression Recognition/Other images
 Expression Recognition/PENDING_TO_PROCESS
-Expression Recognition/_pycache_
 Expression Recognition/images
 Expression Recognition/tf_files
 Expression Recognition/Logfile.txt
 Expression Recognition/test.jpg
-Game Modules/__pycache__
 Game Modules/Media/instruction2.wav
-*.pyc
+**/_pycache_
