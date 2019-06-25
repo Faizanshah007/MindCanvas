@@ -38,10 +38,6 @@ right_clicks = 0
 wrong_clicks = 0
 
 
-# Subprocess List ##INSPECTING
-subproc_list = list()
-
-
 # Game Status ##INSPECTING
 stat = 'None'
 
