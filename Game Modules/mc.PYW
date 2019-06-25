@@ -15,10 +15,11 @@ import Data
 # Starting Expression Recognition Module
 subprocess.Popen("python label.py", shell = True, cwd = os.path.abspath('.\\..\\Expression Recognition'))
 
-##INSPECTING
+
 # Loading Game
 from button import *
-from Scoring_Algo import *
+##INSPECTING
+import Scoring_Algo
 import freq_alpha
 import mousemodule
 
@@ -192,7 +193,7 @@ def Task_Handler(x):
     global Task_Deactivation_time, Next_Task_Activation_time, totalTime, clock, task_no, instruction
 
     if(x):
-        Task_Deactivation_time = time.time() + 10#6
+        Task_Deactivation_time = time.time() + 10 #6
         Next_Task_Activation_time = (2/3) * totalTime
         instruction = None
         pygame.mixer.music.set_volume(1.0)
@@ -206,7 +207,7 @@ def Task_Handler(x):
         t = threading.Thread(target=mousemodule.onn)##
         t.start()
 
-        Data.click_count = 0
+        Data.click_count  = 0
         Data.right_clicks = 0
         Data.wrong_clicks = 0
 
@@ -321,7 +322,7 @@ while True:
 
         pygame.mixer.Channel(0).play(linkedmusic)
 
-        Data.Score = update_score(Data.Score, len(Data.lnkdlist), Data.stat)
+        Data.Score = Scoring_Algo.update_score(Data.Score, len(Data.lnkdlist), Data.stat)
         Data.buttonlist.remove(Data.lnkdlist)
         Data.lnkdlist.empty()
 
@@ -351,7 +352,7 @@ if( Data.stat == 'Lost' ):
 if( Data.stat == 'Won' ):
 
     winmusic.play()
-    Data.Score = update_score(Data.Score, Data.timer, Data.stat)
+    Data.Score = Scoring_Algo.update_score(Data.Score, Data.timer, Data.stat)
     Canvas.blit(wonimage, wonimagerect)
 
 pygame.display.flip()
