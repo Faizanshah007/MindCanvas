@@ -1,6 +1,7 @@
 from Data import *
 import Data
 
+
 # Button Dimensions
 bwidth  = 136
 bheight = int(bwidth * 19 / 68)
@@ -51,12 +52,12 @@ def check_lnk():
             elif(set(lst) == set(anaglink[:-1]) and anaglink[-1] == -1):  #Task 2 special condition (-1 is appended at the last of every invalid anaglink)
                 return False
 
-##INSPECTING
+
 class Button(pygame.sprite.Sprite):
 
-    inout = []
-    sound = False
-    pointing = 0
+    inout = [] # Check for mouse hover
+    sound = False # Hover sound
+    pointing = None # Button at which mouse is pointing to
 
 
     def __init__(self, surface, x, y, wrd):
@@ -67,7 +68,7 @@ class Button(pygame.sprite.Sprite):
         self.active = False
         self.value = wrd
         self.wrong = False
-        self.wait = 0
+        self.wait = 0 # For added display lag
 
 
     def checkmouseloc(self, loc):
@@ -79,7 +80,6 @@ class Button(pygame.sprite.Sprite):
 
         else:
             Button.inout.append(0)
-
 
 
     def update(self):
@@ -103,6 +103,7 @@ class Button(pygame.sprite.Sprite):
 
         drawtext( self.value, txtfont2, Button.surface, int(self.rect.left + window_width*1/200), self.rect.top, green )
 
+
 def Check_playhover():
 
     if(1 in Button.inout and Button.sound == False):
@@ -112,5 +113,5 @@ def Check_playhover():
     elif(1 not in Button.inout):
         Button.sound = False
 
-    if(Button.pointing != 0):
+    if(Button.pointing != None):
         pygame.draw.rect( Button.surface, cyan, Button.pointing.rect, 5)

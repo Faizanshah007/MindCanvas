@@ -296,7 +296,7 @@ while True:
         break
 
 
-    Button.pointing = 0
+    Button.pointing = None
 
     Data.buttonlist.update()
 
