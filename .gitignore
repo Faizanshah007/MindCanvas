@@ -6,4 +6,6 @@ Expression Recognition/tf_files
 Expression Recognition/Logfile.txt
 Expression Recognition/test.jpg
 Game Modules/Media/instruction2.wav
+Game Modules/Summary.html
 __pycache__
+expression_output
