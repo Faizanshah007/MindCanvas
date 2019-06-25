@@ -7,14 +7,13 @@ bheight = int(bwidth * 19 / 68)
 
 hoversound = pygame.mixer.Sound(os.path.join(root_dir, "hover.wav"))
 clicksound = pygame.mixer.Sound(os.path.join(root_dir, "click.wav"))
-##INSPECTING
+
+
 def clicked():
-
     for self in Data.buttonlist:
+
         if(Button.pointing == self):
-
             pygame.mixer.Channel(0).play(clicksound)
-
 
             if( not self.active ):
                 self.active = True
@@ -27,32 +26,32 @@ def clicked():
 
             Data.right_clicks += 1
 
-def check_lnk():
 
+def check_lnk():
     lst = list()
 
     for obj in Data.lnkdlist:
-
         lst.append(obj.value)
 
     for l in lst:
         if([l] in Data.ignorelist and len(lst)>1):
-
             return False
 
-    for a in Data.ans:
+    for anaglink in Data.ans:
 
-        if(set(a) == set(lst)):
-            Data.ans.remove(a)
+        if(set(anaglink) == set(lst)):
+            Data.ans.remove(anaglink)
             return True
 
-        elif(lst != [] and lst[0] in a):
-            if(not set(lst) < set(a)):
-                return False
-            elif(set(lst) == set(a[:-1]) and a[-1] == -1):  #Task 2 special condition
+        elif(lst != [] and lst[0] in anaglink):
+
+            if(not set(lst) < set(anaglink)):
                 return False
 
+            elif(set(lst) == set(anaglink[:-1]) and anaglink[-1] == -1):  #Task 2 special condition (-1 is appended at the last of every invalid anaglink)
+                return False
 
+##INSPECTING
 class Button(pygame.sprite.Sprite):
 
     inout = []
@@ -66,7 +65,6 @@ class Button(pygame.sprite.Sprite):
         Button.surface = surface
         self.rect = pygame.Rect(x, y, bwidth, bheight)
         self.active = False
-        self.gid = 0
         self.value = wrd
         self.wrong = False
         self.wait = 0
@@ -78,6 +76,7 @@ class Button(pygame.sprite.Sprite):
             Button.inout.append(1)
             Button.pointing = self
             return True
+
         else:
             Button.inout.append(0)
 
@@ -85,14 +84,14 @@ class Button(pygame.sprite.Sprite):
 
     def update(self):
 
-        global wait
-
         if( self.wrong == True ):
             pygame.draw.rect( Button.surface, red, self.rect, 0)
             self.wait = self.wait + 1
+
             if(self.wait == 100):
                 self.wrong = False
                 self.wait = 0
+
         else:
             pygame.draw.rect( Button.surface, cyan, self.rect, 2)
 
