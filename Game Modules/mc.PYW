@@ -352,7 +352,7 @@ if( Data.stat == 'Lost' ):
 if( Data.stat == 'Won' ):
 
     winmusic.play()
-    Data.Score = Scoring_Algo.update_score(Data.Score, Data.timer, Data.stat)
+    Data.Score = Scoring_Algo.update_score(Data.Score, totalTime - Data.timer, Data.stat)
     Canvas.blit(wonimage, wonimagerect)
 
 pygame.display.flip()
