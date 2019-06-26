@@ -18,10 +18,9 @@ subprocess.Popen("python label.py", shell = True, cwd = os.path.abspath('.\\..\\
 from button import *
 import freq_alpha
 import Scoring_Algo
-##INSPECTING
 import mousemodule
 
-
+##INSPECTING
 # Set Mouse DPI
 dpi_speed = 8 ##
 check_speed = mousemodule.dpi(dpi_speed)
