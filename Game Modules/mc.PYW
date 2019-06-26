@@ -11,10 +11,8 @@ import time
 from Data import *
 import Data
 
-
 # Starting Expression Recognition Module
 subprocess.Popen("python label.py", shell = True, cwd = os.path.abspath('.\\..\\Expression Recognition'))
-
 
 # Loading Game
 from button import *
@@ -22,7 +20,6 @@ import freq_alpha
 import Scoring_Algo
 ##INSPECTING
 import mousemodule
-
 
 
 # Set Mouse DPI
