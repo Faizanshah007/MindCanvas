@@ -18,8 +18,8 @@ subprocess.Popen("python label.py", shell = True, cwd = os.path.abspath('.\\..\\
 
 # Loading Game
 from button import *
-##INSPECTING
 import Scoring_Algo
+##INSPECTING
 import freq_alpha
 import mousemodule
 
