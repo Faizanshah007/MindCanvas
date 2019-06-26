@@ -161,4 +161,4 @@ def end():
 
   global sess
   sess.close()
-  print("goodbye")
+  print("Goodbye")

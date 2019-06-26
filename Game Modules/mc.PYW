@@ -18,9 +18,9 @@ subprocess.Popen("python label.py", shell = True, cwd = os.path.abspath('.\\..\\
 
 # Loading Game
 from button import *
+import freq_alpha
 import Scoring_Algo
 ##INSPECTING
-import freq_alpha
 import mousemodule
 
 
@@ -204,7 +204,7 @@ def Task_Handler(x):
         expr_t2.start()
         expr_t3.start()
 
-        t = threading.Thread(target=mousemodule.onn)##
+        t = threading.Thread(target=mousemodule.on)##
         t.start()
 
         Data.click_count  = 0
@@ -216,7 +216,7 @@ def Task_Handler(x):
         tend.start()
         Task_Deactivation_time = None
         clock = holdClock
-        print("clicks-",Data.click_count,Data.right_clicks,Data.wrong_clicks)
+        print("Clicks-",Data.click_count,Data.right_clicks,Data.wrong_clicks)
 
     if(task_no == 1):
         gameTask1(x)
