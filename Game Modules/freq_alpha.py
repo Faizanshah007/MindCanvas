@@ -1,3 +1,4 @@
+# This module is used during Game Task - 2
 import string
 
 
@@ -28,24 +29,21 @@ def anag_freq_alpha_selector(anaglinks, ignore_list):
 
     Ans_alpha = freq_alpha_out(anaglinks)
     nonAns_alpha = freq_alpha_out(ignore_list, 1)
-    ##INSPECTING
-    selected = ('', 51)
+    selected = ('', 51) # 51 = 50 (Maximum Possible Accumalative Index: 25 + 25) + 1
+
     for i in range(len(Ans_alpha)):
-        score = i + nonAns_alpha.index(Ans_alpha[i])
-        if(score < selected[1]):
-            selected = (Ans_alpha[i], score)
+        accumalative_index = i + nonAns_alpha.index(Ans_alpha[i])
+        if(accumalative_index < selected[1]):
+            selected = (Ans_alpha[i], accumalative_index)
 
     selected_chr = selected[0]
-
     print(selected_chr)
-
     return selected[0]
 
 
 def run(anaglinks):
-
     global selected_chr
 
     for i in range(len(anaglinks)):
         if(selected_chr not in anaglinks[i][0].upper() and selected_chr != ''):
-            anaglinks[i].append(-1)
+            anaglinks[i].append(-1) # Anaglinks without the selected character are invalid for the duration of the task
