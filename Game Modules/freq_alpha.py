@@ -1,4 +1,5 @@
 # This module is used during Game Task - 2
+from rprint import print
 import string
 
 

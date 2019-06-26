@@ -1,3 +1,4 @@
+from rprint import print
 import win32gui
 import atexit
 import ctypes

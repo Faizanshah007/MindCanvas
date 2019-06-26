@@ -1,4 +1,5 @@
 # "#~" - Variable's value not to be changed
+from rprint import print
 import anagram_generator
 import pygame
 
