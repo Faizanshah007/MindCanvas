@@ -26,7 +26,7 @@ def net_expr():
         else:
             temp_dict[expr_data[0]] = expr_data[1]
     try: ##
-        print(sorted(temp_dict.items(), reverse = True, key = lambda tup : tup[1])[0][0])
+        print((sorted(temp_dict.items(), reverse = True, key = lambda tup : tup[1])[0][0]).capitalize())
     except:
         pass
     temp_expr_list.clear()
