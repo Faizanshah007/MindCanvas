@@ -37,7 +37,7 @@ def anag_freq_alpha_selector(anaglinks, ignore_list):
             selected = (Ans_alpha[i], accumalative_index)
 
     selected_chr = selected[0]
-    print(selected_chr.capitalize())
+    print(selected_chr)
     return selected[0]
 
 
