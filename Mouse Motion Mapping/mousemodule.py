@@ -41,6 +41,13 @@ def player_average_speed():
     dist = 0
     start = time.time()
     x0, y0 = win32gui.GetCursorPos()
+<<<<<<< HEAD
+
+    while condition == 'on':
+        x1, y1  = win32gui.GetCursorPos()
+        dist    = dist + (((x1 - x0)** 2) + ((y1 - y0)** 2)) ** (1/2)
+        x0, y0  = x1, y1
+=======
 
     while condition == 'on':
         x1, y1  = win32gui.GetCursorPos()
@@ -50,9 +57,20 @@ def player_average_speed():
     end        = time.time()
     time_diff  = end - start
     speed      = dist / time_diff
+    print("Average speed is " ,speed, dist)
+    return speed
+>>>>>>> 8942689a4ad1715120f744e4fe16cb1bbf6053fc
+
+    end        = time.time()
+    time_diff  = end - start
+    speed      = dist / time_diff
     print("Average speed is ", speed)
     return speed
 
+def on():
+    global condition
+    condition = "on"
+    player_average_speed()
 
 def on():
     global condition
