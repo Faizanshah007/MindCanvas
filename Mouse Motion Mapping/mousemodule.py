@@ -50,7 +50,7 @@ def player_average_speed():
     end        = time.time()
     time_diff  = end - start
     speed      = dist / time_diff
-    print("Average speed is " ,speed, dist)
+    print("Average speed is ", speed)
     return speed
 
 
