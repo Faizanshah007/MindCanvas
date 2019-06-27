@@ -4,7 +4,7 @@ from comtypes import CLSCTX_ALL
 from shutil import copyfile
 import threading, subprocess
 import sys, os
-import loading
+import loading ##INSPECTING
 import pickle
 import time
 
@@ -20,29 +20,24 @@ import freq_alpha
 import Scoring_Algo
 import mousemodule
 
-##INSPECTING
+
 # Set Mouse DPI
 dpi_speed = 8 ##
 check_speed = mousemodule.dpi(dpi_speed)
 
-
+##INSPECTING
 # Close loading window
-
 time.sleep(5)
 loading.root.destroy()
 
 
 # Initializing window
-
-os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % loading.get_coord(window_width, window_height)
-
+os.environ['SDL_VIDEO_CENTERED'] = '1' # Centering the pygame window
 pygame.init()
 pygame.display.set_caption("Anaglink")
 Canvas = pygame.display.set_mode((window_width, window_height), pygame.NOFRAME)
 pygame.event.set_grab(True)
-
 Data.foregroundWindow("Anaglink")
-
 subsurface = Canvas.subsurface((0, 0, window_width, (1 / 5) * window_height))
 
 
