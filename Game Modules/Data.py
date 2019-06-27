@@ -8,7 +8,6 @@ import time
 
 # For Window Manipulations & Keystroke Generation
 import win32gui, win32com.client
-import pyautogui
 import pickle
 
 
