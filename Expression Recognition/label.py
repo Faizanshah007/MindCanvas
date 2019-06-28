@@ -15,7 +15,14 @@ resize = 4 # For resizing the image
 # We load the xml file
 classifier = cv2.CascadeClassifier('haarcascade_frontalface_alt.xml')
 
-webcam = cv2.VideoCapture(0) # Using default WebCam connected to the PC.
+while True:
+    webcam = cv2.VideoCapture(0) # Using default WebCam connected to the PC.
+
+    if(webcam.isOpened()):
+        break
+
+    webcam.release()
+
 atexit.register(webcam.release) # Release webcam before exit
 
 #Capturing a smaller image for speed purposes
@@ -27,10 +34,14 @@ while True:
     # Check for termination condition
     try:
         Cond_f = open(".\\..\\switch","rb")
+
         if(pickle.load(Cond_f) == "off"):
             Cond_f.close()
             os.unlink(".\\..\\switch")
             break
+
+        Cond_f.close()
+
     except:
         pass
 
@@ -38,11 +49,11 @@ while True:
     exprfile.truncate()
     exprfile.close()
 
-    (rval, im) = webcam.read()
-    im=cv2.flip(im,1,0) #Flip to act as a mirror
+    im = webcam.read()[1] # Image data captured by webcam
+    im = cv2.flip(im, 1, 0) # Flip to act as a mirror
 
     # Resize the image to speed up detection
-    mini = cv2.resize(im, (int(im.shape[1]/resize), int(im.shape[0]/resize)))
+    mini = cv2.resize(im, (int(im.shape[1] / resize), int(im.shape[0] / resize)))
 
     # Detect MultiScale / faces
     faces = classifier.detectMultiScale(mini)
@@ -53,8 +64,8 @@ while True:
     # Draw rectangles around each face
     for f in faces:
         (x, y, w, h) = [v * resize for v in f] #Scale the shapesize backup
-        cv2.rectangle(im, (x,y), (x+w,y+h), (0,255,0), 4)
-        sub_face = im[y:y+h, x:x+w] #Save just the rectangle faces in SubRecFaces
+        cv2.rectangle(im, (x, y), (x + w, y + h), (0, 255, 0), 4)
+        sub_face = im[y : y + h, x : x + w] #Save just the rectangle faces in SubRecFaces
         FaceFileName = "test.jpg" #Saving the current image from the webcam for testing.
         cv2.imwrite(FaceFileName, sub_face)
         text = label_image.run() # Getting the Result from the label_image file, i.e., Classification Result.
