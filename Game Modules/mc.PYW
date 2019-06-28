@@ -3,10 +3,11 @@ from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from shutil import copyfile
 import threading, subprocess
-import sys, os
-import loading ##INSPECTING
+import loading
 import pickle
 import time
+import cv2
+import os
 
 from Data import *
 import Data
@@ -25,11 +26,20 @@ import mousemodule
 dpi_speed = 8 ##
 check_speed = mousemodule.dpi(dpi_speed)
 
-##INSPECTING
-# Close loading window
-time.sleep(5)
-loading.root.destroy()
+# Let the Expression Module obtain webcam control.
+while True:
+    loading.root.update()
+    cap = cv2.VideoCapture(0)
 
+    if(not cap.isOpened()):
+        cap.release()
+        break
+
+    cap.release()
+
+time.sleep(1)
+
+loading.root.destroy() # Close the loading window.
 
 # Initializing window
 os.environ['SDL_VIDEO_CENTERED'] = '1' # Centering the pygame window
@@ -39,14 +49,12 @@ Canvas = pygame.display.set_mode((window_width, window_height), pygame.NOFRAME)
 pygame.event.set_grab(True)
 Data.foregroundWindow("Anaglink")
 subsurface = Canvas.subsurface((0, 0, window_width, (1 / 5) * window_height))
-
-
+##INSPECTING
 # Ensure volume is atleast 72%
 # https://github.com/AndreMiras/pycaw
 
 devices = AudioUtilities.GetSpeakers()
-interface = devices.Activate(
-    IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
 volume = cast(interface, POINTER(IAudioEndpointVolume))
 
 def chkvolume():
