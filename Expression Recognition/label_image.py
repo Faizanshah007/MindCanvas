@@ -147,18 +147,20 @@ def run():
 
   # Using pickle to dump the data for the game module to pick
   out = open(os.path.abspath('.\\..\\expression_output'),"wb")
+
   if(results[top] > 0.75):
     pickle.dump((labels[top],results[top]), out)
     return(labels[top])
+
   else:
     pickle.dump(("-",0), out)
     return("-")
+
   out.close()
   ##return (labels[top_k[0]])
 
 
 def end():
-
   global sess
   sess.close()
   print("Goodbye")
