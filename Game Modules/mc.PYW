@@ -49,7 +49,11 @@ Canvas = pygame.display.set_mode((window_width, window_height), pygame.NOFRAME)
 pygame.event.set_grab(True)
 Data.foregroundWindow("Anaglink")
 subsurface = Canvas.subsurface((0, 0, window_width, (1 / 5) * window_height))
+<<<<<<< HEAD
 ##INSPECTING
+=======
+
+>>>>>>> 23bf9364afb15f5e86cc7f7edfeda2a7408f4c01
 # Ensure volume is atleast 72%
 # https://github.com/AndreMiras/pycaw
 
@@ -64,7 +68,7 @@ def chkvolume():
     if(volume.GetMasterVolumeLevel() < -5):
         volume.SetMasterVolumeLevel(-5.0, None) #72%
 
-
+##INSPECTING
 # Setting sprites
 
 pygame.mixer.music.load(os.path.join(root_dir, "main.wav"))
