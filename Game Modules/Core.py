@@ -1,14 +1,19 @@
 # "#~" - Variable's value not to be changed
 from rprint import print
 import anagram_generator
-import pygame
 
 import sys, os
+import pygame
+import pickle
 import time
 
-# For Window Manipulations & Keystroke Generation
+# For Window Manipulations
 import win32gui, win32com.client
-import pickle
+
+# For manipulating window's master volume
+import pycaw.pycaw
+import ctypes
+import comtypes
 
 
 # Facial Expresssion Data & Function ##INSPECTING
@@ -107,10 +112,27 @@ def waitforkey():
                 return
 
 
+# Ensure volume is atleast 72%
+# https://github.com/AndreMiras/pycaw
+
+devices = pycaw.pycaw.AudioUtilities.GetSpeakers()
+interface = devices.Activate(pycaw.pycaw.IAudioEndpointVolume._iid_, comtypes.CLSCTX_ALL, None)
+volume = ctypes.cast(interface, ctypes.POINTER(pycaw.pycaw.IAudioEndpointVolume))
+
+def chkvolume():
+    volume.SetMute(0,None)
+
+    if(volume.GetMasterVolumeLevel() < -5):
+        volume.SetMasterVolumeLevel(-5.0, None) # Set volume at 72%
+
+initial_volume = volume.GetMasterVolumeLevel() # Store initial volume
+
+
 # Terminate
 
 def terminate():
     pygame.quit()
+    volume.SetMasterVolumeLevel(initial_volume, None)
     out = open(os.path.abspath('.\\..\\switch'),"wb")
     pickle.dump("off",out)
     sys.exit()

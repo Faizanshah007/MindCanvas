@@ -1,5 +1,5 @@
-from Data import *
-import Data
+from Core import *
+import Core
 
 
 # Button Dimensions
@@ -11,37 +11,37 @@ clicksound = pygame.mixer.Sound(os.path.join(root_dir, "click.wav"))
 
 
 def clicked():
-    for self in Data.buttonlist:
+    for self in Core.buttonlist:
 
         if(Button.pointing == self):
             pygame.mixer.Channel(0).play(clicksound)
 
             if( not self.active ):
                 self.active = True
-                Data.lnkdlist.add(self)
+                Core.lnkdlist.add(self)
 
             else:
                 self.active = False
-                Data.lnkdlist.remove(self)
+                Core.lnkdlist.remove(self)
                 played = False
 
-            Data.right_clicks += 1
+            Core.right_clicks += 1
 
 
 def check_lnk():
     lst = list()
 
-    for obj in Data.lnkdlist:
+    for obj in Core.lnkdlist:
         lst.append(obj.value)
 
     for l in lst:
-        if([l] in Data.ignorelist and len(lst)>1):
+        if([l] in Core.ignorelist and len(lst)>1):
             return False
 
-    for anaglink in Data.ans:
+    for anaglink in Core.ans:
 
         if(set(anaglink) == set(lst)):
-            Data.ans.remove(anaglink)
+            Core.ans.remove(anaglink)
             return True
 
         elif(lst != [] and lst[0] in anaglink):

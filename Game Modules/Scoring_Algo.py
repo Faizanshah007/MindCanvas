@@ -1,5 +1,5 @@
 import math
-import Data
+import Core
 
 
 #  Scoring Scheme :
@@ -17,5 +17,5 @@ def update_score(score, val, stat):
     # In this case val = Time remaining
     elif( stat == 'Won' ):
         increment = math.floor(val * 0.5)
-        Data.TimeBonus = increment
+        Core.TimeBonus = increment
         return(score + increment)

@@ -1,6 +1,3 @@
-from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
-from ctypes import cast, POINTER
-from comtypes import CLSCTX_ALL
 from shutil import copyfile
 import threading, subprocess
 import loading
@@ -9,8 +6,8 @@ import time
 import cv2
 import os
 
-from Data import *
-import Data
+from Core import *
+import Core
 
 # Starting Expression Recognition Module
 subprocess.Popen("python label.py", shell = True, cwd = os.path.abspath('.\\..\\Expression Recognition'))
@@ -47,23 +44,12 @@ pygame.init()
 pygame.display.set_caption("Anaglink")
 Canvas = pygame.display.set_mode((window_width, window_height), pygame.NOFRAME)
 pygame.event.set_grab(True)
-Data.foregroundWindow("Anaglink")
+Core.foregroundWindow("Anaglink")
 subsurface = Canvas.subsurface((0, 0, window_width, (1 / 5) * window_height))
+
+
 ##INSPECTING
-# Ensure volume is atleast 72%
-# https://github.com/AndreMiras/pycaw
-
-devices = AudioUtilities.GetSpeakers()
-interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-volume = cast(interface, POINTER(IAudioEndpointVolume))
-
-def chkvolume():
-    volume.SetMute(0,None)
-
-    if(volume.GetMasterVolumeLevel() < -5):
-        volume.SetMasterVolumeLevel(-5.0, None) #72%
-
-# Setting sprites
+# Setting up the media
 
 pygame.mixer.music.load(os.path.join(root_dir, "main.wav"))
 
@@ -98,7 +84,7 @@ def plotter(lst):
 
     for i in range(5):
         for j in range(5):
-            Data.buttonlist.add( Button( Canvas, int(window_width * (1 / 20 + j / 5)), int(window_height * (1 / 4 + i * 1 / 7)), lst[j + 5 * i]) )
+            Core.buttonlist.add( Button( Canvas, int(window_width * (1 / 20 + j / 5)), int(window_height * (1 / 4 + i * 1 / 7)), lst[j + 5 * i]) )
 
 
 # Timer
@@ -110,11 +96,11 @@ def update_timer():
 
     global clock
 
-    Data.timer = time.time() - clock
+    Core.timer = time.time() - clock
 
     pygame.draw.rect(subsurface, cyan, (int(window_width * (1 / 20)), int(window_height * (15 / 100)), int(window_width * (0.9)), int(window_width * (1 / 50))), 2)
 
-    return(pygame.draw.rect(subsurface, red, (int(window_width * (1 / 20)), int(window_height * (15 / 100)), int(window_width * (0.9) - (Data.timer * timerRatio * window_width)), int(window_width * (1 / 50))), 0))
+    return(pygame.draw.rect(subsurface, red, (int(window_width * (1 / 20)), int(window_height * (15 / 100)), int(window_width * (0.9) - (Core.timer * timerRatio * window_width)), int(window_width * (1 / 50))), 0))
 
 
 Canvas.fill(white)
@@ -132,7 +118,7 @@ clock = time.time()
 
 plotter(anagschosen)
 
-Data.lnkdlist.empty()
+Core.lnkdlist.empty()
 
 pygame.mixer.music.play(-1, 0.0)
 
@@ -145,7 +131,7 @@ def instructions(x):
             pass
 
         if( x == 2 ):
-            selected_alpha = freq_alpha.anag_freq_alpha_selector(Data.ans, Data.ignorelist)
+            selected_alpha = freq_alpha.anag_freq_alpha_selector(Core.ans, Core.ignorelist)
             copyfile("media/instruction2/" + selected_alpha + ".wav", "media/instruction2.wav")
 
         instruction = pygame.mixer.Sound(os.path.join(root_dir, "instruction" + str(x) +".wav"))
@@ -172,10 +158,10 @@ def gameTask1(x):
 def gameTask2(x):
 
     if(x):
-        freq_alpha.run(Data.ans)
+        freq_alpha.run(Core.ans)
 
     else:
-        for link in Data.ans:
+        for link in Core.ans:
             if(link[-1] == -1):
                 link.remove(-1)
         os.remove("media/instruction2.wav")
@@ -194,9 +180,9 @@ def Task_Handler(x):
         Next_Task_Activation_time = (2/3) * totalTime
         instruction = None
         pygame.mixer.music.set_volume(1.0)
-        expr_t1 = threading.Timer(3, Data.net_expr)
-        expr_t2 = threading.Timer(6, Data.net_expr)
-        expr_t3 = threading.Timer(9, Data.net_expr)
+        expr_t1 = threading.Timer(3, Core.net_expr)
+        expr_t2 = threading.Timer(6, Core.net_expr)
+        expr_t3 = threading.Timer(9, Core.net_expr)
         expr_t1.start()
         expr_t2.start()
         expr_t3.start()
@@ -204,16 +190,16 @@ def Task_Handler(x):
         t = threading.Thread(target=mousemodule.on)##
         t.start()
 
-        Data.click_count  = 0
-        Data.right_clicks = 0
-        Data.wrong_clicks = 0
+        Core.click_count  = 0
+        Core.right_clicks = 0
+        Core.wrong_clicks = 0
 
     else:
         tend = threading.Thread(target=mousemodule.off)
         tend.start()
         Task_Deactivation_time = None
         clock = holdClock
-        print("Clicks-",Data.click_count,Data.right_clicks,Data.wrong_clicks)
+        print("Clicks-",Core.click_count,Core.right_clicks,Core.wrong_clicks)
 
     if(task_no == 1):
         gameTask1(x)
@@ -235,17 +221,17 @@ Task_Deactivation_time = None
 
 while True:
 
-    # Extracting Expression Data
+    # Extracting Expression Core
 
     inn = open("D:\\faiza\Documents\\GitHub\\Mind Canvas\\expression_output","rb")
     try:
         expr = pickle.load(inn)
         if(expr!=''):
-            Data.cur_expr = expr
-            Data.expr_list.append(expr)
+            Core.cur_expr = expr
+            Core.expr_list.append(expr)
             if( Task_Deactivation_time != None):
-                Data.temp_expr_list.append(expr)
-            #print(Data.cur_expr)
+                Core.temp_expr_list.append(expr)
+            #print(Core.cur_expr)
     except:
         pass
     inn.close()
@@ -256,10 +242,10 @@ while True:
 
     # Volume Check
 
-    chkvolume()
+    Core.chkvolume()
 
     # Giving Instructions & Activating Task
-    if(int(Data.timer) == Next_Task_Activation_time and not instruction):
+    if(int(Core.timer) == Next_Task_Activation_time and not instruction):
         pygame.mixer.music.set_volume(0.05)
         task_no += 1
         (instruction, waitTime) = instructions(task_no)
@@ -278,25 +264,25 @@ while True:
     Canvas.fill(bgcolor)
 
     drawtext("ANAGLINK", txtfont1, subsurface, (0.4) * window_width, window_height / 25, purple)
-    drawtext("Score : " + str(Data.Score), txtfont2, subsurface, (0.8) * window_width, window_height / 25, yellow)
+    drawtext("Score : " + str(Core.Score), txtfont2, subsurface, (0.8) * window_width, window_height / 25, yellow)
 
     a = update_timer().width
 
     if(a == 1):
-        Data.stat = 'Lost'
+        Core.stat = 'Lost'
         break
 
-    if(a == 100 and Data.stat == 'None'):
+    if(a == 100 and Core.stat == 'None'):
         fewsecsound.play(-1)
 
     if(ans == []):
-        Data.stat = 'Won'
+        Core.stat = 'Won'
         break
 
 
     Button.pointing = None
 
-    Data.buttonlist.update()
+    Core.buttonlist.update()
 
     Check_playhover()
 
@@ -312,44 +298,44 @@ while True:
             terminate()
 
         if(event.type == pygame.MOUSEBUTTONUP):
-            Data.click_count += 1
+            Core.click_count += 1
             clicked()
 
     if(check_lnk()):
 
         pygame.mixer.Channel(0).play(linkedmusic)
 
-        Data.Score = Scoring_Algo.update_score(Data.Score, len(Data.lnkdlist), Data.stat)
-        Data.buttonlist.remove(Data.lnkdlist)
-        Data.lnkdlist.empty()
+        Core.Score = Scoring_Algo.update_score(Core.Score, len(Core.lnkdlist), Core.stat)
+        Core.buttonlist.remove(Core.lnkdlist)
+        Core.lnkdlist.empty()
 
     elif(check_lnk() == False):
 
-        Data.wrong_clicks += 1
+        Core.wrong_clicks += 1
 
         pygame.mixer.Channel(0).play(incorrectmusic)
 
-        for l in Data.lnkdlist:
+        for l in Core.lnkdlist:
             l.active = False
             l.wrong = True
-            Data.lnkdlist.empty()
+            Core.lnkdlist.empty()
 
-    #print(Data.click_count, Data.right_clicks, Data.wrong_clicks)##
+    #print(Core.click_count, Core.right_clicks, Core.wrong_clicks)##
     pygame.display.flip()
 
 pygame.mixer.music.stop()
 
 fewsecsound.stop()
 
-if( Data.stat == 'Lost' ):
+if( Core.stat == 'Lost' ):
 
     loosemusic.play()
     Canvas.blit(lostimage, lostimagerect)
 
-if( Data.stat == 'Won' ):
+if( Core.stat == 'Won' ):
 
     winmusic.play()
-    Data.Score = Scoring_Algo.update_score(Data.Score, totalTime - Data.timer, Data.stat)
+    Core.Score = Scoring_Algo.update_score(Core.Score, totalTime - Core.timer, Core.stat)
     Canvas.blit(wonimage, wonimagerect)
 
 pygame.display.flip()
@@ -367,6 +353,6 @@ check_speed(10)
 import LeaderBoard as lb
 
 leaderboard = lb.NewLeaderBoard("leaderboard")
-leaderboard.sendData(Data.stat, Data.Score, Data.TimeBonus)
+leaderboard.sendData(Core.stat, Core.Score, Core.TimeBonus)
 
-Data.terminate()
+Core.terminate()
