@@ -1,5 +1,7 @@
-from Data import *
+from Core import *
 from math import *
+import Core
+
 
 f = open('Summary.html','w')
 
@@ -61,12 +63,12 @@ html5 = """
 <p style="font-size:20px">
 <b>Your current status :
 """
-html5 = html5 + stat + """. <br></b> \n</p> \n\n """
+html5 = html5 + Core.stat + """. <br></b> \n</p> \n\n """
 
-if( stat == "Won" ):
+if( Core.stat == "Won" ):
     html5 = html5 + """
 <p style="font-size:15px">
-You scored : """ + str(Score) + """,  Which includes a time bonus : """ + str(floor((60 - timer) * 0.5)) + """ \n.</p> """
+You scored : """ + str(Core.Score) + """,  Which includes a time bonus : """ + str(floor((60 - Core.timer) * 0.5)) + """ \n.</p> """
 
 html5 = html5 + """
 
