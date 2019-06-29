@@ -42,40 +42,40 @@ loading.root.destroy() # Close the loading window.
 os.environ['SDL_VIDEO_CENTERED'] = '1' # Centering the pygame window
 pygame.init()
 pygame.display.set_caption("Anaglink")
-Canvas = pygame.display.set_mode((window_width, window_height), pygame.NOFRAME)
+Canvas = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.NOFRAME)
 pygame.event.set_grab(True)
 Core.foregroundWindow("Anaglink")
-subsurface = Canvas.subsurface((0, 0, window_width, (1 / 5) * window_height))
+subsurface = Canvas.subsurface((0, 0, WINDOW_WIDTH, (1 / 5) * WINDOW_HEIGHT))
 
 
 ##INSPECTING
 # Setting up the media
 
-pygame.mixer.music.load(os.path.join(root_dir, "main.wav"))
+pygame.mixer.music.load(os.path.join(ROOT_DIR, "main.wav"))
 
-loosemusic = pygame.mixer.Sound(os.path.join(root_dir, "game_over.wav"))
-winmusic = pygame.mixer.Sound(os.path.join(root_dir, "winner.wav"))
-linkedmusic = pygame.mixer.Sound(os.path.join(root_dir, "anaglinked.wav"))
-incorrectmusic = pygame.mixer.Sound(os.path.join(root_dir, "incorrect.wav"))
-fewsecsound = pygame.mixer.Sound(os.path.join(root_dir, "fewsecleft.wav"))
+loosemusic = pygame.mixer.Sound(os.path.join(ROOT_DIR, "game_over.wav"))
+winmusic = pygame.mixer.Sound(os.path.join(ROOT_DIR, "winner.wav"))
+linkedmusic = pygame.mixer.Sound(os.path.join(ROOT_DIR, "anaglinked.wav"))
+incorrectmusic = pygame.mixer.Sound(os.path.join(ROOT_DIR, "incorrect.wav"))
+fewsecsound = pygame.mixer.Sound(os.path.join(ROOT_DIR, "fewsecleft.wav"))
 
-startimage = pygame.image.load(os.path.join(root_dir, "start.jpg"))
-startimage = pygame.transform.scale( startimage, ( window_width, window_height ) )
+startimage = pygame.image.load(os.path.join(ROOT_DIR, "start.jpg"))
+startimage = pygame.transform.scale( startimage, ( WINDOW_WIDTH, WINDOW_HEIGHT ) )
 startimagerect = startimage.get_rect()
-startimagerect.centerx = window_width / 2
-startimagerect.centery = window_height / 2
+startimagerect.centerx = WINDOW_WIDTH / 2
+startimagerect.centery = WINDOW_HEIGHT / 2
 
-lostimage = pygame.image.load(os.path.join(root_dir, "lost.jpg"))
-lostimage = pygame.transform.scale( lostimage, ( window_width, window_height ) )
+lostimage = pygame.image.load(os.path.join(ROOT_DIR, "lost.jpg"))
+lostimage = pygame.transform.scale( lostimage, ( WINDOW_WIDTH, WINDOW_HEIGHT ) )
 lostimagerect = startimage.get_rect()
-lostimagerect.centerx = window_width / 2
-lostimagerect.centery = window_height / 2
+lostimagerect.centerx = WINDOW_WIDTH / 2
+lostimagerect.centery = WINDOW_HEIGHT / 2
 
-wonimage = pygame.image.load(os.path.join(root_dir, "won.jpg"))
-wonimage = pygame.transform.scale( wonimage, ( window_width, window_height ) )
+wonimage = pygame.image.load(os.path.join(ROOT_DIR, "won.jpg"))
+wonimage = pygame.transform.scale( wonimage, ( WINDOW_WIDTH, WINDOW_HEIGHT ) )
 wonimagerect = startimage.get_rect()
-wonimagerect.centerx = window_width / 2
-wonimagerect.centery = window_height / 2
+wonimagerect.centerx = WINDOW_WIDTH / 2
+wonimagerect.centery = WINDOW_HEIGHT / 2
 
 
 # Button Plotting
@@ -84,7 +84,7 @@ def plotter(lst):
 
     for i in range(5):
         for j in range(5):
-            Core.buttonlist.add( Button( Canvas, int(window_width * (1 / 20 + j / 5)), int(window_height * (1 / 4 + i * 1 / 7)), lst[j + 5 * i]) )
+            Core.buttonlist.add( Button( Canvas, int(WINDOW_WIDTH * (1 / 20 + j / 5)), int(WINDOW_HEIGHT * (1 / 4 + i * 1 / 7)), lst[j + 5 * i]) )
 
 
 # Timer
@@ -98,12 +98,12 @@ def update_timer():
 
     Core.timer = time.time() - clock
 
-    pygame.draw.rect(subsurface, cyan, (int(window_width * (1 / 20)), int(window_height * (15 / 100)), int(window_width * (0.9)), int(window_width * (1 / 50))), 2)
+    pygame.draw.rect(subsurface, CYAN, (int(WINDOW_WIDTH * (1 / 20)), int(WINDOW_HEIGHT * (15 / 100)), int(WINDOW_WIDTH * (0.9)), int(WINDOW_WIDTH * (1 / 50))), 2)
 
-    return(pygame.draw.rect(subsurface, red, (int(window_width * (1 / 20)), int(window_height * (15 / 100)), int(window_width * (0.9) - (Core.timer * timerRatio * window_width)), int(window_width * (1 / 50))), 0))
+    return(pygame.draw.rect(subsurface, RED, (int(WINDOW_WIDTH * (1 / 20)), int(WINDOW_HEIGHT * (15 / 100)), int(WINDOW_WIDTH * (0.9) - (Core.timer * timerRatio * WINDOW_WIDTH)), int(WINDOW_WIDTH * (1 / 50))), 0))
 
 
-Canvas.fill(white)
+Canvas.fill(WHITE)
 Canvas.blit(startimage, startimagerect)
 
 pygame.display.flip()
@@ -116,7 +116,7 @@ waitforkey()
 
 clock = time.time()
 
-plotter(anagschosen)
+plotter(ANAGSCHOSEN)
 
 Core.lnkdlist.empty()
 
@@ -134,7 +134,7 @@ def instructions(x):
             selected_alpha = freq_alpha.anag_freq_alpha_selector(Core.ans, Core.ignorelist)
             copyfile("media/instruction2/" + selected_alpha + ".wav", "media/instruction2.wav")
 
-        instruction = pygame.mixer.Sound(os.path.join(root_dir, "instruction" + str(x) +".wav"))
+        instruction = pygame.mixer.Sound(os.path.join(ROOT_DIR, "instruction" + str(x) +".wav"))
 
         return (instruction, instruction.get_length())
 
@@ -145,11 +145,11 @@ def gameTask1(x):
     global clock, bgcolor, fewsecsound
 
     if(x):
-        ##bgcolor = orange
+        ##bgcolor = ORANGE
         clock = time.time() - ((0.9) / timerRatio) * 0.80
 
     else:
-        bgcolor = black
+        bgcolor = BLACK
         fewsecsound.stop()
 
 
@@ -263,8 +263,8 @@ while True:
 
     Canvas.fill(bgcolor)
 
-    drawtext("ANAGLINK", txtfont1, subsurface, (0.4) * window_width, window_height / 25, purple)
-    drawtext("Score : " + str(Core.Score), txtfont2, subsurface, (0.8) * window_width, window_height / 25, yellow)
+    drawtext("ANAGLINK", TXT_FONT_1, subsurface, (0.4) * WINDOW_WIDTH, WINDOW_HEIGHT / 25, PURPLE)
+    drawtext("Score : " + str(Core.Score), TXT_FONT_2, subsurface, (0.8) * WINDOW_WIDTH, WINDOW_HEIGHT / 25, YELLOW)
 
     a = update_timer().width
 

@@ -1,4 +1,3 @@
-# "#~" - Variable's value not to be changed
 from rprint import print
 import anagram_generator
 
@@ -62,39 +61,39 @@ lnkdlist = pygame.sprite.Group()
 buttonlist = pygame.sprite.Group()
 
 
-#~Path ##INSPECTING
-root_dir = os.path.join(os.path.dirname(sys.argv[0]), 'Media')
+# Path ##INSPECTING
+ROOT_DIR = os.path.join(os.path.dirname(sys.argv[0]), 'Media')
 sys.path.insert(0, os.path.abspath('.\\..\\Mouse Motion Mapping'))
 sys.path.insert(0, os.path.abspath('.\\..\\Expression Recognition'))
 
-#~Anagram Data
-anagpool     = anagram_generator.Pre_setup.get()
-anagschosen  = anagram_generator.produce()
+# Anagram Data
+ANAGPOOL     = anagram_generator.Pre_setup.get()
+ANAGSCHOSEN  = anagram_generator.produce()
 
 
-#~Window Dimension
-window_width  = 1000 # max - 1366
-window_height = int(window_width*0.5) # max - 768
+# Window Dimension
+WINDOW_WIDTH  = 1000 # max - 1366
+WINDOW_HEIGHT = int(WINDOW_WIDTH*0.5) # max - 768
 
 
-#~Fonts
-font_dir = os.path.join(os.path.dirname(sys.argv[0]), 'Fonts')
-txtfont1 = pygame.font.Font(os.path.join(font_dir, "Courier New", "COURBI.TTF"), int((1/13)*window_height))
-txtfont2 = pygame.font.Font(os.path.join(font_dir, "Copperplate Gothic", "COPRGTB.TTF"), int((1/25)*window_height))
+# Fonts
+FONT_DIR = os.path.join(os.path.dirname(sys.argv[0]), 'Fonts')
+TXT_FONT_1 = pygame.font.Font(os.path.join(FONT_DIR, "Courier New", "COURBI.TTF"), int((1/13)*WINDOW_HEIGHT))
+TXT_FONT_2 = pygame.font.Font(os.path.join(FONT_DIR, "Copperplate Gothic", "COPRGTB.TTF"), int((1/25)*WINDOW_HEIGHT))
 
 
-#~Colors
-white   = (255,255,255)
-cyan    = (0, 255, 255)
-blue    = (0,0,255)
-black   = (0,0,0)
-orange  = (255, 165, 0)
-green   = (0,255,0)
-red     = (255,0,0)
-yellow  = (255,255,0)
-purple  = (160,32,240)
+# Colors
+WHITE   = (255,255,255)
+CYAN    = (0, 255, 255)
+BLUE    = (0,0,255)
+BLACK   = (0,0,0)
+ORANGE  = (255, 165, 0)
+GREEN   = (0,255,0)
+RED     = (255,0,0)
+YELLOW  = (255,255,0)
+PURPLE  = (160,32,240)
 
-bgcolor = black
+bgcolor = BLACK # Background color of the canvas
 
 
 # Wait function
@@ -140,7 +139,7 @@ def terminate():
 
 # Render Text
 
-def drawtext(text,font,surface,x,y,colour = black):
+def drawtext(text,font,surface,x,y,colour = BLACK):
     textobj          = font.render(text,1,colour)
     textrect         = textobj.get_rect()
     textrect.topleft = (x,y)
@@ -155,9 +154,9 @@ def ansGen():
     ans      = list()
     wrdTemp  = list()
     linkTemp = list()
-    for tup in anagpool:
+    for tup in ANAGPOOL:
         wrdTemp.clear()
-        for wrd in anagschosen:
+        for wrd in ANAGSCHOSEN:
             if(wrd in tup):
                 wrdTemp.append(wrd)
         linkTemp = wrdTemp[:]
@@ -171,7 +170,7 @@ def ansGen():
     return(ans)
 
 ans       = ansGen() #Contains all the anaglinks
-ans_copy  = ans[:] #~
+ANS_COPY  = ans[:]
 
 
 # Result

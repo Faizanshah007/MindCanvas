@@ -38,7 +38,7 @@ html2 = str()
 for i in range(5):
     html2 = html2 + """<tr>"""
     for j in range(5):
-        html2 = html2 + """<td height = "30"><a href = "https://en.wiktionary.org/wiki/""" + str(anagschosen[(i * 5 + j)]) + """" target="_blank"">""" + str(anagschosen[(i * 5 + j)]) + """</a></td>"""
+        html2 = html2 + """<td height = "30"><a href = "https://en.wiktionary.org/wiki/""" + str(ANAGSCHOSEN[(i * 5 + j)]) + """" target="_blank"">""" + str(ANAGSCHOSEN[(i * 5 + j)]) + """</a></td>"""
     html2 = html2 + """</tr>"""
 
 html3 = """
@@ -52,7 +52,7 @@ html3 = """
 """
 
 html4 = str()
-for lnk in ans_copy:
+for lnk in ANS_COPY:
     for anag in lnk:
         html4 = html4 + """ - """ + anag
     html4 = html4 + """ <br><br>\n """

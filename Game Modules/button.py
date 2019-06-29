@@ -6,8 +6,8 @@ import Core
 bwidth  = 136
 bheight = int(bwidth * 19 / 68)
 
-hoversound = pygame.mixer.Sound(os.path.join(root_dir, "hover.wav"))
-clicksound = pygame.mixer.Sound(os.path.join(root_dir, "click.wav"))
+hoversound = pygame.mixer.Sound(os.path.join(ROOT_DIR, "hover.wav"))
+clicksound = pygame.mixer.Sound(os.path.join(ROOT_DIR, "click.wav"))
 
 
 def clicked():
@@ -85,7 +85,7 @@ class Button(pygame.sprite.Sprite):
     def update(self):
 
         if( self.wrong == True ):
-            pygame.draw.rect( Button.surface, red, self.rect, 0)
+            pygame.draw.rect( Button.surface, RED, self.rect, 0)
             self.wait = self.wait + 1
 
             if(self.wait == 100):
@@ -93,15 +93,15 @@ class Button(pygame.sprite.Sprite):
                 self.wait = 0
 
         else:
-            pygame.draw.rect( Button.surface, cyan, self.rect, 2)
+            pygame.draw.rect( Button.surface, CYAN, self.rect, 2)
 
         self.checkmouseloc(pygame.mouse.get_pos())
 
         if( self.active == True ):
-            pygame.draw.rect( Button.surface, orange, self.rect, 0)
-            pygame.draw.rect( Button.surface, orange, self.rect, 5)
+            pygame.draw.rect( Button.surface, ORANGE, self.rect, 0)
+            pygame.draw.rect( Button.surface, ORANGE, self.rect, 5)
 
-        drawtext( self.value, txtfont2, Button.surface, int(self.rect.left + window_width*1/200), self.rect.top, green )
+        drawtext( self.value, TXT_FONT_2, Button.surface, int(self.rect.left + WINDOW_WIDTH*1/200), self.rect.top, GREEN )
 
 
 def Check_playhover():
@@ -114,4 +114,4 @@ def Check_playhover():
         Button.sound = False
 
     if(Button.pointing != None):
-        pygame.draw.rect( Button.surface, cyan, Button.pointing.rect, 5)
+        pygame.draw.rect( Button.surface, CYAN, Button.pointing.rect, 5)
