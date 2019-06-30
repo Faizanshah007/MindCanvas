@@ -13,8 +13,7 @@ import Core
 
 COLORS = GetColors()  # Gathering color data from core
 
-# Starting Expression Recognition Module
-subprocess.Popen("python label.py", shell = True, cwd = os.path.abspath('.\\..\\Expression Recognition'))
+subprocess.Popen("python label.py", shell = True, cwd = os.path.abspath('.\\..\\Expression Recognition'))  # Starting Expression Recognition Module
 
 
 # Loading Game
@@ -86,12 +85,10 @@ wonimagerect = startimage.get_rect()
 wonimagerect.centerx = WINDOW_WIDTH / 2
 wonimagerect.centery = WINDOW_HEIGHT / 2
 
-
 ##INSPECTING
 # Button Plotting
 
 def plotter(lst):
-
     for i in range(5):
         for j in range(5):
             Core.buttonlist.add( Button( Canvas, int(WINDOW_WIDTH * (1 / 20 + j / 5)), int(WINDOW_HEIGHT * (1 / 4 + i * 1 / 7)), lst[j + 5 * i]) )
@@ -362,7 +359,7 @@ check_speed(10)
 
 import LeaderBoard as lb
 
-leaderboard = lb.NewLeaderBoard("leaderboard")
+leaderboard = lb.NewLeaderBoard("Leaderboard")
 leaderboard.sendData(Core.stat, Core.Score, Core.TimeBonus)
 
 Core.terminate()
