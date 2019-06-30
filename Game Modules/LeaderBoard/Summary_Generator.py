@@ -1,5 +1,7 @@
-from Core import *
+from Core import ANAGSCHOSEN, ANS_COPY
 from math import *
+import webbrowser
+import sys, os
 import Core
 
 
@@ -83,8 +85,6 @@ f.close()
 
 
 # Executing HTML file in browser
-
-import webbrowser
 
 def runweb():
     webbrowser.open_new(os.path.join(os.path.dirname(sys.argv[0]), "Summary.html"))

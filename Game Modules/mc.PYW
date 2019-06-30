@@ -6,8 +6,10 @@ import time
 import cv2
 import os
 
-from Core import *
+from Core import pygame, GetColors, ANAGSCHOSEN, WINDOW_WIDTH, WINDOW_HEIGHT, ROOT_DIR, TXT_FONT_1, TXT_FONT_2
 import Core
+
+COLORS = GetColors() # Gathering color data from core
 
 # Starting Expression Recognition Module
 subprocess.Popen("python label.py", shell = True, cwd = os.path.abspath('.\\..\\Expression Recognition'))
@@ -40,7 +42,6 @@ loading.root.destroy() # Close the loading window.
 
 # Initializing window
 os.environ['SDL_VIDEO_CENTERED'] = '1' # Centering the pygame window
-pygame.init()
 pygame.display.set_caption("Anaglink")
 Canvas = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.NOFRAME)
 pygame.event.set_grab(True)
@@ -98,12 +99,12 @@ def update_timer():
 
     Core.timer = time.time() - clock
 
-    pygame.draw.rect(subsurface, CYAN, (int(WINDOW_WIDTH * (1 / 20)), int(WINDOW_HEIGHT * (15 / 100)), int(WINDOW_WIDTH * (0.9)), int(WINDOW_WIDTH * (1 / 50))), 2)
+    pygame.draw.rect(subsurface, COLORS['CYAN'], (int(WINDOW_WIDTH * (1 / 20)), int(WINDOW_HEIGHT * (15 / 100)), int(WINDOW_WIDTH * (0.9)), int(WINDOW_WIDTH * (1 / 50))), 2)
 
-    return(pygame.draw.rect(subsurface, RED, (int(WINDOW_WIDTH * (1 / 20)), int(WINDOW_HEIGHT * (15 / 100)), int(WINDOW_WIDTH * (0.9) - (Core.timer * timerRatio * WINDOW_WIDTH)), int(WINDOW_WIDTH * (1 / 50))), 0))
+    return(pygame.draw.rect(subsurface, COLORS['RED'], (int(WINDOW_WIDTH * (1 / 20)), int(WINDOW_HEIGHT * (15 / 100)), int(WINDOW_WIDTH * (0.9) - (Core.timer * timerRatio * WINDOW_WIDTH)), int(WINDOW_WIDTH * (1 / 50))), 0))
 
 
-Canvas.fill(WHITE)
+Canvas.fill(COLORS['WHITE'])
 Canvas.blit(startimage, startimagerect)
 
 pygame.display.flip()
@@ -112,7 +113,7 @@ if(pygame.event.poll() != pygame.NOEVENT):
 
     pygame.event.clear()
 
-waitforkey()
+Core.waitforkey()
 
 clock = time.time()
 
@@ -142,14 +143,14 @@ def instructions(x):
 
 def gameTask1(x):
 
-    global clock, bgcolor, fewsecsound
+    global clock, fewsecsound
 
     if(x):
-        ##bgcolor = ORANGE
+        #Core.bgcolor = COLORS['ORANGE']
         clock = time.time() - ((0.9) / timerRatio) * 0.80
 
     else:
-        bgcolor = BLACK
+        Core.bgcolor = COLORS['BLACK']
         fewsecsound.stop()
 
 
@@ -261,10 +262,10 @@ while True:
     if(Task_Deactivation_time and time.time() >= Task_Deactivation_time):
         Task_Handler(False)
 
-    Canvas.fill(bgcolor)
+    Canvas.fill(Core.bgcolor)
 
-    drawtext("ANAGLINK", TXT_FONT_1, subsurface, (0.4) * WINDOW_WIDTH, WINDOW_HEIGHT / 25, PURPLE)
-    drawtext("Score : " + str(Core.Score), TXT_FONT_2, subsurface, (0.8) * WINDOW_WIDTH, WINDOW_HEIGHT / 25, YELLOW)
+    Core.drawtext("ANAGLINK", TXT_FONT_1, subsurface, (0.4) * WINDOW_WIDTH, WINDOW_HEIGHT / 25, COLORS['PURPLE'])
+    Core.drawtext("Score : " + str(Core.Score), TXT_FONT_2, subsurface, (0.8) * WINDOW_WIDTH, WINDOW_HEIGHT / 25, COLORS['YELLOW'])
 
     a = update_timer().width
 
@@ -275,7 +276,7 @@ while True:
     if(a == 100 and Core.stat == 'None'):
         fewsecsound.play(-1)
 
-    if(ans == []):
+    if(Core.ans == []):
         Core.stat = 'Won'
         break
 
@@ -292,10 +293,10 @@ while True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                terminate()
+                Core.terminate()
 
         if event.type == pygame.QUIT :
-            terminate()
+            Core.terminate()
 
         if(event.type == pygame.MOUSEBUTTONUP):
             Core.click_count += 1
@@ -340,7 +341,7 @@ if( Core.stat == 'Won' ):
 
 pygame.display.flip()
 
-waitforkey()
+Core.waitforkey()
 
 time.sleep(1)
 
