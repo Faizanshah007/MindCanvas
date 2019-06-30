@@ -31,27 +31,27 @@ def clicked():
 
 
 def check_lnk():
-    lst = list()
+    list_ = list()
 
     for obj in Core.lnkdlist:
-        lst.append(obj.value)
+        list_.append(obj.value)
 
-    for l in lst:
-        if([l] in Core.ignorelist and len(lst)>1):
+    for item in list_:
+        if([item] in Core.ignorelist and len(list_)>1):
             return False
 
     for anaglink in Core.ans:
 
-        if(set(anaglink) == set(lst)):
+        if(set(anaglink) == set(list_)):
             Core.ans.remove(anaglink)
             return True
 
-        elif(lst != [] and lst[0] in anaglink):
+        elif(list_ != [] and list_[0] in anaglink):
 
-            if(not set(lst) < set(anaglink)):
+            if(not set(list_) < set(anaglink)):
                 return False
 
-            elif(set(lst) == set(anaglink[:-1]) and anaglink[-1] == -1):  #Task 2 special condition (-1 is appended at the last of every invalid anaglink)
+            elif(set(list_) == set(anaglink[:-1]) and anaglink[-1] == -1):  #Task 2 special condition (-1 is appended at the last of every invalid anaglink)
                 return False
 
 

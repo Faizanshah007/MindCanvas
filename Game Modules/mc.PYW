@@ -18,7 +18,7 @@ subprocess.Popen("python label.py", shell = True, cwd = os.path.abspath('.\\..\\
 
 # Loading Game
 
-from button import *
+import button
 import freq_alpha
 import Scoring_Algo
 import mousemodule
@@ -88,10 +88,10 @@ wonimagerect.centery = WINDOW_HEIGHT / 2
 ##INSPECTING
 # Button Plotting
 
-def plotter(lst):
+def plotter(list_):
     for i in range(5):
         for j in range(5):
-            Core.buttonlist.add( Button( Canvas, int(WINDOW_WIDTH * (1 / 20 + j / 5)), int(WINDOW_HEIGHT * (1 / 4 + i * 1 / 7)), lst[j + 5 * i]) )
+            Core.buttonlist.add( button.Button( Canvas, int(WINDOW_WIDTH * (1 / 20 + j / 5)), int(WINDOW_HEIGHT * (1 / 4 + i * 1 / 7)), list_[j + 5 * i]) )
 
 
 # Timer
@@ -287,13 +287,13 @@ while True:
         break
 
 
-    Button.pointing = None
+    button.Button.pointing = None
 
     Core.buttonlist.update()
 
-    Check_playhover()
+    button.Check_playhover()
 
-    Button.inout.clear()
+    button.Button.inout.clear()
 
     for event in pygame.event.get():
 
@@ -306,9 +306,9 @@ while True:
 
         if(event.type == pygame.MOUSEBUTTONUP):
             Core.click_count += 1
-            clicked()
+            button.clicked()
 
-    if(check_lnk()):
+    if(button.check_lnk()):
 
         pygame.mixer.Channel(0).play(linkedmusic)
 
@@ -316,15 +316,15 @@ while True:
         Core.buttonlist.remove(Core.lnkdlist)
         Core.lnkdlist.empty()
 
-    elif(check_lnk() == False):
+    elif(button.check_lnk() == False):
 
         Core.wrong_clicks += 1
 
         pygame.mixer.Channel(0).play(incorrectmusic)
 
-        for l in Core.lnkdlist:
-            l.active = False
-            l.wrong = True
+        for item in Core.lnkdlist:
+            item.active = False
+            item.wrong = True
             Core.lnkdlist.empty()
 
     #print(Core.click_count, Core.right_clicks, Core.wrong_clicks)##
