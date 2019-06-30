@@ -4,9 +4,9 @@ import csv
 import os, sys
 
 
-loaded = 0 # Loading Status Variable
+loaded = 0  # Loading Status Variable
 
-anaglist = list() # List of all anagrams
+anaglist = list()  # List of all anagrams
 
 def prepare():
 

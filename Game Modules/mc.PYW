@@ -6,15 +6,19 @@ import time
 import cv2
 import os
 
+
 from Core import pygame, GetColors, ANAGSCHOSEN, WINDOW_WIDTH, WINDOW_HEIGHT, ROOT_DIR, TXT_FONT_1, TXT_FONT_2
 import Core
 
-COLORS = GetColors() # Gathering color data from core
+
+COLORS = GetColors()  # Gathering color data from core
 
 # Starting Expression Recognition Module
 subprocess.Popen("python label.py", shell = True, cwd = os.path.abspath('.\\..\\Expression Recognition'))
 
+
 # Loading Game
+
 from button import *
 import freq_alpha
 import Scoring_Algo
@@ -22,10 +26,13 @@ import mousemodule
 
 
 # Set Mouse DPI
+
 dpi_speed = 8
 check_speed = mousemodule.dpi(dpi_speed)
 
+
 # Let the Expression Module obtain webcam control.
+
 while True:
     loading.root.update()
     cap = cv2.VideoCapture(0)
@@ -38,10 +45,12 @@ while True:
 
 time.sleep(1)
 
-loading.root.destroy() # Close the loading window.
+loading.root.destroy()  # Close the loading window.
+
 
 # Initializing window
-os.environ['SDL_VIDEO_CENTERED'] = '1' # Centering the pygame window
+
+os.environ['SDL_VIDEO_CENTERED'] = '1'  # Centering the pygame window
 pygame.display.set_caption("Anaglink")
 Canvas = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.NOFRAME)
 pygame.event.set_grab(True)
@@ -49,7 +58,6 @@ Core.foregroundWindow("Anaglink")
 subsurface = Canvas.subsurface((0, 0, WINDOW_WIDTH, (1 / 5) * WINDOW_HEIGHT))
 
 
-##INSPECTING
 # Setting up the media
 
 pygame.mixer.music.load(os.path.join(ROOT_DIR, "main.wav"))
@@ -79,6 +87,7 @@ wonimagerect.centerx = WINDOW_WIDTH / 2
 wonimagerect.centery = WINDOW_HEIGHT / 2
 
 
+##INSPECTING
 # Button Plotting
 
 def plotter(lst):
@@ -177,7 +186,7 @@ def Task_Handler(x):
     global Task_Deactivation_time, Next_Task_Activation_time, totalTime, clock, task_no, instruction
 
     if(x):
-        Task_Deactivation_time = time.time() + 10 #6
+        Task_Deactivation_time = time.time() + 10  #6
         Next_Task_Activation_time = (2/3) * totalTime
         instruction = None
         pygame.mixer.music.set_volume(1.0)

@@ -15,7 +15,7 @@ import ctypes
 import comtypes
 
 
-# Facial Expresssion Data & Function ##INSPECTING
+# Facial Expresssion Data & Function  ##INSPECTING
 
 cur_expr = None
 expr_list = list()
@@ -29,7 +29,7 @@ def net_expr():
             temp_dict[expr_data[0]] += expr_data[1]
         else:
             temp_dict[expr_data[0]] = expr_data[1]
-    try: ##
+    try:  ##
         print(sorted(temp_dict.items(), reverse = True, key = lambda tup : tup[1])[0][0])
     except:
         pass
@@ -42,11 +42,11 @@ right_clicks = 0
 wrong_clicks = 0
 
 
-# Game Status ##INSPECTING
+# Game Status  ##INSPECTING
 stat = 'None'
 
 
-# Timer ##INSPECTING
+# Timer  ##INSPECTING
 timer = 0
 
 
@@ -54,14 +54,14 @@ timer = 0
 pygame.init()
 
 
-# List of Linked words ##INSPECTING
+# List of Linked words  ##INSPECTING
 lnkdlist = pygame.sprite.Group()
 
-# List of buttons ##INSPECTING
+# List of buttons  ##INSPECTING
 buttonlist = pygame.sprite.Group()
 
 
-# Path ##INSPECTING
+# Path  ##INSPECTING
 ROOT_DIR = os.path.join(os.path.dirname(sys.argv[0]), 'Media')
 sys.path.insert(0, os.path.abspath('.\\..\\Mouse Motion Mapping'))
 sys.path.insert(0, os.path.abspath('.\\..\\Expression Recognition'))
@@ -72,8 +72,8 @@ ANAGSCHOSEN  = anagram_generator.produce()
 
 
 # Window Dimension
-WINDOW_WIDTH  = 1000 # max - 1366
-WINDOW_HEIGHT = int(WINDOW_WIDTH*0.5) # max - 768
+WINDOW_WIDTH  = 1000  # max - 1366
+WINDOW_HEIGHT = int(WINDOW_WIDTH*0.5)  # max - 768
 
 
 # Fonts
@@ -95,7 +95,7 @@ _COLORS = {
 'PURPLE'  : (160,32,240)
 }
 
-bgcolor = _COLORS['BLACK'] # Background color of the canvas
+bgcolor = _COLORS['BLACK']  # Background color of the canvas
 
 def GetColors():
     return _COLORS.copy()
@@ -127,9 +127,9 @@ def chkvolume():
     volume.SetMute(0,None)
 
     if(volume.GetMasterVolumeLevel() < -5):
-        volume.SetMasterVolumeLevel(-5.0, None) # Set volume at 72%
+        volume.SetMasterVolumeLevel(-5.0, None)  # Set volume at 72%
 
-initial_volume = volume.GetMasterVolumeLevel() # Store initial volume
+initial_volume = volume.GetMasterVolumeLevel()  # Store initial volume
 
 
 # Terminate
@@ -153,7 +153,7 @@ def drawtext(text,font,surface,x,y,colour = _COLORS['BLACK']):
 
 # Answer Generation Data & Function
 
-ignorelist   = list() #Stores words which have 0 possible anaglink ##INSPECTING
+ignorelist   = list()  #Stores words which have 0 possible anaglink  ##INSPECTING
 
 def ansGen():
     ans      = list()
@@ -174,7 +174,7 @@ def ansGen():
 
     return(ans)
 
-ans       = ansGen() #Contains all the anaglinks
+ans       = ansGen()  #Contains all the anaglinks
 ANS_COPY  = ans[:]
 
 
