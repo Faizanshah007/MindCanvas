@@ -165,7 +165,7 @@ def gameTask2(x):
         for link in Core.ans:
             if(link[-1] == -1):
                 link.remove(-1)
-        os.remove("media/instruction2.wav")
+        os.unlink("media/instruction2.wav")
 
 
 # Task Handler

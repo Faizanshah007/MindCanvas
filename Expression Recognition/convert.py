@@ -60,7 +60,7 @@ def facecrop(image):
             ## Change here the Desired directory.
             cv2.imwrite(os.path.join(f_directory , f_name) , sub_face)
             print ("Writing: " + image)
-            os.remove("Temp/" + image.split('\\')[-1])
+            os.unlink("Temp/" + image.split('\\')[-1])
 
     except:
         pass
