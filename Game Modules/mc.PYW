@@ -26,6 +26,7 @@ dpi_speed = 8
 check_speed = mousemodule.dpi(dpi_speed)
 
 # Let the Expression Module obtain webcam control.
+
 while True:
     loading.root.update()
     cap = cv2.VideoCapture(0)
@@ -49,7 +50,6 @@ Core.foregroundWindow("Anaglink")
 subsurface = Canvas.subsurface((0, 0, WINDOW_WIDTH, (1 / 5) * WINDOW_HEIGHT))
 
 
-##INSPECTING
 # Setting up the media
 
 pygame.mixer.music.load(os.path.join(ROOT_DIR, "main.wav"))
@@ -79,6 +79,7 @@ wonimagerect.centerx = WINDOW_WIDTH / 2
 wonimagerect.centery = WINDOW_HEIGHT / 2
 
 
+##INSPECTING
 # Button Plotting
 
 def plotter(lst):

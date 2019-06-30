@@ -2,7 +2,7 @@ from Core import pygame, GetColors, ROOT_DIR, TXT_FONT_2, WINDOW_WIDTH
 import Core
 import os
 
-COLORS = GetColors() # Gathering color data from core
+COLORS = GetColors()  # Gathering color data from core
 
 # Button Dimensions
 bwidth  = 136
@@ -57,9 +57,9 @@ def check_lnk():
 
 class Button(pygame.sprite.Sprite):
 
-    inout = [] # Check for mouse hover
-    sound = False # Hover sound
-    pointing = None # Button at which mouse is pointing to
+    inout = []  # Check for mouse hover
+    sound = False  # Hover sound
+    pointing = None  # Button at which mouse is pointing to
 
 
     def __init__(self, surface, x, y, wrd):
@@ -70,7 +70,7 @@ class Button(pygame.sprite.Sprite):
         self.active = False
         self.value = wrd
         self.wrong = False
-        self.wait = 0 # For added display lag
+        self.wait = 0  # For added display lag
 
 
     def checkmouseloc(self, loc):

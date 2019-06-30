@@ -7,8 +7,8 @@ import tkinter
 import sys, os
 
 
-ws = GetSystemMetrics(0) # width of the screen
-hs = GetSystemMetrics(1) # height of the screen
+ws = GetSystemMetrics(0)  # width of the screen
+hs = GetSystemMetrics(1)  # height of the screen
 
 
 # Center align screen
