@@ -108,6 +108,7 @@ Core.waitforkey()
 
 # Timer
 start_time      = time.time()  # Timer starts from here (DO NOT RE-POSITION)
+start_time_copy = start_time   # Used by Game Task 1
 totalTime  = 60
 timerRatio = (0.9) / totalTime
 timerRect  = pygame.Rect(int(WINDOW_WIDTH * (1 / 20)), int(WINDOW_HEIGHT * (15 / 100)), int(WINDOW_WIDTH * (0.9)), int(WINDOW_WIDTH * (1 / 50)))
@@ -160,24 +161,22 @@ def gameTask1(x):
         Core.bgcolor = COLORS['BLACK']
         fewsecsound.stop()
 
-##INSPECTING
 # Game Task 2 - Anagram with a specific alphabet
 
 def gameTask2(x):
 
     if(x):
-        freq_alpha.run(Core.ans)
+        freq_alpha.run(Core.ans)  # Updating valid anaglinks in ans according to the task
 
     else:
+        # Making all anaglinks in ans valid again
         for link in Core.ans:
             if(link[-1] == -1):
                 link.remove(-1)
         os.unlink("media/instruction2.wav")
 
-
+##INSPECTING
 # Task Handler
-
-holdstart_time = start_time
 
 def Task_Handler(x):
 
@@ -206,7 +205,7 @@ def Task_Handler(x):
         tend = threading.Thread(target=mousemodule.off)
         tend.start()
         Task_Deactivation_time = None
-        start_time = holdstart_time
+        start_time = start_time_copy
         print("Clicks-",Core.click_count,Core.right_clicks,Core.wrong_clicks)
 
     if(task_no == 1):
