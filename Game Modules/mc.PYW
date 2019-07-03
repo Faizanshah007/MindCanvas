@@ -7,11 +7,9 @@ import cv2
 import os
 
 
-from Core import pygame, GetColors, ANAGSCHOSEN, WINDOW_WIDTH, WINDOW_HEIGHT, ROOT_DIR, TXT_FONT_1, TXT_FONT_2
+from Core import pygame, ANAGSCHOSEN, WINDOW_WIDTH, WINDOW_HEIGHT, ROOT_DIR, TXT_FONT_1, TXT_FONT_2
 import Core
 
-
-COLORS = GetColors()  # Gathering color data from core
 
 subprocess.Popen("python label.py", shell = True, cwd = os.path.abspath('.\\..\\Expression Recognition'))  # Starting Expression Recognition Module
 
@@ -94,7 +92,7 @@ def plotter(list_):
             Core.buttonlist.add( button.Button( Canvas, int(WINDOW_WIDTH * (1 / 20 + j / 5)), int(WINDOW_HEIGHT * (1 / 4 + i * 1 / 7)), list_[j + 5 * i]) )
 
 
-Canvas.fill(COLORS['WHITE'])
+Canvas.fill(Core.colors['WHITE'])
 Canvas.blit(startimage, startimagerect)
 
 pygame.display.flip()
@@ -119,9 +117,9 @@ def update_timer():
 
     Core.timer = time.time() - start_time
 
-    pygame.draw.rect(subsurface, COLORS['CYAN'], timerRect, int(WINDOW_WIDTH / 500))
+    pygame.draw.rect(subsurface, Core.colors['CYAN'], timerRect, int(WINDOW_WIDTH / 500))
 
-    return(pygame.draw.rect(subsurface, COLORS['RED'], (timerRect.topleft, (int(timerRect.width - (Core.timer * timerRatio * WINDOW_WIDTH)), timerRect.height)), 0))
+    return(pygame.draw.rect(subsurface, Core.colors['RED'], (timerRect.topleft, (int(timerRect.width - (Core.timer * timerRatio * WINDOW_WIDTH)), timerRect.height)), 0))
 
 
 plotter(ANAGSCHOSEN)
@@ -205,7 +203,10 @@ def Task_Handler(x):
         Core.right_clicks = 0
         Core.wrong_clicks = 0
 
-        Core.bgcolor = COLORS['WHITE']
+        Core.colors['ORANGE']  = (39, 58, 89)
+        Core.colors['BLACK']   = (255,255,255)
+        Core.colors['CYAN']    = (0, 255, 0)
+
 
     else:
         tend = threading.Thread(target=mousemodule.off)
@@ -214,7 +215,9 @@ def Task_Handler(x):
 
         print("Clicks-",Core.click_count,Core.right_clicks,Core.wrong_clicks)
 
-        Core.bgcolor = COLORS['BLACK']
+        Core.colors['ORANGE']  = (255, 165, 0)
+        Core.colors['BLACK']   = (0, 0, 0)
+        Core.colors['CYAN']    = (0, 255, 255)
 
     if(task_no == 1):
         gameTask1(x)
@@ -273,8 +276,8 @@ while True:
 
     Canvas.fill(Core.bgcolor)
 
-    Core.drawtext("ANAGLINK", TXT_FONT_1, subsurface, WINDOW_WIDTH / 2, timerRect.top / 2, COLORS['PURPLE'])
-    Core.drawtext("Score : " + str(Core.Score), TXT_FONT_2, subsurface, (259/304) * WINDOW_WIDTH, (10 / 23) * timerRect.top, COLORS['YELLOW'])
+    Core.drawtext("ANAGLINK", TXT_FONT_1, subsurface, WINDOW_WIDTH / 2, timerRect.top / 2, Core.colors['PURPLE'])
+    Core.drawtext("Score : " + str(Core.Score), TXT_FONT_2, subsurface, (259/304) * WINDOW_WIDTH, (10 / 23) * timerRect.top, Core.colors['YELLOW'])
 
     a = update_timer().width
 
