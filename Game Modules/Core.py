@@ -7,7 +7,7 @@ import pickle
 import time
 
 # For Window Manipulations
-import win32gui, win32com.client
+import win32api, win32gui, win32com.client
 
 # For manipulating window's master volume
 import pycaw.pycaw
@@ -72,8 +72,8 @@ ANAGSCHOSEN  = anagram_generator.produce()
 
 
 # Window Dimension
-WINDOW_WIDTH  = 1000  # max - 1366
-WINDOW_HEIGHT = int(WINDOW_WIDTH*0.5)  # max - 768
+WINDOW_WIDTH  = 500#int(win32api.GetSystemMetrics(0) * (125 / 192)) ##1000  # Needs to be greater than or equal to 500
+WINDOW_HEIGHT = int(WINDOW_WIDTH * 0.5)
 
 
 # Fonts
@@ -147,7 +147,7 @@ def terminate():
 def drawtext(text,font,surface,x,y,colour = _COLORS['BLACK']):
     textobj          = font.render(text,1,colour)
     textrect         = textobj.get_rect()
-    textrect.topleft = (x,y)
+    textrect.center  = (x, y)
     surface.blit(textobj, textrect)
 
 

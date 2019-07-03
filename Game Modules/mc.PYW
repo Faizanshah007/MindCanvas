@@ -85,29 +85,13 @@ wonimagerect = startimage.get_rect()
 wonimagerect.centerx = WINDOW_WIDTH / 2
 wonimagerect.centery = WINDOW_HEIGHT / 2
 
-##INSPECTING
+
 # Button Plotting
 
 def plotter(list_):
     for i in range(5):
         for j in range(5):
             Core.buttonlist.add( button.Button( Canvas, int(WINDOW_WIDTH * (1 / 20 + j / 5)), int(WINDOW_HEIGHT * (1 / 4 + i * 1 / 7)), list_[j + 5 * i]) )
-
-
-# Timer
-
-totalTime = 60
-timerRatio = (0.9) / totalTime
-
-def update_timer():
-
-    global clock
-
-    Core.timer = time.time() - clock
-
-    pygame.draw.rect(subsurface, COLORS['CYAN'], (int(WINDOW_WIDTH * (1 / 20)), int(WINDOW_HEIGHT * (15 / 100)), int(WINDOW_WIDTH * (0.9)), int(WINDOW_WIDTH * (1 / 50))), 2)
-
-    return(pygame.draw.rect(subsurface, COLORS['RED'], (int(WINDOW_WIDTH * (1 / 20)), int(WINDOW_HEIGHT * (15 / 100)), int(WINDOW_WIDTH * (0.9) - (Core.timer * timerRatio * WINDOW_WIDTH)), int(WINDOW_WIDTH * (1 / 50))), 0))
 
 
 Canvas.fill(COLORS['WHITE'])
@@ -121,7 +105,23 @@ if(pygame.event.poll() != pygame.NOEVENT):
 
 Core.waitforkey()
 
-clock = time.time()
+
+# Timer
+start_time      = time.time()  # Timer starts from here (DO NOT RE-POSITION)
+totalTime  = 60
+timerRatio = (0.9) / totalTime
+timerRect  = pygame.Rect(int(WINDOW_WIDTH * (1 / 20)), int(WINDOW_HEIGHT * (15 / 100)), int(WINDOW_WIDTH * (0.9)), int(WINDOW_WIDTH * (1 / 50)))
+
+def update_timer():
+
+    global start_time
+
+    Core.timer = time.time() - start_time
+
+    pygame.draw.rect(subsurface, COLORS['CYAN'], timerRect, int(WINDOW_WIDTH / 500))
+
+    return(pygame.draw.rect(subsurface, COLORS['RED'], (timerRect.topleft, (int(timerRect.width - (Core.timer * timerRatio * WINDOW_WIDTH)), timerRect.height)), 0))
+
 
 plotter(ANAGSCHOSEN)
 
@@ -137,6 +137,7 @@ def instructions(x):
         if( x == 1 ):
             pass
 
+        # Select an alphabet & its respective instruction as instruction2.wav
         if( x == 2 ):
             selected_alpha = freq_alpha.anag_freq_alpha_selector(Core.ans, Core.ignorelist)
             copyfile("media/instruction2/" + selected_alpha + ".wav", "media/instruction2.wav")
@@ -149,17 +150,17 @@ def instructions(x):
 
 def gameTask1(x):
 
-    global clock, fewsecsound
+    global start_time, fewsecsound
 
     if(x):
         #Core.bgcolor = COLORS['ORANGE']
-        clock = time.time() - ((0.9) / timerRatio) * 0.80
+        start_time = time.time() - totalTime * 0.80
 
     else:
         Core.bgcolor = COLORS['BLACK']
         fewsecsound.stop()
 
-
+##INSPECTING
 # Game Task 2 - Anagram with a specific alphabet
 
 def gameTask2(x):
@@ -176,11 +177,11 @@ def gameTask2(x):
 
 # Task Handler
 
-holdClock = clock
+holdstart_time = start_time
 
 def Task_Handler(x):
 
-    global Task_Deactivation_time, Next_Task_Activation_time, totalTime, clock, task_no, instruction
+    global Task_Deactivation_time, Next_Task_Activation_time, totalTime, start_time, task_no, instruction
 
     if(x):
         Task_Deactivation_time = time.time() + 10  #6
@@ -205,7 +206,7 @@ def Task_Handler(x):
         tend = threading.Thread(target=mousemodule.off)
         tend.start()
         Task_Deactivation_time = None
-        clock = holdClock
+        start_time = holdstart_time
         print("Clicks-",Core.click_count,Core.right_clicks,Core.wrong_clicks)
 
     if(task_no == 1):
@@ -270,8 +271,8 @@ while True:
 
     Canvas.fill(Core.bgcolor)
 
-    Core.drawtext("ANAGLINK", TXT_FONT_1, subsurface, (0.4) * WINDOW_WIDTH, WINDOW_HEIGHT / 25, COLORS['PURPLE'])
-    Core.drawtext("Score : " + str(Core.Score), TXT_FONT_2, subsurface, (0.8) * WINDOW_WIDTH, WINDOW_HEIGHT / 25, COLORS['YELLOW'])
+    Core.drawtext("ANAGLINK", TXT_FONT_1, subsurface, WINDOW_WIDTH / 2, timerRect.top / 2, COLORS['PURPLE'])
+    Core.drawtext("Score : " + str(Core.Score), TXT_FONT_2, subsurface, (259/304) * WINDOW_WIDTH, (10 / 23) * timerRect.top, COLORS['YELLOW'])
 
     a = update_timer().width
 
