@@ -154,11 +154,10 @@ def gameTask1(x):
     global start_time, fewsecsound
 
     if(x):
-        #Core.bgcolor = COLORS['ORANGE']
         start_time = time.time() - totalTime * 0.80
 
     else:
-        Core.bgcolor = COLORS['BLACK']
+        start_time = start_time_copy
         fewsecsound.stop()
 
 # Game Task 2 - Anagram with a specific alphabet
@@ -178,12 +177,17 @@ def gameTask2(x):
 ##INSPECTING
 # Task Handler
 
+instruction = None
+task_no = 0
+Next_Task_Activation_time   = (1/3) * totalTime
+Task_Deactivation_time = None
+
 def Task_Handler(x):
 
     global Task_Deactivation_time, Next_Task_Activation_time, totalTime, start_time, task_no, instruction
 
     if(x):
-        Task_Deactivation_time = time.time() + 10  #6
+        Task_Deactivation_time = time.time() + 10
         Next_Task_Activation_time = (2/3) * totalTime
         instruction = None
         pygame.mixer.music.set_volume(1.0)
@@ -194,19 +198,23 @@ def Task_Handler(x):
         expr_t2.start()
         expr_t3.start()
 
-        t = threading.Thread(target=mousemodule.on)##
-        t.start()
+        mousemodule_thread = threading.Thread(target=mousemodule.on)##
+        mousemodule_thread.start()
 
         Core.click_count  = 0
         Core.right_clicks = 0
         Core.wrong_clicks = 0
 
+        Core.bgcolor = COLORS['WHITE']
+
     else:
         tend = threading.Thread(target=mousemodule.off)
         tend.start()
         Task_Deactivation_time = None
-        start_time = start_time_copy
+
         print("Clicks-",Core.click_count,Core.right_clicks,Core.wrong_clicks)
+
+        Core.bgcolor = COLORS['BLACK']
 
     if(task_no == 1):
         gameTask1(x)
@@ -219,11 +227,6 @@ def Task_Handler(x):
 
 pygame.event.set_allowed(None)
 pygame.event.set_allowed([pygame.MOUSEBUTTONUP, pygame.KEYDOWN, pygame.QUIT])
-
-instruction = None
-task_no = 0
-Next_Task_Activation_time   = (1/3) * totalTime
-Task_Deactivation_time = None
 
 
 while True:
@@ -257,8 +260,8 @@ while True:
         task_no += 1
         (instruction, waitTime) = instructions(task_no)
         pygame.mixer.Channel(1).play(instruction)
-        t = threading.Timer(waitTime, Task_Handler, [True])
-        t.start()
+        task_thread = threading.Timer(waitTime, Task_Handler, [True])
+        task_thread.start()
 
     # Muting Channel(0) music while instruction is being played
     if(instruction):
@@ -279,8 +282,9 @@ while True:
         Core.stat = 'Lost'
         break
 
-    if(a == 100 and Core.stat == 'None'):
+    if(a <= 100 and Core.stat == 'None'):
         fewsecsound.play(-1)
+        Core.stat = 'fewsecleft'
 
     if(Core.ans == []):
         Core.stat = 'Won'
