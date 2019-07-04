@@ -10,7 +10,7 @@ import Core
 def update_score(score, val, stat):
 
     # In this case val = length of the link
-    if( stat == 'None' ):
+    if( stat != 'Won' or stat != 'Lost' ):
         increment = 3 * ((val / 2) * (2 + (val - 1) * (-0.1)))  # Sum up to n terms of an A.P.
         return(math.ceil(score + increment))
 
