@@ -72,7 +72,7 @@ ANAGSCHOSEN  = anagram_generator.produce()
 
 
 # Window Dimension
-WINDOW_WIDTH  = 500#int(win32api.GetSystemMetrics(0) * (125 / 192)) ##1000  # Needs to be greater than or equal to 500
+WINDOW_WIDTH  = int(win32api.GetSystemMetrics(0) * (125 / 192)) ##1000  # Needs to be greater than or equal to 500
 WINDOW_HEIGHT = int(WINDOW_WIDTH * 0.5)
 
 
