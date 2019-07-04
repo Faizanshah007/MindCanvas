@@ -182,7 +182,7 @@ Task_Deactivation_time = None
 
 def Task_Handler(x):
 
-    global Task_Deactivation_time, Next_Task_Activation_time, totalTime, start_time, task_no, instruction
+    global Task_Deactivation_time, Next_Task_Activation_time, instruction
 
     if(x):
         Task_Deactivation_time = time.time() + 10
@@ -209,8 +209,8 @@ def Task_Handler(x):
 
 
     else:
-        tend = threading.Thread(target=mousemodule.off)
-        tend.start()
+        end_thread = threading.Thread(target=mousemodule.off)
+        end_thread.start()
         Task_Deactivation_time = None
 
         print("Clicks-",Core.click_count,Core.right_clicks,Core.wrong_clicks)
