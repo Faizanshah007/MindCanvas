@@ -203,9 +203,9 @@ def Task_Handler(x):
         Core.right_clicks = 0
         Core.wrong_clicks = 0
 
-        Core.colors['ORANGE']  = (39, 58, 89)
-        Core.colors['BLACK']   = (255,255,255)
-        Core.colors['CYAN']    = (0, 255, 0)
+        Core.colors['SKY_BLUE']  = (39, 58, 89)
+        Core.colors['BLACK']     = (255,255,255)
+        Core.colors['CYAN']      = (0, 255, 0)
 
 
     else:
@@ -215,9 +215,9 @@ def Task_Handler(x):
 
         print("Clicks-",Core.click_count,Core.right_clicks,Core.wrong_clicks)
 
-        Core.colors['ORANGE']  = (255, 165, 0)
-        Core.colors['BLACK']   = (0, 0, 0)
-        Core.colors['CYAN']    = (0, 255, 255)
+        Core.colors['SKY_BLUE']  = (135, 206, 235)
+        Core.colors['BLACK']     = (0, 0, 0)
+        Core.colors['CYAN']      = (0, 255, 255)
 
     if(task_no == 1):
         gameTask1(x)
@@ -285,9 +285,8 @@ while True:
         Core.stat = 'Lost'
         break
 
-    if(a <= 100 and Core.stat == 'None'):
+    if(a <= 100):
         fewsecsound.play(-1)
-        Core.stat = 'fewsecleft'
 
     if(Core.ans == []):
         Core.stat = 'Won'

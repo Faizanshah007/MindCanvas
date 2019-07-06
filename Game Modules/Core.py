@@ -84,15 +84,16 @@ TXT_FONT_2 = pygame.font.Font(os.path.join(FONT_DIR, "Copperplate Gothic", "COPR
 
 # Colors
 colors = {
-'WHITE'   : (255, 255, 255),
-'CYAN'    : (0, 255, 255),
-'BLUE'    : (0, 0, 255),
-'BLACK'   : (0, 0, 0),
-'ORANGE'  : (255, 165, 0),
-'GREEN'   : (0, 255, 0),
-'RED'     : (255, 0, 0),
-'YELLOW'  : (255, 255, 0),
-'PURPLE'  : (160, 32, 240)
+'WHITE'     : (255, 255, 255),
+'CYAN'      : (0, 255, 255),
+'BLUE'      : (0, 0, 255),
+'SKY_BLUE'  : (135, 206, 235),
+'BLACK'     : (0, 0, 0),
+'ORANGE'    : (255, 165, 0),
+'GREEN'     : (0, 255, 0),
+'RED'       : (255, 0, 0),
+'YELLOW'    : (255, 255, 0),
+'PURPLE'    : (160, 32, 240)
 }
 
 bgcolor = colors['BLACK']  # Background color of the canvas
