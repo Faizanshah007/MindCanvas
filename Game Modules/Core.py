@@ -15,30 +15,32 @@ import ctypes
 import comtypes
 
 
-# Facial Expresssion Data & Function  ##INSPECTING
+# Facial Expresssion Data & Function
 
 cur_expr = None
-expr_list = list()
-temp_expr_list = list()
+expr_list = list()       # Contains all the captured facial expression throught the game
+task_expr_list = list()  # Contains all the captured facial expression during the task
+selected_exprs = list()  # Stores the net expression given by net_expr()
 
 def net_expr():
-    global temp_expr_list
     temp_dict = dict()
-    for expr_data in temp_expr_list:
+
+    # Finding the expression with maximum weightage
+    for expr_data in task_expr_list:
         if(expr_data[0] in temp_dict):
             temp_dict[expr_data[0]] += expr_data[1]
         else:
             temp_dict[expr_data[0]] = expr_data[1]
     try:  ##
-        print(sorted(temp_dict.items(), reverse = True, key = lambda tup : tup[1])[0][0])
+        selected_exprs.append(sorted(temp_dict.items(), reverse = True, key = lambda tup : tup[1])[0][0])
     except:
-        pass
-    temp_expr_list.clear()
+        selected_exprs.append("X")
+    task_expr_list.clear()
 
 
 # Monitoring Clicks
 click_count  = 0
-right_clicks = 0
+button_clicks = 0
 wrong_clicks = 0
 
 
@@ -49,6 +51,8 @@ stat = 'None'
 # Timer  ##INSPECTING
 timer = 0
 
+# Preparing pygame sound mixer before initialization  ##INSPECTING
+pygame.mixer.pre_init(22050, -16, 2, 64)
 
 # Initializing Pygame
 pygame.init()
@@ -85,9 +89,8 @@ TXT_FONT_2 = pygame.font.Font(os.path.join(FONT_DIR, "Copperplate Gothic", "COPR
 # Colors
 colors = {
 'WHITE'     : (255, 255, 255),
-'CYAN'      : (0, 255, 255),
+'BLUE_VARIANT_1'      : (0, 110, 255), #255
 'BLUE'      : (0, 0, 255),
-'SKY_BLUE'  : (135, 206, 235),
 'BLACK'     : (0, 0, 0),
 'ORANGE'    : (255, 165, 0),
 'GREEN'     : (0, 255, 0),

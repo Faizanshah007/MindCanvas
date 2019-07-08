@@ -38,7 +38,7 @@ def dpi(x=10) :
 
 
 def player_average_speed():
-    global condition
+    global condition, speed
     dist = 0
     start = time.time()
     x0, y0 = win32gui.GetCursorPos()
@@ -51,8 +51,7 @@ def player_average_speed():
     end        = time.time()
     time_diff  = end - start
     speed      = dist / time_diff
-    print("Average speed is ", speed)
-    return speed
+    # print("Average speed is ", speed)
 
 
 def on():
@@ -64,3 +63,6 @@ def on():
 def off():
     global condition
     condition = "off"
+
+def return_avg_speed():
+    return speed
