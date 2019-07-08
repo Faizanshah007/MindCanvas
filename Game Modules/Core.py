@@ -51,7 +51,7 @@ stat = 'None'
 # Timer  ##INSPECTING
 timer = 0
 
-# Preparing pygame sound mixer before initialization  ##INSPECTING
+# Preparing pygame sound mixer before initialization
 pygame.mixer.pre_init(22050, -16, 2, 64)
 
 # Initializing Pygame
