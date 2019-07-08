@@ -15,7 +15,7 @@ def clicked():
     for self in Core.buttonlist:
 
         if(Button.pointing == self):
-            pygame.mixer.Channel(0).play(clicksound)
+            pygame.mixer.Channel(2).play(clicksound)
 
             if( not self.active ):
                 self.active = True
@@ -26,7 +26,7 @@ def clicked():
                 Core.lnkdlist.remove(self)
                 played = False
 
-            Core.right_clicks += 1
+            Core.button_clicks += 1
 
 
 def check_lnk():
@@ -94,13 +94,13 @@ class Button(pygame.sprite.Sprite):
                 self.wait = 0
 
         else:
-            pygame.draw.rect( Button.surface, Core.colors['CYAN'], self.rect, int(WINDOW_WIDTH / 500))
+            pygame.draw.rect( Button.surface, Core.colors['BLUE_VARIANT_1'], self.rect, int(WINDOW_WIDTH / 500))
 
         self.checkmouseloc(pygame.mouse.get_pos())
 
         if( self.active == True ):
-            pygame.draw.rect( Button.surface, Core.colors['SKY_BLUE'], self.rect, 0) ## CHANGE COLOR
-            pygame.draw.rect( Button.surface, Core.colors['SKY_BLUE'], self.rect, int(WINDOW_WIDTH / 200))
+            pygame.draw.rect( Button.surface, Core.colors['BLUE'], self.rect, 0) ## CHANGE COLOR
+            pygame.draw.rect( Button.surface, Core.colors['BLUE'], self.rect, int(WINDOW_WIDTH / 200))
 
         Core.drawtext( self.value, TXT_FONT_2, Button.surface, self.rect.centerx, self.rect.centery, Core.colors['GREEN'] )
 
@@ -108,11 +108,11 @@ class Button(pygame.sprite.Sprite):
 def Check_playhover():
 
     if(1 in Button.inout and Button.sound == False):
-        pygame.mixer.Channel(0).play(hoversound)
+        pygame.mixer.Channel(1).play(hoversound)
         Button.sound = True
 
     elif(1 not in Button.inout):
         Button.sound = False
 
     if(Button.pointing != None):
-        pygame.draw.rect( Button.surface, Core.colors['CYAN'], Button.pointing.rect, int(WINDOW_WIDTH / 200))
+        pygame.draw.rect( Button.surface, Core.colors['BLUE_VARIANT_1'], Button.pointing.rect, int(WINDOW_WIDTH / 200))

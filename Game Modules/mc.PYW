@@ -1,4 +1,5 @@
 from shutil import copyfile
+from rprint import print
 import threading, subprocess
 import loading
 import pickle
@@ -117,7 +118,7 @@ def update_timer():
 
     Core.timer = time.time() - start_time
 
-    pygame.draw.rect(subsurface, Core.colors['CYAN'], timerRect, int(WINDOW_WIDTH / 500))
+    pygame.draw.rect(subsurface, Core.colors['BLUE_VARIANT_1'], timerRect, int(WINDOW_WIDTH / 500))
 
     return(pygame.draw.rect(subsurface, Core.colors['RED'], (timerRect.topleft, (int(timerRect.width - (Core.timer * timerRatio * WINDOW_WIDTH)), timerRect.height)), 0))
 
@@ -157,6 +158,7 @@ def gameTask1(x):
     else:
         start_time = start_time_copy
         fewsecsound.stop()
+        Core.stat = 'None'
 
 # Game Task 2 - Anagram with a specific alphabet
 
@@ -172,17 +174,17 @@ def gameTask2(x):
                 link.remove(-1)
         os.unlink("media/instruction2.wav")
 
-##INSPECTING
+
 # Task Handler
 
 instruction = None
 task_no = 0
 Next_Task_Activation_time   = (1/3) * totalTime
 Task_Deactivation_time = None
-
+##INSPECTING
 def Task_Handler(x):
 
-    global Task_Deactivation_time, Next_Task_Activation_time, instruction
+    global Task_Deactivation_time, Next_Task_Activation_time, instruction, mousemodule_thread
 
     if(x):
         Task_Deactivation_time = time.time() + 10
@@ -196,16 +198,16 @@ def Task_Handler(x):
         expr_t2.start()
         expr_t3.start()
 
-        mousemodule_thread = threading.Thread(target=mousemodule.on)##
+        mousemodule_thread = threading.Thread(target=mousemodule.on)
         mousemodule_thread.start()
 
         Core.click_count  = 0
-        Core.right_clicks = 0
+        Core.button_clicks = 0
         Core.wrong_clicks = 0
 
-        Core.colors['SKY_BLUE']  = (39, 58, 89)
-        Core.colors['BLACK']     = (255,255,255)
-        Core.colors['CYAN']      = (0, 255, 0)
+        Core.colors['BLUE']                = (39, 58, 89)
+        Core.colors['BLACK']               = (255,255,255)
+        Core.colors['BLUE_VARIANT_1']      = (0, 255, 0)
 
 
     else:
@@ -213,11 +215,12 @@ def Task_Handler(x):
         end_thread.start()
         Task_Deactivation_time = None
 
-        print("Clicks-",Core.click_count,Core.right_clicks,Core.wrong_clicks)
+        Core.colors['BLUE']                = (0, 0, 255)
+        Core.colors['BLACK']               = (0, 0, 0)
+        Core.colors['BLUE_VARIANT_1']      = (0, 110, 255)
 
-        Core.colors['SKY_BLUE']  = (135, 206, 235)
-        Core.colors['BLACK']     = (0, 0, 0)
-        Core.colors['CYAN']      = (0, 255, 255)
+        print(tuple(Core.selected_exprs), mousemodule.return_avg_speed(), (Core.button_clicks - Core.wrong_clicks), Core.wrong_clicks, (Core.click_count - Core.button_clicks))
+        Core.selected_exprs.clear()
 
     if(task_no == 1):
         gameTask1(x)
@@ -227,6 +230,7 @@ def Task_Handler(x):
 
 
 # Game loop
+## Explain sound channel allotments
 
 pygame.event.set_allowed(None)
 pygame.event.set_allowed([pygame.MOUSEBUTTONUP, pygame.KEYDOWN, pygame.QUIT])
@@ -236,15 +240,15 @@ while True:
 
     # Extracting Expression Core
 
-    inn = open("D:\\faiza\Documents\\GitHub\\Mind Canvas\\expression_output","rb")
+    inn = open("D:\\faiza\\Documents\\GitHub\\Mind Canvas\\expression_output","rb")
     try:
         expr = pickle.load(inn)
         if(expr!=''):
             Core.cur_expr = expr
             Core.expr_list.append(expr)
             if( Task_Deactivation_time != None):
-                Core.temp_expr_list.append(expr)
-            #print(Core.cur_expr)
+                Core.task_expr_list.append(expr)
+            # print(Core.cur_expr)
     except:
         pass
     inn.close()
@@ -262,13 +266,18 @@ while True:
         pygame.mixer.music.set_volume(0.05)
         task_no += 1
         (instruction, waitTime) = instructions(task_no)
-        pygame.mixer.Channel(1).play(instruction)
+        pygame.mixer.Channel(0).play(instruction)
         task_thread = threading.Timer(waitTime, Task_Handler, [True])
         task_thread.start()
 
     # Muting Channel(0) music while instruction is being played
-    if(instruction):
-        pygame.mixer.Channel(0).stop()
+
+    for i in range(1,5):
+        if(instruction):
+            pygame.mixer.Channel(i).set_volume(0.0)
+        else:
+            pygame.mixer.Channel(i).set_volume(1.0)
+
 
     # Deactivating Task
     if(Task_Deactivation_time and time.time() >= Task_Deactivation_time):
@@ -285,8 +294,9 @@ while True:
         Core.stat = 'Lost'
         break
 
-    if(a <= 100):
-        fewsecsound.play(-1)
+    if(a <= 100 and Core.stat == 'None'):
+        pygame.mixer.Channel(5).play(fewsecsound, -1)
+        Core.stat = 'fewsecleft'
 
     if(Core.ans == []):
         Core.stat = 'Won'
@@ -316,24 +326,22 @@ while True:
 
     if(button.check_lnk()):
 
-        pygame.mixer.Channel(0).play(linkedmusic)
+        pygame.mixer.Channel(3).play(linkedmusic)
 
         Core.Score = Scoring_Algo.update_score(Core.Score, len(Core.lnkdlist), Core.stat)
         Core.buttonlist.remove(Core.lnkdlist)
         Core.lnkdlist.empty()
 
     elif(button.check_lnk() == False):
-
         Core.wrong_clicks += 1
 
-        pygame.mixer.Channel(0).play(incorrectmusic)
+        pygame.mixer.Channel(4).play(incorrectmusic)
 
         for item in Core.lnkdlist:
             item.active = False
             item.wrong = True
             Core.lnkdlist.empty()
 
-    #print(Core.click_count, Core.right_clicks, Core.wrong_clicks)##
     pygame.display.flip()
 
 pygame.mixer.music.stop()
@@ -361,11 +369,11 @@ pygame.quit()
 
 check_speed(10)
 
-# Leaderboard
+'''# Leaderboard
 
 import LeaderBoard as lb
 
 leaderboard = lb.NewLeaderBoard("Leaderboard")
-leaderboard.sendData(Core.stat, Core.Score, Core.TimeBonus)
+leaderboard.sendData(Core.stat, Core.Score, Core.TimeBonus)'''
 
 Core.terminate()
