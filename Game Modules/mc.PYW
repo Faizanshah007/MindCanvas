@@ -90,7 +90,7 @@ wonimagerect.centery = WINDOW_HEIGHT / 2
 def plotter(list_):
     for i in range(5):
         for j in range(5):
-            Core.buttonlist.add( button.Button( Canvas, int(WINDOW_WIDTH * (1 / 20 + j / 5)), int(WINDOW_HEIGHT * (1 / 4 + i * 1 / 7)), list_[j + 5 * i]) )
+            Core.buttonlist.add( button.Button( Canvas, int(WINDOW_WIDTH * (4 / 125 + j / 5)), int(WINDOW_HEIGHT * (1 / 4 + i * 1 / 7)), list_[j + 5 * i]) )
 
 
 Canvas.fill(Core.colors['WHITE'])
@@ -110,7 +110,8 @@ start_time      = time.time()  # Timer starts from here (DO NOT RE-POSITION)
 start_time_copy = start_time   # Used by Game Task 1
 totalTime  = 60
 timerRatio = (0.9) / totalTime
-timerRect  = pygame.Rect(int(WINDOW_WIDTH * (1 / 20)), int(WINDOW_HEIGHT * (15 / 100)), int(WINDOW_WIDTH * (0.9)), int(WINDOW_WIDTH * (1 / 50)))
+timerRect  = pygame.Rect(0, int(WINDOW_HEIGHT * (15 / 100)), int(WINDOW_WIDTH * (0.9)), int(WINDOW_WIDTH * (1 / 50)))
+timerRect.centerx = int(WINDOW_WIDTH / 2)
 
 def update_timer():
 
