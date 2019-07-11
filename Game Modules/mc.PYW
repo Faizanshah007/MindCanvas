@@ -26,7 +26,7 @@ import mousemodule
 # Set Mouse DPI
 
 dpi_speed = 8
-check_speed = mousemodule.dpi(dpi_speed)
+check_speed = mousemodule.dpi(dpi_speed)  #
 
 
 # Let the Expression Module obtain webcam control.
@@ -240,20 +240,19 @@ pygame.event.set_allowed([pygame.MOUSEBUTTONUP, pygame.KEYDOWN, pygame.QUIT])  #
 ##INSPECTING
 while True:
 
-    # Extracting Expression Core
+    # Extracting Expression
 
-    inn = open("D:\\faiza\\Documents\\GitHub\\Mind Canvas\\expression_output","rb")
+    expr_in = open(".\\..\\expression_output","rb")
     try:
-        expr = pickle.load(inn)
-        if(expr!=''):
-            Core.cur_expr = expr
-            Core.expr_list.append(expr)
-            if( Task_Deactivation_time != None):
-                Core.task_expr_list.append(expr)
-            # print(Core.cur_expr)
+        expr = pickle.load(expr_in)
+        Core.cur_expr = expr
+        Core.expr_list.append(expr)
+        if( Task_Deactivation_time != None):
+            Core.task_expr_list.append(expr)
+        # print(Core.cur_expr)
     except:
         pass
-    inn.close()
+    expr_in.close()
 
     # Speed Check
 
@@ -262,7 +261,7 @@ while True:
     # Volume Check
 
     Core.chkvolume()
-
+    ##HERE
     # Giving Instructions & Activating Task
     if(int(Core.timer) == Next_Task_Activation_time and not instruction):
         pygame.mixer.music.set_volume(0.05)

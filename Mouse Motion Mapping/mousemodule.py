@@ -34,7 +34,7 @@ def dpi(x=10) :
     initial_mouse_speed = getspeed()
     setspeed(x)
     atexit.register(setspeed,initial_mouse_speed)
-    return setspeed
+    return setspeed  # Currying
 
 
 def player_average_speed():

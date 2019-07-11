@@ -123,6 +123,7 @@ def waitforkey():
 devices = pycaw.pycaw.AudioUtilities.GetSpeakers()
 interface = devices.Activate(pycaw.pycaw.IAudioEndpointVolume._iid_, comtypes.CLSCTX_ALL, None)
 volume = ctypes.cast(interface, ctypes.POINTER(pycaw.pycaw.IAudioEndpointVolume))
+initial_volume = volume.GetMasterVolumeLevel()  # Store initial volume
 
 def chkvolume():
     volume.SetMute(0,None)
@@ -130,7 +131,7 @@ def chkvolume():
     if(volume.GetMasterVolumeLevel() < -5):
         volume.SetMasterVolumeLevel(-5.0, None)  # Set volume at 72%
 
-initial_volume = volume.GetMasterVolumeLevel()  # Store initial volume
+
 
 
 # Terminate
