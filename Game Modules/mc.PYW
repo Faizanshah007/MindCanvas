@@ -182,7 +182,7 @@ instruction = None
 task_no = 0
 Next_Task_Activation_time   = (1/3) * totalTime
 Task_Deactivation_time = None
-##INSPECTING
+
 def Task_Handler(x):
 
     global Task_Deactivation_time, Next_Task_Activation_time, instruction, mousemodule_thread
@@ -192,6 +192,7 @@ def Task_Handler(x):
         Next_Task_Activation_time = (2/3) * totalTime
         instruction = None
         pygame.mixer.music.set_volume(1.0)
+        # Capture & filter out 3 prominent expressions throught the task
         expr_t1 = threading.Timer(3, Core.net_expr)
         expr_t2 = threading.Timer(6, Core.net_expr)
         expr_t3 = threading.Timer(9, Core.net_expr)
@@ -233,10 +234,10 @@ def Task_Handler(x):
 # Game loop
 ## Explain sound channel allotments
 
-pygame.event.set_allowed(None)
-pygame.event.set_allowed([pygame.MOUSEBUTTONUP, pygame.KEYDOWN, pygame.QUIT])
+pygame.event.set_blocked(None)  # Block all events
+pygame.event.set_allowed([pygame.MOUSEBUTTONUP, pygame.KEYDOWN, pygame.QUIT])  # Unblock specific events for faster game flow
 
-
+##INSPECTING
 while True:
 
     # Extracting Expression Core
