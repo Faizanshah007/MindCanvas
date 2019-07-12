@@ -36,7 +36,7 @@ def check_lnk():
         list_.append(obj.value)
 
     for item in list_:
-        if([item] in Core.ignorelist and len(list_)>1):
+        if([item] in Core.ignorelist and len(list_) > 1):
             return False
 
     for anaglink in Core.ans:

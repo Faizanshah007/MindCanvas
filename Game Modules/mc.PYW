@@ -26,7 +26,7 @@ import mousemodule
 # Set Mouse DPI
 
 dpi_speed = 8
-check_speed = mousemodule.dpi(dpi_speed)  #
+set_mouse_dpi = mousemodule.dpi(dpi_speed)  #
 
 
 # Let the Expression Module obtain webcam control.
@@ -238,7 +238,7 @@ def Task_Handler(x):
 pygame.event.set_blocked(None)  # Block all events
 pygame.event.set_allowed([pygame.MOUSEBUTTONUP, pygame.KEYDOWN, pygame.QUIT])  # Unblock specific events for faster game flow
 
-##INSPECTING
+
 while True:
 
     # Extracting Expression
@@ -257,7 +257,7 @@ while True:
 
     # Speed Check
 
-    check_speed(dpi_speed)
+    set_mouse_dpi(dpi_speed)
 
     # Volume Check
 
@@ -282,7 +282,7 @@ while True:
         for i in range(1,5):
             pygame.mixer.Channel(i).set_volume(1.0)
 
-    ##HERE
+
     # Deactivating Task
     if(Task_Deactivation_time and time.time() >= Task_Deactivation_time):
         Task_Handler(False)
@@ -292,16 +292,17 @@ while True:
     Core.drawtext("ANAGLINK", TXT_FONT_1, subsurface, WINDOW_WIDTH / 2, timerRect.top / 2, Core.colors['PURPLE'])
     Core.drawtext("Score : " + str(Core.Score), TXT_FONT_2, subsurface, (259/304) * WINDOW_WIDTH, (10 / 23) * timerRect.top, Core.colors['YELLOW'])
 
-    a = update_timer().width
+    time_bar = update_timer().width
 
-    if(a == 1):
+    if(time_bar == 1):
         Core.stat = 'Lost'
         break
 
-    if(a <= 100 and Core.stat == 'None'):
+    if(time_bar <= 100 and Core.stat == 'None'):
         pygame.mixer.Channel(5).play(fewsecsound, -1)
         Core.stat = 'fewsecleft'
 
+    # All the answers have been found
     if(Core.ans == []):
         Core.stat = 'Won'
         break
@@ -312,7 +313,6 @@ while True:
     Core.buttonlist.update()
 
     button.Check_playhover()
-
     button.Button.inout.clear()
 
     for event in pygame.event.get():
@@ -320,9 +320,6 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 Core.terminate()
-
-        if event.type == pygame.QUIT :
-            Core.terminate()
 
         if(event.type == pygame.MOUSEBUTTONUP):
             Core.click_count += 1
@@ -333,10 +330,11 @@ while True:
         pygame.mixer.Channel(3).play(linkedmusic)
 
         Core.Score = Scoring_Algo.update_score(Core.Score, len(Core.lnkdlist), Core.stat)
+
         Core.buttonlist.remove(Core.lnkdlist)
         Core.lnkdlist.empty()
 
-    elif(button.check_lnk() == False):
+    elif(button.check_lnk() == False):  # Since check_lnk() also returns None when a partial anaglink is present
         Core.wrong_clicks += 1
 
         pygame.mixer.Channel(4).play(incorrectmusic)
@@ -344,7 +342,8 @@ while True:
         for item in Core.lnkdlist:
             item.active = False
             item.wrong = True
-            Core.lnkdlist.empty()
+
+        Core.lnkdlist.empty()
 
     pygame.display.flip()
 
@@ -371,7 +370,7 @@ time.sleep(1)
 
 pygame.quit()
 
-check_speed(10)
+set_mouse_dpi(10)
 
 '''# Leaderboard
 
