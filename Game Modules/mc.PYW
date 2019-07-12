@@ -188,9 +188,9 @@ def Task_Handler(x):
     global Task_Deactivation_time, Next_Task_Activation_time, instruction, mousemodule_thread
 
     if(x):
-        Task_Deactivation_time = time.time() + 10
-        Next_Task_Activation_time = (2/3) * totalTime
-        instruction = None
+        Task_Deactivation_time = time.time() + 10  # Duration of any task is 10 seconds
+        Next_Task_Activation_time = ((task_no + 1)/3) * totalTime
+        #instruction = None
         pygame.mixer.music.set_volume(1.0)
         # Capture & filter out 3 prominent expressions throught the task
         expr_t1 = threading.Timer(3, Core.net_expr)
@@ -216,6 +216,7 @@ def Task_Handler(x):
         end_thread = threading.Thread(target=mousemodule.off)
         end_thread.start()
         Task_Deactivation_time = None
+        instruction = None
 
         Core.colors['BLUE']                = (0, 0, 255)
         Core.colors['BLACK']               = (0, 0, 0)
@@ -261,9 +262,9 @@ while True:
     # Volume Check
 
     Core.chkvolume()
-    ##HERE
+
     # Giving Instructions & Activating Task
-    if(int(Core.timer) == Next_Task_Activation_time and not instruction):
+    if(Core.timer >= Next_Task_Activation_time and not instruction):
         pygame.mixer.music.set_volume(0.05)
         task_no += 1
         (instruction, waitTime) = instructions(task_no)
@@ -273,13 +274,15 @@ while True:
 
     # Muting Channel(0) music while instruction is being played
 
-    for i in range(1,5):
-        if(instruction):
+
+    if(pygame.mixer.Channel(0).get_busy()):
+        for i in range(1,5):
             pygame.mixer.Channel(i).set_volume(0.0)
-        else:
+    else:
+        for i in range(1,5):
             pygame.mixer.Channel(i).set_volume(1.0)
 
-
+    ##HERE
     # Deactivating Task
     if(Task_Deactivation_time and time.time() >= Task_Deactivation_time):
         Task_Handler(False)
