@@ -8,7 +8,7 @@ import cv2
 import os
 
 
-from Core import pygame, ANAGSCHOSEN, WINDOW_WIDTH, WINDOW_HEIGHT, ROOT_DIR, TXT_FONT_1, TXT_FONT_2
+from Core import pygame, ANAGSCHOSEN, WINDOW_WIDTH, WINDOW_HEIGHT, MEDIA_DIR, TXT_FONT_1, TXT_FONT_2
 import Core
 
 
@@ -58,27 +58,27 @@ subsurface = Canvas.subsurface((0, 0, WINDOW_WIDTH, (1 / 5) * WINDOW_HEIGHT))
 
 # Setting up the media
 
-pygame.mixer.music.load(os.path.join(ROOT_DIR, "main.wav"))
+pygame.mixer.music.load(os.path.join(MEDIA_DIR, "main.wav"))
 
-loosemusic = pygame.mixer.Sound(os.path.join(ROOT_DIR, "game_over.wav"))
-winmusic = pygame.mixer.Sound(os.path.join(ROOT_DIR, "winner.wav"))
-linkedmusic = pygame.mixer.Sound(os.path.join(ROOT_DIR, "anaglinked.wav"))
-incorrectmusic = pygame.mixer.Sound(os.path.join(ROOT_DIR, "incorrect.wav"))
-fewsecsound = pygame.mixer.Sound(os.path.join(ROOT_DIR, "fewsecleft.wav"))
+loosemusic = pygame.mixer.Sound(os.path.join(MEDIA_DIR, "game_over.wav"))
+winmusic = pygame.mixer.Sound(os.path.join(MEDIA_DIR, "winner.wav"))
+linkedmusic = pygame.mixer.Sound(os.path.join(MEDIA_DIR, "anaglinked.wav"))
+incorrectmusic = pygame.mixer.Sound(os.path.join(MEDIA_DIR, "incorrect.wav"))
+fewsecsound = pygame.mixer.Sound(os.path.join(MEDIA_DIR, "fewsecleft.wav"))
 
-startimage = pygame.image.load(os.path.join(ROOT_DIR, "start.jpg"))
+startimage = pygame.image.load(os.path.join(MEDIA_DIR, "start.jpg"))
 startimage = pygame.transform.scale( startimage, ( WINDOW_WIDTH, WINDOW_HEIGHT ) )
 startimagerect = startimage.get_rect()
 startimagerect.centerx = WINDOW_WIDTH / 2
 startimagerect.centery = WINDOW_HEIGHT / 2
 
-lostimage = pygame.image.load(os.path.join(ROOT_DIR, "lost.jpg"))
+lostimage = pygame.image.load(os.path.join(MEDIA_DIR, "lost.jpg"))
 lostimage = pygame.transform.scale( lostimage, ( WINDOW_WIDTH, WINDOW_HEIGHT ) )
 lostimagerect = startimage.get_rect()
 lostimagerect.centerx = WINDOW_WIDTH / 2
 lostimagerect.centery = WINDOW_HEIGHT / 2
 
-wonimage = pygame.image.load(os.path.join(ROOT_DIR, "won.jpg"))
+wonimage = pygame.image.load(os.path.join(MEDIA_DIR, "won.jpg"))
 wonimage = pygame.transform.scale( wonimage, ( WINDOW_WIDTH, WINDOW_HEIGHT ) )
 wonimagerect = startimage.get_rect()
 wonimagerect.centerx = WINDOW_WIDTH / 2
@@ -143,7 +143,7 @@ def instructions(x):
             selected_alpha = freq_alpha.anag_freq_alpha_selector(Core.ans, Core.ignorelist)
             copyfile("media/instruction2/" + selected_alpha + ".wav", "media/instruction2.wav")
 
-        instruction = pygame.mixer.Sound(os.path.join(ROOT_DIR, "instruction" + str(x) +".wav"))
+        instruction = pygame.mixer.Sound(os.path.join(MEDIA_DIR, "instruction" + str(x) +".wav"))
 
         return (instruction, instruction.get_length())
 

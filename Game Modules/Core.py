@@ -44,11 +44,11 @@ button_clicks = 0
 wrong_clicks = 0
 
 
-# Game Status  ##INSPECTING
+# Game Status
 stat = 'None'
 
 
-# Timer  ##INSPECTING
+# Timer
 timer = 0
 
 # Preparing pygame sound mixer before initialization
@@ -58,17 +58,16 @@ pygame.mixer.pre_init(22050, -16, 2, 64)
 pygame.init()
 
 
-# List of Linked words  ##INSPECTING
+# List of Linked words
 lnkdlist = pygame.sprite.Group()
 
-# List of buttons  ##INSPECTING
+# List of buttons
 buttonlist = pygame.sprite.Group()
 
 
-# Path  ##INSPECTING
-ROOT_DIR = os.path.join(os.path.dirname(sys.argv[0]), 'Media')
+# Path
+MEDIA_DIR = os.path.join(os.path.dirname(sys.argv[0]), 'Media')
 sys.path.insert(0, os.path.abspath('.\\..\\Mouse Motion Mapping'))
-sys.path.insert(0, os.path.abspath('.\\..\\Expression Recognition'))
 
 # Anagram Data
 ANAGPOOL     = anagram_generator.Pre_setup.get()

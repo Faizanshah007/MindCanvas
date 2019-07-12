@@ -1,4 +1,4 @@
-from Core import pygame, ROOT_DIR, TXT_FONT_2, WINDOW_WIDTH
+from Core import pygame, MEDIA_DIR, TXT_FONT_2, WINDOW_WIDTH
 import Core
 import os
 
@@ -7,8 +7,8 @@ import os
 bwidth  = int(WINDOW_WIDTH * 136 / 1000)
 bheight = int(bwidth * 19 / 68)
 
-hoversound = pygame.mixer.Sound(os.path.join(ROOT_DIR, "hover.wav"))
-clicksound = pygame.mixer.Sound(os.path.join(ROOT_DIR, "click.wav"))
+hoversound = pygame.mixer.Sound(os.path.join(MEDIA_DIR, "hover.wav"))
+clicksound = pygame.mixer.Sound(os.path.join(MEDIA_DIR, "click.wav"))
 
 
 def clicked():
