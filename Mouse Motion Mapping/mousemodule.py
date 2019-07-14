@@ -11,7 +11,7 @@ initial_mouse_speed = int()
 
 # Set mouse speed
 
-def dpi(x=10) :
+def dpi(x = 10) :
     global initial_mouse_speed
 
     #   1 - slow

@@ -10,6 +10,14 @@ import cv2
 
 atexit.register(label_image.end)  # Safely Exit
 
+@atexit.register
+def release_switch():
+    try:
+        os.unlink(".\\..\\switch")
+
+    except:
+        pass
+
 resize = 4  # For resizing the image
 
 # We load the xml file
@@ -37,7 +45,6 @@ while True:
 
         if(pickle.load(Cond_f) == "off"):
             Cond_f.close()
-            os.unlink(".\\..\\switch")
             break
 
         Cond_f.close()

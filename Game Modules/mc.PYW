@@ -23,12 +23,6 @@ import Scoring_Algo
 import mousemodule
 
 
-# Set Mouse DPI
-
-dpi_speed = 8
-set_mouse_dpi = mousemodule.dpi(dpi_speed)  #
-
-
 # Let the Expression Module obtain webcam control.
 
 while True:
@@ -51,8 +45,6 @@ loading.root.destroy()  # Close the loading window.
 os.environ['SDL_VIDEO_CENTERED'] = '1'  # Centering the pygame window
 pygame.display.set_caption("Anaglink")
 Canvas = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.NOFRAME)
-pygame.event.set_grab(True)
-Core.foregroundWindow("Anaglink")
 subsurface = Canvas.subsurface((0, 0, WINDOW_WIDTH, (1 / 5) * WINDOW_HEIGHT))
 
 
@@ -97,6 +89,13 @@ Canvas.fill(Core.colors['WHITE'])
 Canvas.blit(startimage, startimagerect)
 
 pygame.display.flip()
+
+
+# Continuously try to foreground the game window
+while(not Core.foregroundWindow("Anaglink")):
+    pass
+pygame.event.set_grab(True)
+
 
 if(pygame.event.poll() != pygame.NOEVENT):
 
@@ -223,8 +222,8 @@ def Task_Handler(x):
         Core.colors['BLUE_VARIANT_1']      = (0, 110, 255)
 
         ## Storing MindCanvas's final result data into a file, Which will be used by k-means module
-        result_file = open("Result.txt","w")
-        result_file.write(tuple(Core.selected_exprs), mousemodule.return_avg_speed(), (Core.button_clicks - Core.wrong_clicks), Core.wrong_clicks, (Core.click_count - Core.button_clicks))
+        result_file = open("Result.txt","a")
+        result_file.write(str(tuple((tuple(Core.selected_exprs), mousemodule.return_avg_speed(), (Core.button_clicks - Core.wrong_clicks), Core.wrong_clicks, (Core.click_count - Core.button_clicks)))) + "\n")
         result_file.close()
 
         Core.selected_exprs.clear()
@@ -234,6 +233,12 @@ def Task_Handler(x):
 
     if(task_no == 2):
         gameTask2(x)
+
+
+# Set Mouse DPI
+
+dpi_speed = 4
+set_mouse_dpi = mousemodule.dpi(dpi_speed)
 
 
 # Game loop
@@ -260,12 +265,11 @@ while True:
     expr_in.close()
 
     # Speed Check
-
     set_mouse_dpi(dpi_speed)
 
     # Volume Check
 
-    Core.chkvolume()
+    Core.check_volume()
 
     # Giving Instructions & Activating Task
     if(Core.timer >= Next_Task_Activation_time and not instruction):
@@ -383,9 +387,15 @@ import LeaderBoard as lb
 leaderboard = lb.NewLeaderBoard("Leaderboard")
 leaderboard.sendData(Core.stat, Core.Score, Core.TimeBonus)'''
 
-## Indicating the end of a particular game's result inside the file
-result_file = open("Result.txt","w")
-result_file.write("\n")
+## Storing the percentage value of expressions throughout the game into the result file
+result_file = open("Result.txt","a")
+
+
+for expr in set(Core.expr_list):
+    result_file.write(expr + " - " + str((Core.expr_list.count(expr) / len(Core.expr_list)) * 100) + "\n")
+
+
+result_file.write("\n")  ## Indicating the end of a particular game's result inside the file
 result_file.close()
 
 Core.terminate()

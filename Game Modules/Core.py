@@ -123,12 +123,14 @@ devices = pycaw.pycaw.AudioUtilities.GetSpeakers()
 interface = devices.Activate(pycaw.pycaw.IAudioEndpointVolume._iid_, comtypes.CLSCTX_ALL, None)
 volume = ctypes.cast(interface, ctypes.POINTER(pycaw.pycaw.IAudioEndpointVolume))
 initial_volume = volume.GetMasterVolumeLevel()  # Store initial volume
+volume.SetMasterVolumeLevel(-11.8, None)  # Set initial volume at 45%
 
-def chkvolume():
+def check_volume():
+    return None
     volume.SetMute(0,None)
 
-    if(volume.GetMasterVolumeLevel() < -5):
-        volume.SetMasterVolumeLevel(-5.0, None)  # Set volume at 72%
+    if(volume.GetMasterVolumeLevel() < -11.8):
+        volume.SetMasterVolumeLevel(-11.8, None)  # Maintain volume at 45% or above
 
 
 
@@ -140,6 +142,7 @@ def terminate():
     volume.SetMasterVolumeLevel(initial_volume, None)
     out = open(os.path.abspath('.\\..\\switch'),"wb")
     pickle.dump("off",out)
+    out.close()
     sys.exit()
 
 
@@ -190,16 +193,19 @@ TimeBonus = 0
 # https://www.blog.pythonlibrary.org/2014/10/20/pywin32-how-to-bring-a-window-to-front/
 
 def foregroundWindow(name):
-    shell = win32com.client.Dispatch("WScript.Shell")
-    shell.SendKeys('%')
+    try:
+        shell = win32com.client.Dispatch("WScript.Shell")
+        shell.SendKeys('%')
 
-    def windowEnumerationHandler(hwnd, top_windows):
-        top_windows.append((hwnd, win32gui.GetWindowText(hwnd)))
+        def windowEnumerationHandler(hwnd, top_windows):
+            top_windows.append((hwnd, win32gui.GetWindowText(hwnd)))
 
-    top_windows = []
-    win32gui.EnumWindows(windowEnumerationHandler, top_windows)
-    for i in top_windows:
-        if name.lower() in i[1].lower():
-            win32gui.ShowWindow(i[0],5)
-            win32gui.SetForegroundWindow(i[0])
-            break
+        top_windows = []
+        win32gui.EnumWindows(windowEnumerationHandler, top_windows)
+        for i in top_windows:
+            if name.lower() in i[1].lower():
+                win32gui.SetForegroundWindow(i[0])
+                break
+        return True
+    except:
+        return False
