@@ -222,7 +222,11 @@ def Task_Handler(x):
         Core.colors['BLACK']               = (0, 0, 0)
         Core.colors['BLUE_VARIANT_1']      = (0, 110, 255)
 
-        print(tuple(Core.selected_exprs), mousemodule.return_avg_speed(), (Core.button_clicks - Core.wrong_clicks), Core.wrong_clicks, (Core.click_count - Core.button_clicks))
+        ## Storing MindCanvas's final result data into a file, Which will be used by k-means module
+        result_file = open("Result.txt","w")
+        result_file.write(tuple(Core.selected_exprs), mousemodule.return_avg_speed(), (Core.button_clicks - Core.wrong_clicks), Core.wrong_clicks, (Core.click_count - Core.button_clicks))
+        result_file.close()
+
         Core.selected_exprs.clear()
 
     if(task_no == 1):
@@ -378,5 +382,10 @@ import LeaderBoard as lb
 
 leaderboard = lb.NewLeaderBoard("Leaderboard")
 leaderboard.sendData(Core.stat, Core.Score, Core.TimeBonus)'''
+
+## Indicating the end of a particular game's result inside the file
+result_file = open("Result.txt","w")
+result_file.write("\n")
+result_file.close()
 
 Core.terminate()

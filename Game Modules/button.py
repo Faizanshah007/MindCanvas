@@ -99,7 +99,7 @@ class Button(pygame.sprite.Sprite):
         self.checkmouseloc(pygame.mouse.get_pos())
 
         if( self.active == True ):
-            pygame.draw.rect( Button.surface, Core.colors['BLUE'], self.rect, 0) ## CHANGE COLOR
+            pygame.draw.rect( Button.surface, Core.colors['BLUE'], self.rect, 0)
             pygame.draw.rect( Button.surface, Core.colors['BLUE'], self.rect, int(WINDOW_WIDTH / 200))
 
         Core.drawtext( self.value, TXT_FONT_2, Button.surface, self.rect.centerx, self.rect.centery, Core.colors['GREEN'] )
