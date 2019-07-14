@@ -254,11 +254,11 @@ while True:
 
     expr_in = open(".\\..\\expression_output","rb")
     try:
-        expr = pickle.load(expr_in)
-        Core.cur_expr = expr
-        Core.expr_list.append(expr)
+        expr_tuple = pickle.load(expr_in)
+        Core.cur_expr = expr_tuple
+        Core.expr_list.append(expr_tuple[0])
         if( Task_Deactivation_time != None):
-            Core.task_expr_list.append(expr)
+            Core.task_expr_list.append(expr_tuple)
         # print(Core.cur_expr)
     except:
         pass
@@ -392,7 +392,7 @@ result_file = open("Result.txt","a")
 
 
 for expr in set(Core.expr_list):
-    result_file.write(expr + " - " + str((Core.expr_list.count(expr) / len(Core.expr_list)) * 100) + "\n")
+    result_file.write(expr + " -> " + str((Core.expr_list.count(expr) / len(Core.expr_list)) * 100) + "\n")
 
 
 result_file.write("\n")  ## Indicating the end of a particular game's result inside the file
