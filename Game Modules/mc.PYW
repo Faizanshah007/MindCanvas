@@ -107,8 +107,7 @@ Core.waitforkey()
 # Timer
 start_time      = time.time()  # Timer starts from here (DO NOT RE-POSITION)
 start_time_copy = start_time   # Used by Game Task 1
-totalTime  = 60
-timerRatio = (0.9) / totalTime
+timerRatio = (0.9) / Core.TOTAL_TIME
 timerRect  = pygame.Rect(0, int(WINDOW_HEIGHT * (15 / 100)), int(WINDOW_WIDTH * (0.9)), int(WINDOW_WIDTH * (1 / 50)))
 timerRect.centerx = int(WINDOW_WIDTH / 2)
 
@@ -153,7 +152,7 @@ def gameTask1(x):
     global start_time, fewsecsound
 
     if(x):
-        start_time = time.time() - totalTime * 0.80
+        start_time = time.time() - Core.TOTAL_TIME * 0.80
 
     else:
         start_time = start_time_copy
@@ -179,28 +178,24 @@ def gameTask2(x):
 
 instruction = None
 task_no = 0
-Next_Task_Activation_time   = (1/3) * totalTime
+Next_Task_Activation_time   = (1/3) * Core.TOTAL_TIME
 Task_Deactivation_time = None
 
 def Task_Handler(x):
 
-    global Task_Deactivation_time, Next_Task_Activation_time, instruction, mousemodule_thread
+    global Task_Deactivation_time, Next_Task_Activation_time, instruction
 
     if(x):
         Task_Deactivation_time = time.time() + 10  # Duration of any task is 10 seconds
-        Next_Task_Activation_time = ((task_no + 1)/3) * totalTime
+        Next_Task_Activation_time = ((task_no + 1)/3) * Core.TOTAL_TIME
         #instruction = None
         pygame.mixer.music.set_volume(1.0)
         # Capture & filter out 3 prominent expressions throught the task
-        expr_t1 = threading.Timer(3, Core.net_expr)
-        expr_t2 = threading.Timer(6, Core.net_expr)
-        expr_t3 = threading.Timer(9, Core.net_expr)
-        expr_t1.start()
-        expr_t2.start()
-        expr_t3.start()
+        threading.Timer(3, Core.net_expr).start()
+        threading.Timer(6, Core.net_expr).start()
+        threading.Timer(9, Core.net_expr).start()
 
-        mousemodule_thread = threading.Thread(target=mousemodule.on)
-        mousemodule_thread.start()
+        threading.Thread(target=mousemodule.on).start()
 
         Core.click_count  = 0
         Core.button_clicks = 0
@@ -212,8 +207,7 @@ def Task_Handler(x):
 
 
     else:
-        end_thread = threading.Thread(target=mousemodule.off)
-        end_thread.start()
+        threading.Thread(target=mousemodule.off).start()
         Task_Deactivation_time = None
         instruction = None
 
@@ -223,7 +217,7 @@ def Task_Handler(x):
 
         ## Storing MindCanvas's final result data into a file, Which will be used by k-means module
         result_file = open("Result.txt","a")
-        result_file.write(str(tuple((tuple(Core.selected_exprs), mousemodule.return_avg_speed(), (Core.button_clicks - Core.wrong_clicks), Core.wrong_clicks, (Core.click_count - Core.button_clicks)))) + "\n")
+        result_file.write(str(tuple((tuple(Core.selected_exprs), Core.players_initial_avg_speed - mousemodule.return_avg_speed(), (Core.button_clicks - Core.wrong_clicks), Core.wrong_clicks, (Core.click_count - Core.button_clicks)))) + "\n")
         result_file.close()
 
         Core.selected_exprs.clear()
@@ -247,11 +241,13 @@ set_mouse_dpi = mousemodule.dpi(dpi_speed)
 pygame.event.set_blocked(None)  # Block all events
 pygame.event.set_allowed([pygame.MOUSEBUTTONUP, pygame.KEYDOWN, pygame.QUIT])  # Unblock specific events for faster game flow
 
+Core.stat = "Recording player's initial avg speed"
+threading.Thread(target=mousemodule.on).start()
 
 while True:
 
     # Extracting Expression
-
+    Core.cur_expr = ''  # Reset
     expr_in = open(".\\..\\expression_output","rb")
     try:
         expr_tuple = pickle.load(expr_in)
@@ -270,6 +266,15 @@ while True:
     # Volume Check
 
     Core.check_volume()
+
+    # Player's initial avg speed calculation
+    ## Explain with comments
+
+    if(Core.stat == "Recording player's initial avg speed"):
+        if(Core.timer >= Core.players_initial_avg_speed_capture_time):
+            threading.Thread(target=mousemodule.off).start()
+            Core.stat = "None"
+            Core.players_initial_avg_speed = mousemodule.return_avg_speed()
 
     # Giving Instructions & Activating Task
     if(Core.timer >= Next_Task_Activation_time and not instruction):
@@ -306,7 +311,7 @@ while True:
         Core.stat = 'Lost'
         break
 
-    if(time_bar <= 100 and Core.stat == 'None'):
+    if(time_bar <= 100 and Core.stat != 'fewsecleft'):
         pygame.mixer.Channel(5).play(fewsecsound, -1)
         Core.stat = 'fewsecleft'
 
@@ -367,7 +372,7 @@ if( Core.stat == 'Lost' ):
 if( Core.stat == 'Won' ):
 
     winmusic.play()
-    Core.Score = Scoring_Algo.update_score(Core.Score, totalTime - Core.timer, Core.stat)
+    Core.Score = Scoring_Algo.update_score(Core.Score, Core.TOTAL_TIME - Core.timer, Core.stat)
     Canvas.blit(wonimage, wonimagerect)
 
 pygame.display.flip()
@@ -395,7 +400,6 @@ for expr in set(Core.expr_list):
     result_file.write(expr + " -> " + str((Core.expr_list.count(expr) / len(Core.expr_list)) * 100) + "\n")
 
 
-result_file.write("\n")  ## Indicating the end of a particular game's result inside the file
 result_file.close()
 
 Core.terminate()

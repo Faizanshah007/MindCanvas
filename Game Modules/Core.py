@@ -38,18 +38,25 @@ def net_expr():
     task_expr_list.clear()
 
 
-# Monitoring Clicks
-click_count  = 0
-button_clicks = 0
-wrong_clicks = 0
-
-
 # Game Status
 stat = 'None'
 
 
 # Timer
+TOTAL_TIME = 60  # Game Duration
 timer = 0
+
+
+# Mousemodule Data
+players_initial_avg_speed_capture_time = TOTAL_TIME / 4
+players_initial_avg_speed = None
+
+
+# Monitoring Clicks
+click_count  = 0
+button_clicks = 0
+wrong_clicks = 0
+
 
 # Preparing pygame sound mixer before initialization
 pygame.mixer.pre_init(22050, -16, 2, 64)
@@ -143,6 +150,9 @@ def terminate():
     out = open(os.path.abspath('.\\..\\switch'),"wb")
     pickle.dump("off",out)
     out.close()
+    result_file = open("Result.txt","a")
+    result_file.write("\n")  # Indicating the end of a particular game's result inside the file
+    result_file.close()
     sys.exit()
 
 
