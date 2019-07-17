@@ -4,7 +4,8 @@ import atexit
 import ctypes
 import time
 import math
-
+import atexit ##
+atexit.register(print,"exiting mouse") ##
 
 initial_mouse_speed = int()
 
@@ -14,7 +15,8 @@ initial_mouse_speed = int()
 def dpi(x = 10) :
     global initial_mouse_speed
 
-    #   1 - slow
+    #  -1  - Reset DPI
+    #   1  - slow
     #   10 - standard
     #   20 - fast
 
@@ -26,19 +28,20 @@ def dpi(x = 10) :
 
     def setspeed(x):
         temp_speed = getspeed()
+        if(x == -1):
+            x = initial_mouse_speed
         x = ctypes.c_int(x)
         if(temp_speed != x.value):
             set_mouse_speed = 113   # 0x0071 for SPI_SETMOUSESPEED
             ctypes.windll.user32.SystemParametersInfoA(set_mouse_speed, 0, x, 0)
-
-    initial_mouse_speed = getspeed()
+    if(x != -1):
+        initial_mouse_speed = getspeed()
     setspeed(x)
-    atexit.register(setspeed,initial_mouse_speed)
     return setspeed  # Currying
 
 
 def player_average_speed():
-    global condition, speed
+    global condition, speed, time_diff
     dist = 0
     start = time.time()
     x0, y0 = win32gui.GetCursorPos()
@@ -66,3 +69,6 @@ def off():
 
 def return_avg_speed():
     return speed
+
+def return_record_time():
+    return time_diff

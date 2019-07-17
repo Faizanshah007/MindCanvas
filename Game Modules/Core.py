@@ -1,7 +1,17 @@
+import sys, os
+import atexit ##
+atexit.register(print,"exiting Core") ##
+# Path
+MEDIA_DIR = os.path.join(os.path.dirname(sys.argv[0]), 'Media')
+sys.path.insert(0, os.path.abspath('.\\..\\Mouse Motion Mapping'))
+
+
 from rprint import print
 import anagram_generator
+import mousemodule
 
-import sys, os
+
+import threading
 import pygame
 import pickle
 import time
@@ -38,18 +48,27 @@ def net_expr():
     task_expr_list.clear()
 
 
-# Monitoring Clicks
-click_count  = 0
-button_clicks = 0
-wrong_clicks = 0
-
-
 # Game Status
 stat = 'None'
 
 
 # Timer
+TOTAL_TIME = 60  # Game Duration
 timer = 0
+
+
+# Mousemodule Data
+players_initial_avg_speed_capture_time = TOTAL_TIME / 4
+players_initial_avg_speed = None
+
+def set_dpi(x):
+    return mousemodule.dpi(x)
+
+# Monitoring Clicks
+click_count  = 0
+button_clicks = 0
+wrong_clicks = 0
+
 
 # Preparing pygame sound mixer before initialization
 pygame.mixer.pre_init(22050, -16, 2, 64)
@@ -64,10 +83,6 @@ lnkdlist = pygame.sprite.Group()
 # List of buttons
 buttonlist = pygame.sprite.Group()
 
-
-# Path
-MEDIA_DIR = os.path.join(os.path.dirname(sys.argv[0]), 'Media')
-sys.path.insert(0, os.path.abspath('.\\..\\Mouse Motion Mapping'))
 
 # Anagram Data
 ANAGPOOL     = anagram_generator.Pre_setup.get()
@@ -143,6 +158,11 @@ def terminate():
     out = open(os.path.abspath('.\\..\\switch'),"wb")
     pickle.dump("off",out)
     out.close()
+    result_file = open("Result.txt","a")
+    result_file.write("\n")  # Indicating the end of a particular game's result inside the file
+    result_file.close()
+    threading.Thread(target=mousemodule.off).start()  # Release mousemodule
+    set_dpi(-1)  # Reset DPI
     sys.exit()
 
 
