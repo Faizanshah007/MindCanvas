@@ -1,6 +1,8 @@
 import sys, os
-import atexit ##
-atexit.register(print,"exiting Core") ##
+
+## import atexit
+## atexit.register(print,"Exiting Core")
+
 # Path
 MEDIA_DIR = os.path.join(os.path.dirname(sys.argv[0]), 'Media')
 sys.path.insert(0, os.path.abspath('.\\..\\Mouse Motion Mapping'))

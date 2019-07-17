@@ -7,7 +7,7 @@ import atexit
 import pickle
 import cv2
 
-
+# atexit.register(print, "Exiting label")
 atexit.register(label_image.end)  # Safely Exit
 
 @atexit.register

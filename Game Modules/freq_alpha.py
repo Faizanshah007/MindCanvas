@@ -1,5 +1,5 @@
 # This module is used during Game Task - 2
-from rprint import print
+## from rprint import print
 import string
 
 
@@ -38,7 +38,7 @@ def anag_freq_alpha_selector(anaglinks, ignore_list):
             selected = (Ans_alpha[i], accumalative_index)
 
     selected_chr = selected[0]
-    print(selected_chr)
+    ## print(selected_chr)
     return selected[0]
 
 

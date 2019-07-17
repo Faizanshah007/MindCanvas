@@ -163,4 +163,3 @@ def run():
 def end():
   global sess
   sess.close()
-  print("Goodbye")

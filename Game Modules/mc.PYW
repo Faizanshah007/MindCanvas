@@ -1,13 +1,14 @@
 from shutil import copyfile
-from rprint import print
+## from rprint import print  # Use this version of print whenever testing any module
 import threading, subprocess
 import loading
 import pickle
 import time
 import cv2
 import os
-import atexit ##
-atexit.register(print,"exiting mc") ##
+
+## import atexit
+## atexit.register(print,"Exiting mc")
 
 from Core import pygame, ANAGSCHOSEN, WINDOW_WIDTH, WINDOW_HEIGHT, MEDIA_DIR, TXT_FONT_1, TXT_FONT_2, mousemodule
 import Core
@@ -255,7 +256,7 @@ while True:
         Core.expr_list.append(expr_tuple[0])
         if( Task_Deactivation_time != None):
             Core.task_expr_list.append(expr_tuple)
-        # print(Core.cur_expr)
+        ## print(Core.cur_expr)
     except:
         pass
     expr_in.close()

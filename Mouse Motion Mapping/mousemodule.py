@@ -4,8 +4,9 @@ import atexit
 import ctypes
 import time
 import math
-import atexit ##
-atexit.register(print,"exiting mouse") ##
+
+## import atexit
+## atexit.register(print,"Exiting mouse")
 
 initial_mouse_speed = int()
 
@@ -54,7 +55,7 @@ def player_average_speed():
     end        = time.time()
     time_diff  = end - start
     speed      = dist / time_diff
-    # print("Average speed is ", speed)
+    ## print("Average speed is ", speed)
 
 
 def on():
