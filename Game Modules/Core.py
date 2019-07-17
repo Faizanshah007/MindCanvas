@@ -61,8 +61,11 @@ timer = 0
 players_initial_avg_speed_capture_time = TOTAL_TIME / 4
 players_initial_avg_speed = None
 
+<<<<<<< HEAD
 def set_dpi(x):
     return mousemodule.dpi(x)
+=======
+>>>>>>> b8663f6af9a93e5367c5ae5999dcbac5c7a51ccf
 
 # Monitoring Clicks
 click_count  = 0
@@ -161,8 +164,11 @@ def terminate():
     result_file = open("Result.txt","a")
     result_file.write("\n")  # Indicating the end of a particular game's result inside the file
     result_file.close()
+<<<<<<< HEAD
     threading.Thread(target=mousemodule.off).start()  # Release mousemodule
     set_dpi(-1)  # Reset DPI
+=======
+>>>>>>> b8663f6af9a93e5367c5ae5999dcbac5c7a51ccf
     sys.exit()
 
 
