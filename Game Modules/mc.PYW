@@ -4,7 +4,6 @@ import threading, subprocess
 import loading
 import pickle
 import time
-import cv2
 import os
 
 ## import atexit
@@ -13,7 +12,7 @@ import os
 from Core import pygame, ANAGSCHOSEN, WINDOW_WIDTH, WINDOW_HEIGHT, MEDIA_DIR, TXT_FONT_1, TXT_FONT_2, mousemodule
 import Core
 
-
+subprocess.call("setx OPENCV_VIDEOIO_PRIORITY_MSMF 0")  # Workaround for an OpenCV bug
 subprocess.Popen("python label.py", shell = True, cwd = os.path.abspath('.\\..\\Expression Recognition'))  # Starting Expression Recognition Module
 
 
@@ -28,13 +27,17 @@ import Scoring_Algo
 
 while True:
     loading.root.update()
-    cap = cv2.VideoCapture(0)
+    try:
+        Cond_f = open(".\\..\\switch","rb")
 
-    if(not cap.isOpened()):
-        cap.release()
-        break
+        if(pickle.load(Cond_f) == "on"):
+            Cond_f.close()
+            break
 
-    cap.release()
+        Cond_f.close()
+
+    except:
+        pass
 
 time.sleep(1)
 
@@ -184,19 +187,28 @@ Task_Deactivation_time = None
 
 def Task_Handler(x):
 
-    global Task_Deactivation_time, Next_Task_Activation_time, instruction
+    global Task_Deactivation_time, Next_Task_Activation_time, instruction, timer_thread_1, timer_thread_2, timer_thread_3, mousemodule_on_thread_2
 
     if(x):
+
+        # Bring back the volume of the sounds since the instruction is over
+        for i in range(1,5):
+            pygame.mixer.Channel(i).set_volume(1.0)
+
         Task_Deactivation_time = time.time() + 10  # Duration of any task is 10 seconds
         Next_Task_Activation_time = ((task_no + 1)/3) * Core.TOTAL_TIME
         #instruction = None
         pygame.mixer.music.set_volume(1.0)
         # Capture & filter out 3 prominent expressions throught the task
-        threading.Timer(3, Core.net_expr).start()
-        threading.Timer(6, Core.net_expr).start()
-        threading.Timer(9, Core.net_expr).start()
+        timer_thread_1 = threading.Timer(3, Core.net_expr)
+        timer_thread_1.start()
+        timer_thread_2 = threading.Timer(6, Core.net_expr)
+        timer_thread_2.start()
+        timer_thread_3 = threading.Timer(9, Core.net_expr)
+        timer_thread_3.start()
 
-        threading.Thread(target=mousemodule.on).start()
+        mousemodule_on_thread_2 = threading.Thread(target=mousemodule.on)
+        mousemodule_on_thread_2.start()
 
         Core.click_count  = 0
         Core.button_clicks = 0
@@ -208,13 +220,19 @@ def Task_Handler(x):
 
 
     else:
-        threading.Thread(target=mousemodule.off).start()
+        mousemodule.off()
         Task_Deactivation_time = None
         instruction = None
 
         Core.colors['BLUE']                = (0, 0, 255)
         Core.colors['BLACK']               = (0, 0, 0)
         Core.colors['BLUE_VARIANT_1']      = (0, 110, 255)
+
+        # Wait until all the results are ready
+        timer_thread_1.join()
+        timer_thread_2.join()
+        timer_thread_3.join()
+        mousemodule_on_thread_2.join()
 
         ## Storing MindCanvas's final result data into a file, Which will be used by k-means module
         result_file = open("Result.txt","a")
@@ -243,7 +261,8 @@ pygame.event.set_blocked(None)  # Block all events
 pygame.event.set_allowed([pygame.MOUSEBUTTONUP, pygame.KEYDOWN, pygame.QUIT])  # Unblock specific events for faster game flow
 
 Core.stat = "Recording player's initial avg speed"
-threading.Thread(target=mousemodule.on).start()
+mousemodule_on_thread_1 = threading.Thread(target=mousemodule.on)
+mousemodule_on_thread_1.start()
 
 while True:
 
@@ -273,8 +292,9 @@ while True:
 
     if(Core.stat == "Recording player's initial avg speed"):
         if(Core.timer >= Core.players_initial_avg_speed_capture_time):
-            threading.Thread(target=mousemodule.off).start()
+            mousemodule.off()
             Core.stat = "None"
+            mousemodule_on_thread_1.join()
             Core.players_initial_avg_speed = mousemodule.return_avg_speed()
 
     # Giving Instructions & Activating Task
@@ -282,20 +302,14 @@ while True:
         pygame.mixer.music.set_volume(0.05)
         task_no += 1
         (instruction, waitTime) = instructions(task_no)
+
+        # Mute other sounds to hear the instruction distinctively
+        for i in range(1,5):
+            pygame.mixer.Channel(i).set_volume(0.0)
+
         pygame.mixer.Channel(0).play(instruction)
         task_thread = threading.Timer(waitTime, Task_Handler, [True])
         task_thread.start()
-
-    # Muting Channel(0) music while instruction is being played
-
-
-    if(pygame.mixer.Channel(0).get_busy()):
-        for i in range(1,5):
-            pygame.mixer.Channel(i).set_volume(0.0)
-    else:
-        for i in range(1,5):
-            pygame.mixer.Channel(i).set_volume(1.0)
-
 
     # Deactivating Task
     if(Task_Deactivation_time and time.time() >= Task_Deactivation_time):

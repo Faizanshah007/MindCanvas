@@ -143,7 +143,7 @@ initial_volume = volume.GetMasterVolumeLevel()  # Store initial volume
 volume.SetMasterVolumeLevel(-11.8, None)  # Set initial volume at 45%
 
 def check_volume():
-    return None
+
     volume.SetMute(0,None)
 
     if(volume.GetMasterVolumeLevel() < -11.8):
@@ -157,13 +157,13 @@ def check_volume():
 def terminate():
     pygame.quit()
     volume.SetMasterVolumeLevel(initial_volume, None)
-    out = open(os.path.abspath('.\\..\\switch'),"wb")
-    pickle.dump("off",out)
-    out.close()
+    switch_file = open(os.path.abspath('.\\..\\switch'),"wb")
+    pickle.dump("off",switch_file)
+    switch_file.close()
     result_file = open("Result.txt","a")
     result_file.write("\n")  # Indicating the end of a particular game's result inside the file
     result_file.close()
-    threading.Thread(target=mousemodule.off).start()  # Release mousemodule
+    mousemodule.off()  # Release mousemodule
     set_dpi(-1)  # Reset DPI
     sys.exit()
 
@@ -179,7 +179,7 @@ def drawtext(text,font,surface,x,y,colour = colors['BLACK']):
 
 # Answer Generation Data & Function
 
-ignorelist   = list()  #Stores words which have 0 possible anaglink  ##INSPECTING
+ignorelist   = list()  # Stores words which have 0 possible anaglink
 
 def ansGen():
     ans      = list()

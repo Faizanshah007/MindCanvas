@@ -31,6 +31,12 @@ while True:
 
     webcam.release()
 
+# Acknowledge gaining camera access
+switch_file = open(os.path.abspath('.\\..\\switch'),"wb")
+pickle.dump("on",switch_file)
+switch_file.close()
+
+## atexit.register(cv2.destroyAllWindows)
 atexit.register(webcam.release)  # Release webcam before exit
 
 #Capturing a smaller image for speed purposes
@@ -70,20 +76,20 @@ while True:
 
     # Draw rectangles around each face
     for f in faces:
-        (x, y, w, h) = [v * resize for v in f]  #Scale the shapesize backup
+        (x, y, w, h) = [v * resize for v in f]   #Scale the shapesize backup
         cv2.rectangle(im, (x, y), (x + w, y + h), (0, 255, 0), 4)
-        sub_face = im[y : y + h, x : x + w]  #Save just the rectangle faces in SubRecFaces
-        FaceFileName = "test.jpg"  #Saving the current image from the webcam for testing.
+        sub_face = im[y : y + h, x : x + w]  # Save just the rectangle faces in SubRecFaces
+        FaceFileName = "test.jpg"  # Saving the current image from the webcam for testing.
         cv2.imwrite(FaceFileName, sub_face)
         text = label_image.run()  # Getting the Result from the label_image file, i.e., Classification Result.
-        ##text = text.title()# Title Case looks Stunning.
-        ##font = cv2.FONT_HERSHEY_TRIPLEX
-        ##cv2.putText(im, text,(x+w,y), font, 1, (0,0,255), 2)
+        ## text = text.title()  # Title Case looks Stunning.
+        ## font = cv2.FONT_HERSHEY_TRIPLEX
+        ## cv2.putText(im, text,(x+w,y), font, 1, (0,0,255), 2)
 
     # Refreshing Display
-    ##cv2.imshow('cApTuRe_window',   im)  # Open display
-    ##key = cv2.waitKey(1)  # Close display after 1ms
+    ## cv2.imshow('cApTuRe_window',   im)  # Open display
+    ## key = cv2.waitKey(1)  # Close display after 1ms
 
     # if Esc key is press then break out of the loop
-    ##if key == 27:  #The Esc key
+    ## if key == 27:  #The Esc key
     ##    sys.exit()

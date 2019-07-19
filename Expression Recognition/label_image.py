@@ -146,17 +146,17 @@ def run():
   labels = load_labels(label_file)
 
   # Using pickle to dump the data for the game module to pick
-  out = open(os.path.abspath('.\\..\\expression_output'),"wb")
+  switch_file = open(os.path.abspath('.\\..\\expression_output'),"wb")
 
   if(results[top] > 0.75):
-    pickle.dump((labels[top],results[top]), out)
+    pickle.dump((labels[top],results[top]), switch_file)
     return(labels[top])
 
   else:
-    pickle.dump(("-",0), out)
+    pickle.dump(("-",0), switch_file)
     return("-")
 
-  out.close()
+  switch_file.close()
   ##return (labels[top_k[0]])
 
 
