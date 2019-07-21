@@ -140,11 +140,46 @@ devices = pycaw.pycaw.AudioUtilities.GetSpeakers()
 interface = devices.Activate(pycaw.pycaw.IAudioEndpointVolume._iid_, comtypes.CLSCTX_ALL, None)
 volume = ctypes.cast(interface, ctypes.POINTER(pycaw.pycaw.IAudioEndpointVolume))
 initial_volume = volume.GetMasterVolumeLevel()  # Store initial volume
-volume.SetMasterVolumeLevel(-11.8, None)  # Set initial volume at 45%
+mute_stat = dict()  # Stores initial mute status of other applications & Master volume
 
+# Handles mute/unmute options
+def focus_game_sound(pid):
+
+    sessions = pycaw.pycaw.AudioUtilities.GetAllSessions()
+
+    if(pid != -1):
+
+        if("Master" not in mute_stat.keys()):
+            mute_stat["Master"] = volume.GetMute()
+
+        volume.SetMute(0,None)  # Ensure Master volume remains unmuted during the game
+
+        for session in sessions:
+            current_app_pid = session.ProcessId
+            if(current_app_pid != pid):
+
+                if(current_app_pid not in mute_stat.keys()):
+                    mute_stat[current_app_pid] = session.SimpleAudioVolume.GetMute()
+
+                session.SimpleAudioVolume.SetMute(1, None)  # Mute if its not the game
+
+            else:
+                session.SimpleAudioVolume.SetMute(0, None)  # Ensure unmute state if its the game
+
+    else:  # Set other applications to their original mute/unmute status
+
+        volume.SetMute(mute_stat["Master"],None)
+
+        for session in sessions:
+            current_app_pid = session.ProcessId
+            if(current_app_pid in mute_stat):
+                session.SimpleAudioVolume.SetMute(mute_stat[current_app_pid], None)
+
+
+# Regulates volume level during the game
 def check_volume():
 
-    volume.SetMute(0,None)
+    focus_game_sound(os.getpid())
 
     if(volume.GetMasterVolumeLevel() < -11.8):
         volume.SetMasterVolumeLevel(-11.8, None)  # Maintain volume at 45% or above
@@ -156,7 +191,11 @@ def check_volume():
 
 def terminate():
     pygame.quit()
+
+    # Restore volume properties
     volume.SetMasterVolumeLevel(initial_volume, None)
+    focus_game_sound(-1)
+
     switch_file = open(os.path.abspath('.\\..\\switch'),"wb")
     pickle.dump("off",switch_file)
     switch_file.close()

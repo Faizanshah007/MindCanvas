@@ -265,6 +265,8 @@ Core.stat = "Recording player's initial avg speed"
 mousemodule_on_thread_1 = threading.Thread(target=mousemodule.on)
 mousemodule_on_thread_1.start()
 
+Core.volume.SetMasterVolumeLevel(-11.8, None)  # Set initial volume at 45%
+
 while True:
 
     # Extracting Expression
