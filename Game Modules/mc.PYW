@@ -184,6 +184,7 @@ instruction = None
 task_no = 0
 Next_Task_Activation_time   = (1/3) * Core.TOTAL_TIME
 Task_Deactivation_time = None
+task_handler_start_time = None
 
 def Task_Handler(x):
 
@@ -308,8 +309,11 @@ while True:
             pygame.mixer.Channel(i).set_volume(0.0)
 
         pygame.mixer.Channel(0).play(instruction)
-        task_thread = threading.Timer(waitTime, Task_Handler, [True])
-        task_thread.start()
+        task_handler_start_time = time.time() + waitTime
+
+    if(task_handler_start_time and time.time() >= task_handler_start_time):
+        Task_Handler(True)
+        task_handler_start_time = None
 
     # Deactivating Task
     if(Task_Deactivation_time and time.time() >= Task_Deactivation_time):
