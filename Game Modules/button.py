@@ -17,7 +17,7 @@ def clicked():
         if(Button.pointing == self):
             pygame.mixer.Channel(2).play(clicksound)
 
-            if( not self.active ):
+            if( not self.active and self.wrong != True):
                 self.active = True
                 Core.lnkdlist.add(self)
 
