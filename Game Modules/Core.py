@@ -19,7 +19,7 @@ import pickle
 import time
 
 # For Window Manipulations
-import win32api, win32gui, win32com.client
+import win32api, win32gui, win32com.client, win32process
 
 # For manipulating window's master volume
 import pycaw.pycaw
@@ -141,6 +141,7 @@ interface = devices.Activate(pycaw.pycaw.IAudioEndpointVolume._iid_, comtypes.CL
 volume = ctypes.cast(interface, ctypes.POINTER(pycaw.pycaw.IAudioEndpointVolume))
 initial_volume = volume.GetMasterVolumeLevel()  # Store initial volume
 mute_stat = dict()  # Stores initial mute status of other applications & Master volume
+mute_stat["Master"] = volume.GetMute()
 
 # Handles mute/unmute options
 def focus_game_sound(pid):
@@ -148,9 +149,6 @@ def focus_game_sound(pid):
     sessions = pycaw.pycaw.AudioUtilities.GetAllSessions()
 
     if(pid != -1):
-
-        if("Master" not in mute_stat.keys()):
-            mute_stat["Master"] = volume.GetMute()
 
         volume.SetMute(0,None)  # Ensure Master volume remains unmuted during the game
 
@@ -251,22 +249,30 @@ TimeBonus = 0
 # Bringing window to foreground
 
 # CODE IMPORTED FROM:
-# https://www.blog.pythonlibrary.org/2014/10/20/pywin32-how-to-bring-a-window-to-front/
+# https://www.programcreek.com/python/example/100815/win32process.GetWindowThreadProcessId
 
-def foregroundWindow(name):
+def foregroundWindow(pid):
+
     try:
+        print("here")
         shell = win32com.client.Dispatch("WScript.Shell")
         shell.SendKeys('%')
 
-        def windowEnumerationHandler(hwnd, top_windows):
-            top_windows.append((hwnd, win32gui.GetWindowText(hwnd)))
-
-        top_windows = []
-        win32gui.EnumWindows(windowEnumerationHandler, top_windows)
-        for i in top_windows:
-            if name.lower() in i[1].lower():
-                win32gui.SetForegroundWindow(i[0])
-                break
+        def get_hwnds(pid):
+            """return a list of window handlers based on it process id"""
+            def callback(hwnd, hwnds):
+                if win32gui.IsWindowVisible(hwnd) and win32gui.IsWindowEnabled(hwnd):
+                    _, found_pid = win32process.GetWindowThreadProcessId(hwnd)
+                    if found_pid == pid:
+                        hwnds.append(hwnd)
+                return True
+            hwnds = []
+            win32gui.EnumWindows(callback, hwnds)
+            return hwnds
+            
+        win32gui.ShowWindow(get_hwnds(pid)[0],5)
+        win32gui.SetForegroundWindow(get_hwnds(pid)[0])
         return True
+
     except:
         return False

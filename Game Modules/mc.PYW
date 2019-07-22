@@ -96,7 +96,7 @@ pygame.display.flip()
 
 
 # Continuously try to foreground the game window
-while(not Core.foregroundWindow("Anaglink")):
+while(not Core.foregroundWindow(os.getpid())):
     pass
 pygame.event.set_grab(True)
 
