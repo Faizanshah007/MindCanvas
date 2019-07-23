@@ -254,7 +254,6 @@ TimeBonus = 0
 def foregroundWindow(pid):
 
     try:
-        print("here")
         shell = win32com.client.Dispatch("WScript.Shell")
         shell.SendKeys('%')
 
@@ -269,7 +268,7 @@ def foregroundWindow(pid):
             hwnds = []
             win32gui.EnumWindows(callback, hwnds)
             return hwnds
-            
+
         win32gui.ShowWindow(get_hwnds(pid)[0],5)
         win32gui.SetForegroundWindow(get_hwnds(pid)[0])
         return True
