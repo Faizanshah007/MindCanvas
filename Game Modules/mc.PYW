@@ -406,12 +406,12 @@ pygame.quit()
 
 set_mouse_dpi(10)
 
-'''# Leaderboard
+# Leaderboard
 
 import LeaderBoard as lb
 
 leaderboard = lb.NewLeaderBoard("Leaderboard")
-leaderboard.sendData(Core.stat, Core.Score, Core.TimeBonus)'''
+leaderboard.sendData(Core.stat, Core.Score, Core.TimeBonus)
 
 ## Storing the percentage value of expressions throughout the game into the result file
 result_file = open("Result.txt","a")

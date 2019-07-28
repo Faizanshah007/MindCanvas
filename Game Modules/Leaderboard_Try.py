@@ -1,4 +1,4 @@
 import LeaderBoard as lb
 
 leaderboard = lb.NewLeaderBoard("leaderboard")
-leaderboard.sendData("Won", 93, 5)
+leaderboard.sendData("Won", 100, 10)
