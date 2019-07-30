@@ -5,7 +5,7 @@ import sys, os
 
 # Path
 MEDIA_DIR = os.path.join(os.path.dirname(sys.argv[0]), 'Media')
-sys.path.insert(0, os.path.abspath('.\\..\\Mouse Motion Mapping'))
+sys.path.insert(0, os.path.abspath('.\\..\\Mouse Motion Analysis'))
 
 
 from rprint import print
