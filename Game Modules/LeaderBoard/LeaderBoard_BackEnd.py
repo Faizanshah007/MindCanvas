@@ -29,10 +29,7 @@ def getData(n):
     with con:
         if(cur.execute("SELECT name FROM sqlite_master").fetchone() != None):
             tup = cur.execute("SELECT SrNo, Rank, Name, Score, Bonus FROM Players WHERE Rank = %d"%n).fetchone()
-            if(tup != None):
-                return(tup)
-            else:
-                return(None)
+            return(tup)
             
 def toDatabase(nm, sc, bn):
     global count, cur, con
