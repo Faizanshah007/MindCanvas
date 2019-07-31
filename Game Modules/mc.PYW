@@ -420,6 +420,7 @@ result_file = open("Result.txt","a")
 for expr in set(Core.expr_list):
     result_file.write(expr + " -> " + str((Core.expr_list.count(expr) / len(Core.expr_list)) * 100) + "\n")
 
+result_file.write(Core.Score)
 
 result_file.close()
 
