@@ -13,7 +13,7 @@ from Core import pygame, ANAGSCHOSEN, WINDOW_WIDTH, WINDOW_HEIGHT, MEDIA_DIR, TX
 import Core
 
 subprocess.call("setx OPENCV_VIDEOIO_PRIORITY_MSMF 0")  # Workaround for an OpenCV bug
-subprocess.Popen("python label.py", shell = True, cwd = os.path.abspath('.\\..\\Expression Recognition'))  # Starting Expression Recognition Module
+subprocess.Popen("py label.py", shell = True, cwd = os.path.abspath('.\\..\\Expression Recognition'))  # Starting Expression Recognition Module
 
 
 # Loading Game
