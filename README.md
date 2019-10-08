@@ -45,9 +45,7 @@ MindCanvas 1.0 : Main game folder (Data Files & Source Code) -
 
   \- expression_output       : A file for "Message Passing" from Expression Module to Game Module.
 
-  \- kmeans.py [Source Code] : K-Means clustering module.
-
-  \- kmeans.txt              : Data for K-Means clustering.
+  \- pca_used_final_faizan.ipynb : K-Means Clustering
 
 --------------------------------------------------------------------------------------------------------------------
 
