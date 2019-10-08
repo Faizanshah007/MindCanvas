@@ -46,6 +46,7 @@ MindCanvas 1.0 : Main game folder (Data Files & Source Code) -
   \- expression_output       : A file for "Message Passing" from Expression Module to Game Module.
 
   \- pca_used_final_faizan.ipynb : K-Means Clustering
+  https://colab.research.google.com/drive/1mywRgRdlHSK_UowrYuaaVqTGi4snK-Ff [Use this link if above file doesn't open]
 
 --------------------------------------------------------------------------------------------------------------------
 
