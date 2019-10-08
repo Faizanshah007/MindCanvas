@@ -13,11 +13,13 @@ Project.mp4 : Demo Video
 MindCanvas 1.0 : Main game folder (Data Files & Source Code) -
 
   \- Expression Recognition  : Expression Recognition Module -
+  
 	~ [Source Code]      :
 		label.py       : Uses CV2 to start cam capture.
 		label_image.py : Uses previously generated graph to map the current expression captured by the cam.
 
   \- Game Modules            : Main modules used by the games -
+  
 	~ LeaderBoard    : A LeaderBoard library created by me.
 	~ leaderboard.db : Stores the leaderboard data for the game.
 	~ Result.txt     : Stores the clustering data that needs to be feeded into K-Means module.
@@ -38,6 +40,7 @@ MindCanvas 1.0 : Main game folder (Data Files & Source Code) -
 		rprint.py            : Thread safe version of print.
 
   \- Mouse Motion Analysis   : Analyzing player's mouse actions - 
+  
 	~ mousemodule.py [Source Code] : Manages players's DPI and Calculates players average speed.
 
   \- expression_output       : A file for "Message Passing" from Expression Module to Game Module.
