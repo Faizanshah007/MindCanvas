@@ -6,10 +6,6 @@ Project Info.pdf : PDF deck containing project info.
 
 --------------------------------------------------------------------------------------------------------------------
 
-Project.mp4 : Demo Video
-
---------------------------------------------------------------------------------------------------------------------
-
 MindCanvas 1.0 : Main game folder (Data Files & Source Code) -
 
   \- Expression Recognition  : Expression Recognition Module -
